@@ -1,7 +1,7 @@
 __*
 
 # my token json
-user_info/.user_info.json
+telegram_ecommerce/utils/.user_credentials.json
 
 #vim files:
 *.vim*
