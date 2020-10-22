@@ -18,12 +18,34 @@ class DBWrapper():
             self.use_this_db()
 
 
-    def close_db(self):
-        self.connection.close()
+    def create_db(self):
+        create_db_command = (
+                "CREATE DATABASE {database_name}"
+                .format(database_name=self.database_name))
+        self.execute_a_data_manipulation(create_db_command)
+
+
+    def create_tables(self):
+        create_tables_file = "telegram_ecommerce/database/create_tables.sql"
+        commands = get_sql_commands_from_a_file(create_tables_file)
+        cursor = self.connection.cursor()
+        for command in commands:
+            cursor.execute(command)
+        self.connection.commit()
+        cursor.close()
+
+
+    def use_this_db(self):
+        create_db_command = (
+                "USE {database_name}"
+                .format(database_name=self.database_name))
+        self.execute_a_data_manipulation(create_db_command)
 
 
     def this_db_exist(self):
-        return False
+        database_name_tuple = (self.database_name,)
+        databases_name_list = self.execute_a_query("SHOW DATABASES")
+        return database_name_tuple in databases_name_list
 
 
     def execute_a_query(self, command, params=(), multi=False):
@@ -41,24 +63,9 @@ class DBWrapper():
         cursor.close()
 
 
-    def create_db(self):
-        create_db_command = "CREATE DATABASE ecommerce"
-        self.execute_a_data_manipulation(create_db_command)
+    def close(self):
+        self.connection.close()
 
 
-    def use_this_db(self):
-        create_db_command = "USE ecommerce"
-        self.execute_a_data_manipulation(create_db_command)
-
-
-    def create_tables(self):
-        create_tables_file = "telegram_ecommerce/database/create_tables.sql"
-        commands = get_sql_commands_from_a_file(create_tables_file)
-        cursor = self.connection.cursor()
-        for command in commands:
-            cursor.execute(command)
-        self.connection.commit()
-        cursor.close()
-
-
+db = DBWrapper(db_credentials)
 
