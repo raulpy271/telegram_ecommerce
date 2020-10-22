@@ -21,7 +21,9 @@ CREATE TABLE IF NOT EXISTS products (
     product_id INT AUTO_INCREMENT PRIMARY KEY, 
     name VARCHAR(30) NOT NULL,
     unit_price FLOAT NOT NULL,
+    rating FLOAT,
     quantity_in_stock INT NOT NULL,
+    quantity_purchased INT NOT NULL,
     category_id INT NOT NULL,
     image BLOB,
     FOREIGN KEY (category_id)
