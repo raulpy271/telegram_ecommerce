@@ -3,7 +3,7 @@ from telegram.ext import Updater
 from telegram_ecommerce.database.db_wrapper import db
 from telegram_ecommerce.utils.consts import credentials
 from telegram_ecommerce.utils.log import logger
-from telegram_ecommerce.commands.commands import (
+from telegram_ecommerce.handlers.commands import (
     start)
 
 
