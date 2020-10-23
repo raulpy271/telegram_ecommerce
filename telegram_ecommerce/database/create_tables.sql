@@ -1,7 +1,7 @@
 
 
 CREATE TABLE IF NOT EXISTS customers (
-    chat_id INT PRIMARY KEY,
+    user_id INT PRIMARY KEY,
     username VARCHAR(30) NOT NULL,
     password_hash VARCHAR(64),
     is_admin BOOLEAN NOT NULL DEFAULT FALSE
