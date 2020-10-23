@@ -3,6 +3,7 @@ import mysql.connector as connector
 
 from ..utils.utils import get_sql_commands_from_a_file
 from ..utils.consts import db_credentials
+from ..utils.log import logger
 
 
 class DBWrapper():
@@ -68,4 +69,5 @@ class DBWrapper():
 
 
 db = DBWrapper(db_credentials)
+logger.info("conected to database {}".format(db.database_name))
 
