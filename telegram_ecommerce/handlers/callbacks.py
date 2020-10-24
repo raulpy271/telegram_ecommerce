@@ -1,4 +1,5 @@
 from ..utils.consts import text_en
+from ..database.query import is_admin
 
 def start_callback(update, context):
     text = text_en["start"]
@@ -7,7 +8,8 @@ def start_callback(update, context):
 
 def help_callback(update, context):
     text = text_en["help"]
-    user_is_admin = False
+    user = update.effective_user
+    user_is_admin = is_admin(user.id)
     if user_is_admin:
         text += text_en["help_admin"]
     update.message.reply_text(text)
