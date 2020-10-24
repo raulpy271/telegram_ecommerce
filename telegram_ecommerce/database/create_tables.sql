@@ -36,10 +36,10 @@ CREATE TABLE IF NOT EXISTS orders (
     price FLOAT NOT NULL,
     quantity INT NOT NULL,
     total_price FLOAT GENERATED ALWAYS AS (quantity * price),
-    chat_id INT,
+    user_id INT,
     product_id INT,
-    FOREIGN KEY (chat_id)
-    REFERENCES customers (chat_id),
+    FOREIGN KEY (user_id)
+    REFERENCES customers (user_id),
     FOREIGN KEY (product_id)
     REFERENCES products (product_id)
 );
