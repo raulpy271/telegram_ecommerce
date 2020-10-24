@@ -33,6 +33,16 @@ To do this type /login.""",
     "help_admin":
 """
 
+You are admin. You can sell products and change theirs prices and add others admins.
+
+The fallowing are instructions of how make this things:
+
+To add a product you can type:
+/add_product
+To change the settings of a product you can search for it and for a button that does these actions.
+
+To add others admin you can use the command(Note: have sure that the people already have an account in this e-commerce):
+/add_admin username
 """
 })
 
