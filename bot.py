@@ -5,7 +5,8 @@ from telegram_ecommerce.utils.consts import credentials
 from telegram_ecommerce.utils.log import logger
 from telegram_ecommerce.handlers.commands import (
     start,
-    help_command)
+    help_command,
+    register)
 
 
 token = credentials["token"]
@@ -19,6 +20,7 @@ def main():
 
     dp.add_handler(start)
     dp.add_handler(help_command)
+    dp.add_handler(register)
 
 
     logger.info("bot started")

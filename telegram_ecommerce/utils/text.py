@@ -41,6 +41,7 @@ To add others admin you can use the command(Note: have sure that the people alre
     "cancel" : "❌Cancel",
     "previus" : "⬅️ Previus",
     "next" : "➡️ Next",
+    "ask_if_want_create_a_password" : "Do you want to create a numeric password? (required to authenticate when making a purchase)"
 })
 
 text_pt = {}
