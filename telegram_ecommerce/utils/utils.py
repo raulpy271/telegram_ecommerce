@@ -19,3 +19,11 @@ def get_sql_commands_from_a_file(path, delimiter=";"):
     commands.pop()
     return commands
 
+
+def extract_value_from_a_query(query):
+    try:
+        return query[0][0]
+    except:
+        raise Exception("cannot extract value from a null query")
+
+
