@@ -1,3 +1,4 @@
+from hashlib import sha256
 from json import load
 
 
@@ -26,4 +27,10 @@ def extract_value_from_a_query(query):
     except:
         raise Exception("cannot extract value from a null query")
 
+
+def hash_password(plain_txt):
+    plain_txt_in_bytes = bytes(str(plain_txt), 'utf-8')
+    HASH = sha256()
+    HASH.update(plain_txt_in_bytes)
+    return HASH.hexdigest()
 
