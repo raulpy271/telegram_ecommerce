@@ -16,3 +16,5 @@ def get_password(user_id):
     return extract_value_from_a_query(user_password)
 
 
+def check_password(user_id, password):
+    return str(password) == str(get_password(user_id))
