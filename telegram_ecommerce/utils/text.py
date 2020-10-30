@@ -46,7 +46,8 @@ To add others admin you can use the command(Note: have sure that the people alre
     "ask_if_its_all_ok" : "Everything is alright?",
     "this_are_the_typed_password" : "This are the typed password. ",
     "canceled_operation" : "Operation canceled 🙁",
-    "type_password" : "enter your password on the numeric keypad below:"
+    "type_password" : "enter your password on the numeric keypad below:",
+    "user_password_has_stored" : "Your password has stored, you can use her every time that you want to make a purchase."
 })
 
 text_pt = {}

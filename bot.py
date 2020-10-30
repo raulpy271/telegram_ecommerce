@@ -8,7 +8,8 @@ from telegram_ecommerce.handlers.commands import (
     help_command,
     register,
     register_query_step_1,
-    register_query_step_2) 
+    register_query_step_2,
+    register_query_step_3) 
 
 
 token = credentials["token"]
@@ -25,6 +26,7 @@ def main():
     dp.add_handler(register)
     dp.add_handler(register_query_step_1)
     dp.add_handler(register_query_step_2)
+    dp.add_handler(register_query_step_3)
 
 
     logger.info("bot started")

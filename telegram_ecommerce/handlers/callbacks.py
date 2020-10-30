@@ -1,6 +1,8 @@
 from ..utils.consts import TEXT
 from ..database.query import is_admin
+from ..database.manipulation import hash_user_password
 from ..tamplates.buttons import login_keyboard
+
 
 def start_callback(update, context):
     text = TEXT["start"]
@@ -47,12 +49,26 @@ def register_callback_query_step_3(update, context):
         markup = login_keyboard(pattern_identifier)["step_3"]
         password = "1234"
         query.edit_message_text(
-            password + 
+            password + " " + 
             TEXT["this_are_the_typed_password"] + 
             TEXT["ask_if_its_all_ok"], 
             reply_markup=markup)
     else: 
         return
+
+
+def register_callback_query_step_4(update, context):
+    query = update.callback_query
+    if query.data == "register_step_3_cancel_loging_process":
+        query.edit_message_text(TEXT["canceled_operation"])
+    elif query.data == "register_step_3_end_login_process":
+        query.edit_message_text(TEXT["user_password_has_stored"])
+        user_id = query.from_user.id
+        hash_user_password(user_id)
+    else:
+        return
+
+
 
 def show_categories_callback(update, context):
     pass
