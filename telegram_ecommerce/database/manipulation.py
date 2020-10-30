@@ -1,5 +1,6 @@
 from .db_wrapper import db
 from .query import get_password
+from ..utils.utils import hash_password
 
 
 def set_password(user_id, password):
@@ -11,5 +12,11 @@ def append_password(user_id, password):
     old_password = get_password(user_id)
     new_password = str(old_password) + str(password)
     set_password(user_id, new_password)
+
+
+def hash_user_password(user_id):
+    password = get_password(user_id)
+    password_hash = hash_password(password)
+    set_password(user_id, password_hash)
 
 
