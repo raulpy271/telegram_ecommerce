@@ -1,7 +1,15 @@
 from ..utils.consts import TEXT
-from ..database.query import is_admin
-from ..database.manipulation import hash_user_password
 from ..tamplates.buttons import login_keyboard
+from ..database.manipulation import (
+    hash_user_password,
+    create_account, 
+    delete_account)
+from ..utils.decorators import (
+    execute_if_user_exist,
+    execute_if_user_dont_exist)
+from ..database.query import (
+    user_exist,
+    is_admin)
 
 
 def start_callback(update, context):
@@ -18,6 +26,7 @@ def help_callback(update, context):
     update.message.reply_text(text)
 
 
+@execute_if_user_dont_exist
 def register_callback(update, context):
     pattern_identifier = "register_step_1_"
     markup = login_keyboard(pattern_identifier)["step_1"]
@@ -31,6 +40,7 @@ def register_callback_query_step_2(update, context):
     if query.data == "register_step_1_cancel_loging_process":
         query.edit_message_text(TEXT["canceled_operation"])
     elif query.data == "register_step_1_next_step_1_login_process": 
+        create_account(update.effective_user)
         pattern_identifier = "register_step_2_"
         markup = login_keyboard(pattern_identifier)["step_2"]
         query.edit_message_text(
@@ -43,6 +53,8 @@ def register_callback_query_step_2(update, context):
 def register_callback_query_step_3(update, context):
     query = update.callback_query
     if query.data == "register_step_2_cancel_numeric_keyboard":
+        user_id = query.from_user.id
+        delete_account(user_id)
         query.edit_message_text(TEXT["canceled_operation"])
     elif query.data == "register_step_2_end_numeric_keyboard": 
         pattern_identifier = "register_step_3_"
@@ -60,6 +72,8 @@ def register_callback_query_step_3(update, context):
 def register_callback_query_step_4(update, context):
     query = update.callback_query
     if query.data == "register_step_3_cancel_loging_process":
+        user_id = query.from_user.id
+        delete_account(user_id)
         query.edit_message_text(TEXT["canceled_operation"])
     elif query.data == "register_step_3_end_login_process":
         query.edit_message_text(TEXT["user_password_has_stored"])
