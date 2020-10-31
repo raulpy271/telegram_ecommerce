@@ -17,6 +17,11 @@ def create_account(user):
     db.execute_a_data_manipulation(command, command_args)
 
 
+def delete_account(user_id):
+    command = "DELETE FROM customers WHERE user_id = %s"
+    db.execute_a_data_manipulation(command, (user_id,))
+
+
 def set_password(user_id, password):
     command = "UPDATE customers SET password_hash = %s WHERE user_id = %s"
     db.execute_a_data_manipulation(command, (password, user_id))
