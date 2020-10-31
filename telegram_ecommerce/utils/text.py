@@ -47,7 +47,9 @@ To add others admin you can use the command(Note: have sure that the people alre
     "this_are_the_typed_password" : "This are the typed password. ",
     "canceled_operation" : "Operation canceled 🙁",
     "type_password" : "enter your password on the numeric keypad below:",
-    "user_password_has_stored" : "Your password has stored, you can use her every time that you want to make a purchase."
+    "user_password_has_stored" : "Your password has stored, you can use her every time that you want to make a purchase.",
+    "user_have_account" : "You already hava an account.",
+    "user_dont_have_account" : "You dont have an account to make this operation. User the command /register to make an account."
 })
 
 text_pt = {}
