@@ -1,6 +1,7 @@
 from .db_wrapper import db
 from .query import get_password
 from ..utils.utils import hash_password
+from ..utils.consts import credentials
 
 
 def set_password(user_id, password):
@@ -18,5 +19,10 @@ def hash_user_password(user_id):
     password = get_password(user_id)
     password_hash = hash_password(password)
     set_password(user_id, password_hash)
+
+
+def user_in_credentials_file(username):
+    admins = credentials["admins_username"]
+    return username in admins
 
 
