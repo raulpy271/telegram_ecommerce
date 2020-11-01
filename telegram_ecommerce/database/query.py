@@ -1,5 +1,7 @@
 from ..utils.utils import extract_value_from_a_query
 from .db_wrapper import db
+from ..utils.utils import hash_password
+from ..utils.consts import credentials
 
 
 def user_exist(user_id):
@@ -24,6 +26,10 @@ def get_password(user_id):
 
 
 def check_password(user_id, password):
-    return str(password) == str(get_password(user_id))
+    return hash_password(password) == get_password(user_id)
 
+
+def user_in_credentials_file(username):
+    admins = credentials["admins_username"]
+    return username in admins
 
