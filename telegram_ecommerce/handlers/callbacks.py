@@ -1,14 +1,16 @@
 from ..utils.consts import TEXT
 from ..tamplates.buttons import login_keyboard
-from ..database.manipulation import (
-    hash_user_password,
-    create_account, 
-    delete_account)
 from ..utils.decorators import (
     execute_if_user_exist,
     execute_if_user_dont_exist)
+from ..database.manipulation import (
+    hash_user_password,
+    append_password,
+    create_account, 
+    delete_account)
 from ..database.query import (
     user_exist,
+    get_password,
     is_admin)
 
 
@@ -40,7 +42,7 @@ def register_callback_query_step_2(update, context):
     if query.data == "register_step_1_cancel_loging_process":
         query.edit_message_text(TEXT["canceled_operation"])
     elif query.data == "register_step_1_next_step_1_login_process": 
-        create_account(update.effective_user)
+        create_account(query.from_user)
         pattern_identifier = "register_step_2_"
         markup = login_keyboard(pattern_identifier)["step_2"]
         query.edit_message_text(
@@ -52,21 +54,34 @@ def register_callback_query_step_2(update, context):
 
 def register_callback_query_step_3(update, context):
     query = update.callback_query
+    user_id = query.from_user.id
     if query.data == "register_step_2_cancel_numeric_keyboard":
-        user_id = query.from_user.id
         delete_account(user_id)
         query.edit_message_text(TEXT["canceled_operation"])
     elif query.data == "register_step_2_end_numeric_keyboard": 
         pattern_identifier = "register_step_3_"
         markup = login_keyboard(pattern_identifier)["step_3"]
-        password = "1234"
+        password = get_password(user_id)
         query.edit_message_text(
-            password + " " + 
+            "\"" + password + "\", " + 
             TEXT["this_are_the_typed_password"] + 
             TEXT["ask_if_its_all_ok"], 
             reply_markup=markup)
     else: 
         return
+
+
+def register_callback_query_number_in_numeric_keyboard(update, context):
+    query = update.callback_query
+    user_id = query.from_user.id
+    digit = query.data.replace("register_step_2_digit_", "")
+    append_password(user_id, digit)
+    pattern_identifier = "register_step_2_"
+    markup = login_keyboard(pattern_identifier)["step_2"]
+    query.edit_message_text(
+        TEXT["typing"] + get_password(user_id),
+        reply_markup=markup)
+
 
 
 def register_callback_query_step_4(update, context):
