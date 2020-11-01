@@ -9,6 +9,7 @@ from telegram_ecommerce.handlers.commands import (
     register,
     register_query_step_1,
     register_query_step_2,
+    register_query_step_2_numeric,
     register_query_step_3) 
 
 
@@ -25,6 +26,7 @@ def main():
     dp.add_handler(help_command)
     dp.add_handler(register)
     dp.add_handler(register_query_step_1)
+    dp.add_handler(register_query_step_2_numeric)
     dp.add_handler(register_query_step_2)
     dp.add_handler(register_query_step_3)
 
