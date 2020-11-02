@@ -1,6 +1,6 @@
 from ..utils.consts import TEXT
 from ..tamplates.buttons import login_keyboard
-from ..utils.decorators import (
+from ..filters.decorators import (
     execute_if_user_exist,
     execute_if_user_dont_exist)
 from ..database.manipulation import (
