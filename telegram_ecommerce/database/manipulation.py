@@ -40,3 +40,12 @@ def hash_user_password(user_id):
     set_password(user_id, password_hash)
 
 
+def add_category(name, description, tags=None, image=None):
+    command = ("""
+        INSERT INTO category
+               (category_name, category_description, tags, image)
+        VALUES (%s, %s, %s, %s)""")
+    command_args = (name, description, tags, image)
+    db.execute_a_data_manipulation(command, command_args)
+
+
