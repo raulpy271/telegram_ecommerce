@@ -50,7 +50,12 @@ To add others admin you can use the command(Note: have sure that the people alre
     "user_password_has_stored" : "Your password has stored, you can use her every time that you want to make a purchase.",
     "user_have_account" : "You already hava an account.",
     "user_dont_have_account" : "You dont have an account to make this operation. User the command /register to make an account.",
-    "typing" : "You are typing: "
+    "typing" : "You are typing: ",
+    "ask_for_category_name" : "Type the name of the category:",
+    "ask_for_category_description" : "Type the description of the category:",
+    "ask_for_category_tags" : "Type the tags of the category:",
+    "ask_for_category_photo" : "Send me a photo that represent this category:"
+
 })
 
 text_pt = {}

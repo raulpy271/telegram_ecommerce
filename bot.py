@@ -12,6 +12,8 @@ from telegram_ecommerce.handlers.commands import (
     register_query_step_2_numeric,
     register_query_step_3) 
 
+from telegram_ecommerce.handlers.add_category import add_category
+
 
 token = credentials["token"]
 admins = credentials["admins_username"]
@@ -29,6 +31,7 @@ def main():
     dp.add_handler(register_query_step_2_numeric)
     dp.add_handler(register_query_step_2)
     dp.add_handler(register_query_step_3)
+    dp.add_handler(add_category)
 
 
     logger.info("bot started")
