@@ -3,16 +3,7 @@ from telegram.ext import Updater
 from telegram_ecommerce.database.db_wrapper import db
 from telegram_ecommerce.utils.consts import credentials
 from telegram_ecommerce.utils.log import logger
-from telegram_ecommerce.handlers.commands import (
-    start,
-    help_command,
-    register,
-    register_query_step_1,
-    register_query_step_2,
-    register_query_step_2_numeric,
-    register_query_step_3) 
-
-from telegram_ecommerce.handlers.add_category import add_category
+from telegram_ecommerce.handlers import all_handlers
 
 
 token = credentials["token"]
@@ -24,14 +15,8 @@ def main():
     dp = updater.dispatcher
 
 
-    dp.add_handler(start)
-    dp.add_handler(help_command)
-    dp.add_handler(register)
-    dp.add_handler(register_query_step_1)
-    dp.add_handler(register_query_step_2_numeric)
-    dp.add_handler(register_query_step_2)
-    dp.add_handler(register_query_step_3)
-    dp.add_handler(add_category)
+    for handler in all_handlers:
+        dp.add_handler(handler)
 
 
     logger.info("bot started")
