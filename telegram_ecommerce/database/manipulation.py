@@ -40,12 +40,21 @@ def hash_user_password(user_id):
     set_password(user_id, password_hash)
 
 
-def add_category(name, description, tags=None, image=None):
+def add_photo(photo_id, photo_name, bytes_of_photo):
+    command = ("""
+        INSERT INTO photo
+               (photo_id, photo_name, image)
+        VALUES (%s, %s, %s)""")
+    command_args = (photo_id, photo_name, bytes_of_photo)
+    db.execute_a_data_manipulation(command, command_args)
+
+
+def add_category(name, description, tags=None, image_id=None):
     command = ("""
         INSERT INTO category
-               (category_name, category_description, tags, image)
+               (category_name, category_description, tags, image_id)
         VALUES (%s, %s, %s, %s)""")
-    command_args = (name, description, tags, image)
+    command_args = (name, description, tags, image_id)
     db.execute_a_data_manipulation(command, command_args)
 
 
