@@ -1,4 +1,6 @@
 from .add_category import add_category
+from .start import start
+from .help import help_command
 from .register import (
     register_step_1,
     register_step_2,
@@ -8,6 +10,8 @@ from .register import (
 
 
 all_handlers = [
+    start,
+    help_command,
     register_step_1,
     register_step_2,
     register_step_3,
