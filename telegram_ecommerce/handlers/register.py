@@ -51,6 +51,8 @@ def register_callback_query_step_3(update, context):
     if query.data == "register_step_2_cancel_numeric_keyboard":
         delete_account(user_id)
         query.edit_message_text(TEXT["canceled_operation"])
+
+
     elif query.data == "register_step_2_end_numeric_keyboard": 
         pattern_identifier = "register_step_3_"
         markup = login_keyboard(pattern_identifier)["step_3"]
@@ -60,7 +62,13 @@ def register_callback_query_step_3(update, context):
             TEXT["this_are_the_typed_password"] + 
             TEXT["ask_if_its_all_ok"], 
             reply_markup=markup)
-    else: 
+
+
+    elif "register_step_2_digit_" in query.data: 
+        register_callback_query_number_in_numeric_keyboard(update, context)
+
+
+    else:
         return
 
 
@@ -74,7 +82,6 @@ def register_callback_query_number_in_numeric_keyboard(update, context):
     query.edit_message_text(
         TEXT["typing"] + get_password(user_id),
         reply_markup=markup)
-
 
 
 def register_callback_query_step_4(update, context):
@@ -102,11 +109,6 @@ register_step_2 = CallbackQueryHandler(
 register_step_3 = CallbackQueryHandler(
     register_callback_query_step_3,
     pattern="register_step_2_")
-
-
-register_step_3_numeric = CallbackQueryHandler(
-    register_callback_query_number_in_numeric_keyboard,
-    pattern="register_step_2_digit_")
 
 
 register_step_4 = CallbackQueryHandler(
