@@ -34,3 +34,11 @@ def hash_password(plain_txt):
     HASH.update(plain_txt_in_bytes)
     return HASH.hexdigest()
 
+
+def get_bytes_from_a_incomming_photo(message):
+    photo_size = message.photo
+    telegram_file = photo_size.get_file()
+    byte = telegram_file.download_as_bytearray()
+    return byte
+
+
