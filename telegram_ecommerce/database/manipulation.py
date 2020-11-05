@@ -40,13 +40,20 @@ def hash_user_password(user_id):
     set_password(user_id, password_hash)
 
 
-def add_photo(photo_id, photo_name, bytes_of_photo):
+def update_photo(photo_id, blob):
+    command = "UPDATE photo SET image = %s WHERE photo_id = %s"
+    command_args = (bytes(blob), photo_id)
+    db.execute_a_data_manipulation(command, command_args)
+
+
+def add_photo(photo_id, bytes_of_photo):
     command = ("""
         INSERT INTO photo
-               (photo_id, photo_name, image)
-        VALUES (%s, %s, %s)""")
-    command_args = (photo_id, photo_name, bytes_of_photo)
+               (photo_id)
+        VALUES (%s)""")
+    command_args = (photo_id,)
     db.execute_a_data_manipulation(command, command_args)
+    update_photo(photo_id, bytes_of_photo)
 
 
 def add_category(name, description, tags=None, image_id=None):

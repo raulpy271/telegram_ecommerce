@@ -9,9 +9,8 @@ CREATE TABLE IF NOT EXISTS customers (
 
 
 CREATE TABLE IF NOT EXISTS photo (
-    photo_id INT PRIMARY KEY,
-    photo_name VARCHAR(50) NOT NULL,
-    image BLOB NOT NULL
+    photo_id VARCHAR(150) PRIMARY KEY,
+    image BLOB DEFAULT NULL
 );
 
 
@@ -20,7 +19,7 @@ CREATE TABLE IF NOT EXISTS category (
     category_name VARCHAR(30) NOT NULL,
     category_description VARCHAR(500) NOT NULL,
     tags VARCHAR(100),
-    image_id INT,
+    image_id VARCHAR(150),
     FOREIGN KEY (image_id)
     REFERENCES photo (photo_id)
 );
@@ -34,7 +33,7 @@ CREATE TABLE IF NOT EXISTS products (
     quantity_in_stock INT NOT NULL,
     quantity_purchased INT NOT NULL,
     category_id INT NOT NULL,
-    image_id INT,
+    image_id VARCHAR(150),
     FOREIGN KEY (image_id)
     REFERENCES photo (photo_id),
     FOREIGN KEY (category_id)
