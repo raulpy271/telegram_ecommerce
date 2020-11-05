@@ -5,6 +5,18 @@ from telegram import (
 
 from ..utils.consts import TEXT
 
+
+def boolean_question(pattern_identifier):
+    return InlineKeyboardMarkup([
+        [
+            Button(TEXT["cancel"], 
+                callback_data=pattern_identifier + 'cancel'),
+            Button(TEXT["OK"], 
+                callback_data=pattern_identifier + 'OK')
+        ]
+    ])
+
+
 def numeric_keyboard(pattern_identifier):
     return (InlineKeyboardMarkup([
     [
@@ -31,7 +43,6 @@ def numeric_keyboard(pattern_identifier):
     ]]))
 
 
-
 def login_keyboard(pattern_identifier): 
     return ({
     "step_1": InlineKeyboardMarkup([
@@ -49,4 +60,5 @@ def login_keyboard(pattern_identifier):
         Button(TEXT["next"],
             callback_data=pattern_identifier + 'end_login_process'),
     ]]) })
+
 
