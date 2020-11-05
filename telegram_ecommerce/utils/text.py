@@ -44,6 +44,7 @@ To add others admin you can use the command(Note: have sure that the people alre
     "OK" : "👍OK",
     "ask_if_want_create_a_password" : "Do you want to create a numeric password? (required to authenticate when making a purchase)",
     "ask_if_its_all_ok" : "Everything is alright?",
+    "information_stored" : "Your information has been saved",
     "this_are_the_typed_password" : "This are the typed password. ",
     "canceled_operation" : "Operation canceled 🙁",
     "type_password" : "enter your password on the numeric keypad below:",
