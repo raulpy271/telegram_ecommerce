@@ -6,7 +6,16 @@ This is a telegram bot made using the python language. To connect with the teleg
 
 ## screenshot
 
+### Register Command
+
+![Using the register command](/assets/register_command.gif)
+
 ## how to setup
 
+Fist of all, see the dependencies in the requirements file or type pip install -r requirements.txt to install the dependencies automatically.
+
 ## TODO
+
+ - Add feature to change password
+ - Add salt when storing the password
 
