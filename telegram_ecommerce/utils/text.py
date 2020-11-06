@@ -5,6 +5,7 @@ text_en = ({
 type /show_categories to see categories.
 type /login to autenticate your account.
 type /help for more information.""",
+    "start_description" : "A wellcome message if you dont known this bot",
     "help" : 
 
 """The fallowing are instructions of how use this bot:
@@ -24,6 +25,7 @@ And these commands will show you a list with the thing you want buy.
 
 To buy something you need to register a password. 
 To do this type /login.""",
+    "help_description" : "A long message with all commands avaible for you, and how to use them.",
     "help_admin":
 """
 
@@ -38,6 +40,7 @@ To change the settings of a product you can search for it and for a button that 
 To add others admin you can use the command(Note: have sure that the people already have an account in this e-commerce):
 /add_admin username
 """,
+    "register_description" : "Create a password to make purchase",
     "cancel" : "❌Cancel",
     "previus" : "⬅️ Previus",
     "next" : "➡️ Next",
