@@ -42,3 +42,8 @@ def get_bytes_from_a_incomming_photo(message):
     return byte
 
 
+def write_file(data, file_path):
+    with open(file_path, 'wb') as f:
+        f.write(data)
+
+
