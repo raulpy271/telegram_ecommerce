@@ -1,7 +1,9 @@
 from ..utils.utils import extract_value_from_a_query
 from .db_wrapper import db
-from ..utils.utils import hash_password
 from ..utils.consts import credentials
+from ..utils.utils import (
+    write_file,
+    hash_password)
 
 
 def user_exist(user_id):
@@ -32,4 +34,19 @@ def check_password(user_id, password):
 def user_in_credentials_file(username):
     admins = credentials["admins_username"]
     return username in admins
+
+
+def extract_blob(photo_id):
+    command = "SELECT image FROM photo WHERE photo_id = %s"
+    blob = bytes(
+        extract_value_from_a_query(
+        db.execute_a_query(command, (photo_id,)))
+        )
+    return blob
+
+
+def save_photo_in_file(photo_id, file_path):
+    blob = extract_blob(photo_id)
+    write_file(blob, file_path)
+
 
