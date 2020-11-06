@@ -6,9 +6,7 @@ from telegram.ext import (
     ConversationHandler)
 
 from ..utils.consts import TEXT
-from ..tamplates.messages import (
-    reply,
-    ask_a_boolean_question)
+from ..tamplates.messages import ask_a_boolean_question
 from ..database.manipulation import (
     add_category as add_category_in_db,
     add_photo)
@@ -22,6 +20,24 @@ ASK_IF_ITS_ALL_OK            ) = range(-1, 4)
 
 
 pattern_to_save_everything = "boolean_response"
+
+
+def save_photo_in_user_data(update, context):
+    photo = update.message.photo[0]
+    photo = photo.get_file()
+    context.user_data["photo"] = photo
+
+
+def save_category_info_in_db(update, context):
+    photo = context.user_data["photo"]
+    add_photo(
+        photo.file_id,
+        photo.download_as_bytearray())
+    add_category_in_db(
+        context.user_data["category_name"],
+        context.user_data["category_description"],
+        context.user_data["category_tags"],
+        photo.file_id)
 
 
 def ask_for_category_name(update, context):
@@ -52,24 +68,6 @@ def ask_for_category_photo(update, context):
     text = TEXT["ask_for_category_photo"]
     update.message.reply_text(text)
     return ASK_IF_ITS_ALL_OK
-
-
-def save_photo_in_user_data(update, context):
-    photo = update.message.photo[0]
-    photo = photo.get_file()
-    context.user_data["photo"] = photo
-
-
-def save_category_info_in_db(update, context):
-    photo = context.user_data["photo"]
-    add_photo(
-        photo.file_id,
-        photo.download_as_bytearray())
-    add_category_in_db(
-        context.user_data["category_name"],
-        context.user_data["category_description"],
-        context.user_data["category_tags"],
-        photo.file_id)
 
 
 def ask_if_its_all_ok(update, context):
@@ -127,7 +125,6 @@ add_category = ConversationHandler(
             ]
         },
     fallbacks = [MessageHandler(Filters.all, cancel_add_category)]
-
     )
 
 
