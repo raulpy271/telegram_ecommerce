@@ -50,3 +50,9 @@ def save_photo_in_file(photo_id, file_path):
     write_file(blob, file_path)
 
 
+def get_category_id_from_name(name):
+    command = "SELECT category_id FROM category WHERE category_name = %s"
+    category_id = db.execute_a_query(command, (name,))
+    return extract_value_from_a_query(category_id)
+
+
