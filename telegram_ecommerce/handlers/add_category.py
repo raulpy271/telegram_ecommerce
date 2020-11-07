@@ -19,52 +19,78 @@ ASK_FOR_CATEGORY_PHOTO       ,
 ASK_IF_ITS_ALL_OK            ) = range(-1, 4)
 
 
+category_data = {
+    "name"        : "",
+    "description" : "",
+    "tags"        : "",
+    "photo"       : ""}
+
+
 pattern_to_save_everything = "boolean_response"
+
+
+def put_category_data_in_user_data(user_data):
+    user_data["category_data"] = category_data
+
+
+def delete_category_data_from_user_data(user_data):
+    del user_data["category_data"] 
+
+
+def save_name_in_user_data(user_data, name):
+    user_data["category_data"]["name"] = name
+
+
+def save_description_in_user_data(user_data, description):
+    user_data["category_data"]["description"] = description
+
+
+def save_tags_in_user_data(user_data, tags):
+    user_data["category_data"]["tags"] = tags
 
 
 def save_photo_in_user_data(update, context):
     photo = update.message.photo[0]
     photo = photo.get_file()
-    context.user_data["photo"] = photo
+    context.user_data["category_data"]["photo"] = photo
 
 
 def save_category_info_in_db(update, context):
-    photo = context.user_data["photo"]
+    category_data = context.user_data["category_data"] 
+    photo = category_data["photo"]
     add_photo(
         photo.file_id,
         photo.download_as_bytearray())
     add_category_in_db(
-        context.user_data["category_name"],
-        context.user_data["category_description"],
-        context.user_data["category_tags"],
+        category_data["name"],
+        category_data["description"],
+        category_data["tags"],
         photo.file_id)
 
 
 def ask_for_category_name(update, context):
+    put_category_data_in_user_data(context.user_data)
     text = TEXT["ask_for_category_name"]
     update.message.reply_text(text)
     return ASK_FOR_CATEGORY_DESCRIPTION
 
 
 def ask_for_category_description(update, context):
-    category_name = update.message.text
-    context.user_data["category_name"] = category_name
+    save_name_in_user_data(context.user_data, update.message.text)
     text = TEXT["ask_for_category_description"]
     update.message.reply_text(text)
     return ASK_FOR_CATEGORY_TAGS
 
 
 def ask_for_category_tags(update, context):
-    category_description = update.message.text
-    context.user_data["category_description"] = category_description
+    save_description_in_user_data(context.user_data, update.message.text)
     text = TEXT["ask_for_category_tags"]
     update.message.reply_text(text)
     return ASK_FOR_CATEGORY_PHOTO
 
 
 def ask_for_category_photo(update, context):
-    category_tags = update.message.text
-    context.user_data["category_tags"] = category_tags
+    save_tags_in_user_data(context.user_data, update.message.text)
     text = TEXT["ask_for_category_photo"]
     update.message.reply_text(text)
     return ASK_IF_ITS_ALL_OK
@@ -87,6 +113,7 @@ def catch_response(update, context):
 
 
 def cancel_add_category(update, context):
+    delete_category_data_from_user_data(context.user_data)
     text = TEXT["canceled_operation"]
     update.message.reply_text(text)
     return END
