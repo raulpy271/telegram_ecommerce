@@ -11,6 +11,7 @@ def load_json_file(path):
     with open(path, "r") as json_string:
         return load(json_string)
 
+
 def get_sql_commands_from_a_file(path, delimiter=";"):
     sql = load_file(path)
     commands = ( sql
@@ -45,5 +46,14 @@ def get_bytes_from_a_incomming_photo(message):
 def write_file(data, file_path):
     with open(file_path, 'wb') as f:
         f.write(data)
+
+
+def float_from_user_input(user_input):
+    return float(
+        user_input
+        .replace(" ", "")
+        .replace("\n", "")
+        .replace(",", ".")
+    )
 
 
