@@ -65,3 +65,32 @@ def add_category(name, description, tags=None, image_id=None):
     db.execute_a_data_manipulation(command, command_args)
 
 
+def add_product(
+    name, 
+    unit_price=0, 
+    rating=0, 
+    quantity_in_stock=0, 
+    quantity_purchased=0,
+    category_id=None, 
+    image_id=None):
+    command = ("""
+        INSERT INTO products
+            (name, 
+            unit_price, 
+            rating, 
+            quantity_in_stock, 
+            quantity_purchased,
+            category_id, 
+            image_id)
+        VALUES (%s, %s, %s, %s, %s, %s, %s)""")
+    command_args = (
+        name, 
+        float(unit_price), 
+        float(rating), 
+        int(quantity_in_stock), 
+        int(quantity_purchased),
+        int(category_id), 
+        image_id)
+    db.execute_a_data_manipulation(command, command_args)
+    
+
