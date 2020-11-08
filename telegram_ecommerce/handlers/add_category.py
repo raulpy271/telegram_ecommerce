@@ -19,6 +19,7 @@ ASK_FOR_CATEGORY_PHOTO       ,
 ASK_IF_ITS_ALL_OK            ) = range(-1, 4)
 
 
+category_data_key = "category_data"
 category_data = {
     "name"        : "",
     "description" : "",
@@ -30,33 +31,33 @@ pattern_to_save_everything = "boolean_response"
 
 
 def put_category_data_in_user_data(user_data):
-    user_data["category_data"] = category_data
+    user_data[category_data_key] = category_data
 
 
 def delete_category_data_from_user_data(user_data):
-    del user_data["category_data"] 
+    user_data[category_data_key] = {}
 
 
 def save_name_in_user_data(user_data, name):
-    user_data["category_data"]["name"] = name
+    user_data[category_data_key]["name"] = name
 
 
 def save_description_in_user_data(user_data, description):
-    user_data["category_data"]["description"] = description
+    user_data[category_data_key]["description"] = description
 
 
 def save_tags_in_user_data(user_data, tags):
-    user_data["category_data"]["tags"] = tags
+    user_data[category_data_key]["tags"] = tags
 
 
 def save_photo_in_user_data(update, context):
     photo = update.message.photo[0]
     photo = photo.get_file()
-    context.user_data["category_data"]["photo"] = photo
+    context.user_data[category_data_key]["photo"] = photo
 
 
 def save_category_info_in_db(update, context):
-    category_data = context.user_data["category_data"] 
+    category_data = context.user_data[category_data_key] 
     photo = category_data["photo"]
     add_photo(
         photo.file_id,
@@ -97,8 +98,14 @@ def ask_for_category_photo(update, context):
 
 
 def ask_if_its_all_ok(update, context):
-    save_photo_in_user_data(update, context)
-    ask_a_boolean_question(update, context, pattern_to_save_everything)
+    try:
+        save_photo_in_user_data(update, context)
+        ask_a_boolean_question(update, context, pattern_to_save_everything)
+    except:
+        text = TEXT["error_when_storing_photo"]
+        update.message.reply_text(text)
+        cancel_add_product(update, context)
+        return END
 
 
 def catch_response(update, context):

@@ -9,8 +9,10 @@ from telegram.ext import (
 from ..utils.consts import TEXT
 from ..tamplates.messages import ask_a_boolean_question
 from ..tamplates.buttons import get_list_of_buttons
-from ..database.query import get_category_id_from_name
 from ..utils.utils import float_from_user_input
+from ..database.query import (
+    get_category_id_from_name,
+    get_name_of_all_categories)
 from ..database.manipulation import (
     add_product as add_product_in_db,
     add_photo)
@@ -118,12 +120,10 @@ def ask_for_category_name(update, context):
         save_quantity_in_stock_in_user_data(
             context.user_data, update.message.text)
         text = TEXT["ask_for_category_name_of_the_product"]
+        buttons_with_list_of_all_names = (
+            get_list_of_buttons(*(get_name_of_all_categories())))
         update.message.reply_text(text, 
-            reply_markup=get_list_of_buttons(
-            "roupas",
-            "cirolas",
-            "dsfd")
-            )
+            reply_markup=buttons_with_list_of_all_names)
         return ASK_FOR_PRODUCT_PHOTO
     except:
         text = TEXT["this_is_not_a_integer"]
