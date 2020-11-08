@@ -3,6 +3,7 @@ from .db_wrapper import db
 from ..utils.consts import credentials
 from ..utils.utils import (
     write_file,
+    extract_list_of_values_from_a_query,
     hash_password)
 
 
@@ -48,6 +49,13 @@ def extract_blob(photo_id):
 def save_photo_in_file(photo_id, file_path):
     blob = extract_blob(photo_id)
     write_file(blob, file_path)
+
+
+def get_name_of_all_categories():
+    command = "SELECT category_name FROM category"
+    all_names_query = db.execute_a_query(command)
+    names = extract_list_of_values_from_a_query(all_names_query)
+    return names 
 
 
 def get_category_id_from_name(name):

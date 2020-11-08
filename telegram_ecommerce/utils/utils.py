@@ -29,6 +29,12 @@ def extract_value_from_a_query(query):
         raise Exception("cannot extract value from a null query")
 
 
+def extract_list_of_values_from_a_query(query):
+    extract_fist_value_from_a_tuple = (lambda tupl: tupl[0])
+    return list(map(
+        extract_fist_value_from_a_tuple, query))
+
+
 def hash_password(plain_txt):
     plain_txt_in_bytes = bytes(str(plain_txt), 'utf-8')
     HASH = sha256()
