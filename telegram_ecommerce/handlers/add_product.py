@@ -1,3 +1,4 @@
+from telegram import ReplyKeyboardRemove
 from telegram.ext import (
     Filters,
     CommandHandler,
@@ -7,6 +8,7 @@ from telegram.ext import (
 
 from ..utils.consts import TEXT
 from ..tamplates.messages import ask_a_boolean_question
+from ..tamplates.buttons import get_list_of_buttons
 from ..database.query import get_category_id_from_name
 from ..utils.utils import float_from_user_input
 from ..database.manipulation import (
@@ -41,7 +43,7 @@ def put_product_data_in_user_data(user_data):
 
 
 def delete_product_data_from_user_data(user_data):
-    del user_data[product_data_key] 
+    user_data[product_data_key] = {}
 
 
 def save_name_in_user_data(user_data, name):
@@ -49,12 +51,12 @@ def save_name_in_user_data(user_data, name):
 
 
 def save_price_in_user_data(user_data, price):
+    price = float_from_user_input(price)
     user_data[product_data_key]["unit_price"] = price
 
 
 def save_quantity_in_stock_in_user_data(user_data, quantity):
-    quantity = float_from_user_input(quantity)
-    user_data[product_data_key]["quantity_in_stock"] = quantity
+    user_data[product_data_key]["quantity_in_stock"] = int(quantity)
 
 
 def save_category_id_in_user_data(user_data, category_name):
@@ -68,19 +70,19 @@ def save_photo_in_user_data(update, context):
     context.user_data[product_data_key]["photo"] = photo
 
 
-def save_category_info_in_db(update, context):
-    category_data = context.user_data[product_data_key] 
-    photo = category_data["photo"]
+def save_product_info_in_db(update, context):
+    product_data = context.user_data[product_data_key] 
+    photo = product_data["photo"]
     add_photo(
         photo.file_id,
         photo.download_as_bytearray())
     add_product_in_db(
-        category_data["name"],
-        category_data["unit_price"],
-        category_data["rating"],
-        category_data["quantity_in_stock"],
-        category_data["quantity_purchased"],
-        category_data["category_id"],
+        product_data["name"],
+        product_data["unit_price"],
+        product_data["rating"],
+        product_data["quantity_in_stock"],
+        product_data["quantity_purchased"],
+        product_data["category_id"],
         photo.file_id)
 
 
@@ -99,36 +101,65 @@ def ask_for_product_price(update, context):
 
 
 def ask_for_quantity_in_stock(update, context):
-    save_price_in_user_data(context.user_data, update.message.text)
-    text = TEXT["ask_for_quantity_in_stock"]
-    update.message.reply_text(text)
-    return ASK_FOR_CATEGORY_NAME
+    try:
+        save_price_in_user_data(context.user_data, update.message.text)
+        text = TEXT["ask_for_quantity_in_stock"]
+        update.message.reply_text(text)
+        return ASK_FOR_CATEGORY_NAME
+    except:
+        text = TEXT["this_is_not_a_number"]
+        update.message.reply_text(text)
+        cancel_add_product(update, context)
+        return END
 
 
 def ask_for_category_name(update, context):
-    save_quantity_in_stock_in_user_data(
-        context.user_data, update.message.text)
-    text = TEXT["ask_for_category_name_of_the_product"]
-    update.message.reply_text(text)
-    return ASK_FOR_PRODUCT_PHOTO
+    try:
+        save_quantity_in_stock_in_user_data(
+            context.user_data, update.message.text)
+        text = TEXT["ask_for_category_name_of_the_product"]
+        update.message.reply_text(text, 
+            reply_markup=get_list_of_buttons(
+            "roupas",
+            "cirolas",
+            "dsfd")
+            )
+        return ASK_FOR_PRODUCT_PHOTO
+    except:
+        text = TEXT["this_is_not_a_integer"]
+        update.message.reply_text(text)
+        cancel_add_product(update, context)
+        return END
 
 
 def ask_for_product_photo(update, context):
-    save_category_id_in_user_data(context.user_data, update.message.text)
-    text = TEXT["ask_for_product_photo"]
-    update.message.reply_text(text)
-    return ASK_IF_ITS_ALL_OK
+    try:
+        save_category_id_in_user_data(context.user_data, update.message.text)
+        text = TEXT["ask_for_product_photo"]
+        update.message.reply_text(text, reply_markup=ReplyKeyboardRemove())
+        return ASK_IF_ITS_ALL_OK
+    except:
+        text = TEXT["this_is_not_a_valid_category"]
+        update.message.reply_text(text)
+        cancel_add_product(update, context)
+        return END
 
 
 def ask_if_its_all_ok(update, context):
-    save_photo_in_user_data(update, context)
-    ask_a_boolean_question(update, context, pattern_to_save_everything)
+    try:
+        save_photo_in_user_data(update, context)
+        ask_a_boolean_question(update, context, pattern_to_save_everything)
+    except:
+        text = TEXT["error_when_storing_photo"]
+        update.message.reply_text(text)
+        cancel_add_product(update, context)
+        return END
 
 
 def catch_response(update, context):
     query = update.callback_query
     if query.data == pattern_to_save_everything + "OK":
-        save_category_info_in_db(update, context)
+        save_product_info_in_db(update, context)
         text = TEXT["information_stored"]
     else:
         text = TEXT["canceled_operation"]
@@ -140,7 +171,7 @@ def catch_response(update, context):
 def cancel_add_product(update, context):
     delete_product_data_from_user_data(context.user_data)
     text = TEXT["canceled_operation"]
-    update.message.reply_text(text)
+    update.message.reply_text(text, reply_markup=ReplyKeyboardRemove())
     return END
 
 
