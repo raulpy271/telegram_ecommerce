@@ -64,7 +64,7 @@ def login_keyboard(pattern_identifier):
     ]]) })
 
 
-def get_list_of_buttons(pattern_identifier, *names_in_buttons):
+def get_list_of_buttons(*names_in_buttons):
     list_of_buttons = []
     for name_of_the_button in names_in_buttons:
         list_of_buttons.append(
