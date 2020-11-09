@@ -1,11 +1,12 @@
 from telegram import BotCommand
 
+from ..language import get_text
 from .start import start
 from .help import help_command
 from .register import register
 from .add_category import add_category
 from .add_product import add_product 
-from ..utils.consts import TEXT
+from .language import language
 
 
 all_handlers = [
@@ -13,21 +14,26 @@ all_handlers = [
     help_command,
     register,
     add_category, 
-    add_product] 
+    add_product, 
+    language] 
 
 
 all_public_commands_descriptions = [
     BotCommand(
         "start", 
-        TEXT["start_description"]
+        get_text("start_description")
         ),
     BotCommand(
         "help", 
-        TEXT["help_description"]
+        get_text("help_description")
         ),
     BotCommand(
         "register", 
-        TEXT["register_description"]
+        get_text("register_description")
+        ),
+    BotCommand(
+        "language", 
+        get_text("language_description")
         )
     ]
 
