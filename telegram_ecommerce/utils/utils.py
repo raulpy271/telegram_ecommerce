@@ -63,3 +63,15 @@ def float_from_user_input(user_input):
     )
 
 
+def get_key(dictionary, value):
+    """ Funtion to return the key that match with the passed value
+        >>> get_key({'py' : 3.14, 'other' : 666}, 3.14)
+        'py'
+    """
+    values = list(dictionary.values())
+    keys = list(dictionary.keys())
+    return (keys[
+        values.index(value)
+        ])
+
+
