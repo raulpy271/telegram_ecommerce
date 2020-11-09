@@ -40,6 +40,8 @@ To change the settings of a product you can search for it and for a button that 
 To add others admin you can use the command(Note: have sure that the people already have an account in this e-commerce):
 /add_admin username
 """,
+    "en" : "My language is 🇺🇸English",
+    "pt" : "Minha linguagem é 🇵🇹Português",
     "register_description" : "Create a password to make purchase",
     "cancel" : "❌Cancel",
     "previus" : "⬅️ Previus",

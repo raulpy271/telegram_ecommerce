@@ -2,13 +2,13 @@ from .text_en import text_en
 from .text_pt import text_pt
 
 all_languages = {
-    "English" : text_en,
-    "Portuguese" : text_pt}
+    "en" : text_en,
+    "pt" : text_pt}
 
 
 class Language():
-    def __init__(self, dict_with_all_languages, default_language="en"):
-        self.language = default_language
+    def __init__(self, dict_with_all_languages, language):
+        self.language = language
         self.suported_languages = dict_with_all_languages.keys()
         self.all_text = dict_with_all_languages
 
