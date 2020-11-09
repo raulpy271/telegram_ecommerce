@@ -5,7 +5,7 @@ from telegram.ext import (
     MessageHandler,
     CallbackQueryHandler)
 
-from ..utils.consts import TEXT
+from ..language import get_text
 from ..tamplates.buttons import login_keyboard
 from ..database.query import (
     user_exist,
@@ -31,7 +31,7 @@ def start_register(update, context):
         register_callback(update, context)
         return RUNING
     else:
-        text = TEXT["user_have_account"]
+        text = get_text("user_have_account")
         update.message.reply_text(text)
         return END
 
@@ -40,7 +40,7 @@ def register_callback(update, context):
     markup = login_keyboard(
         PATTERN_TO_CATCH_THE_RESPONSE_IF_USER_WANT_A_PASSWORD)["step_1"]
     update.message.reply_text(
-        TEXT["ask_if_want_create_a_password"], 
+        get_text("ask_if_want_create_a_password"), 
         reply_markup=markup)
     return RUNING
 
@@ -57,7 +57,7 @@ def register_callback_query_step_2(update, context):
         create_account(query.from_user)
         markup = login_keyboard(PATTERN_TO_CATCH_THE_DIGITS)["step_2"]
         query.edit_message_text(
-            TEXT["type_password"], 
+            get_text("type_password"), 
             reply_markup=markup)
         return RUNING
     else: 
@@ -80,8 +80,8 @@ def register_callback_query_step_3(update, context):
         password = get_password(user_id)
         query.edit_message_text(
             "\"" + password + "\", " + 
-            TEXT["this_are_the_typed_password"] + 
-            TEXT["ask_if_its_all_ok"], 
+            get_text("this_are_the_typed_password") + 
+            get_text("ask_if_its_all_ok"), 
             reply_markup=markup)
         return RUNING
 
@@ -101,7 +101,7 @@ def register_callback_query_number_in_numeric_keyboard(update, context):
     append_password(user_id, digit)
     markup = login_keyboard(PATTERN_TO_CATCH_THE_DIGITS)["step_2"]
     query.edit_message_text(
-        TEXT["typing"] + get_password(user_id),
+        get_text("typing") + get_password(user_id),
         reply_markup=markup)
     return RUNING
 
@@ -117,7 +117,7 @@ def register_callback_query_step_4(update, context):
     elif query.data == (
         PATTERN_TO_CATCH_THE_RESPONSE_TO_SAVE_THE_PASSWORD + 
         "end_login_process"):
-        query.edit_message_text(TEXT["user_password_has_stored"])
+        query.edit_message_text(get_text("user_password_has_stored"))
         user_id = query.from_user.id
         hash_user_password(user_id)
         return END
@@ -126,9 +126,9 @@ def register_callback_query_step_4(update, context):
 def cancel_register(update, context):
     query = update.callback_query
     if update.message:
-        update.message.reply_text(TEXT["canceled_operation"])
+        update.message.reply_text(get_text("canceled_operation"))
     elif query:
-        query.edit_message_text(TEXT["canceled_operation"])
+        query.edit_message_text(get_text("canceled_operation"))
     return END
 
 

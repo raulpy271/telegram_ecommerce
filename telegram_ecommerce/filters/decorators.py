@@ -1,16 +1,16 @@
-from ..utils.consts import TEXT
+from ..language import get_text
 from ..database.query import (
     user_exist,
     is_admin)
 
 
 def warning_the_user_that_already_have_an_account(update, context):
-    text = TEXT["user_have_account"]
+    text = get_text("user_have_account")
     update.message.reply_text(text)
 
 
 def warning_the_user_that_he_dont_have_an_account(update, context):
-    text = TEXT["user_dont_have_account"]
+    text = get_text("user_dont_have_account")
     update.message.reply_text(text)
 
 

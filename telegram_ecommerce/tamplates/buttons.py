@@ -5,15 +5,15 @@ from telegram import (
     InlineKeyboardButton as InlineButton,
     InlineKeyboardMarkup)
 
-from ..utils.consts import TEXT
+from ..language import get_text
 
 
 def boolean_question(pattern_identifier):
     return InlineKeyboardMarkup([
         [
-            InlineButton(TEXT["cancel"], 
+            InlineButton(get_text("cancel"), 
                 callback_data=pattern_identifier + 'cancel'),
-            InlineButton(TEXT["OK"], 
+            InlineButton(get_text("OK"), 
                 callback_data=pattern_identifier + 'OK')
         ]
     ])
@@ -37,10 +37,10 @@ def numeric_keyboard(pattern_identifier):
         InlineButton("9", callback_data=pattern_identifier + 'digit_9')
     ],
     [
-        InlineButton(TEXT["cancel"], 
+        InlineButton(get_text("cancel"), 
             callback_data=pattern_identifier + 'cancel_numeric_keyboard'),
         InlineButton("0", callback_data=pattern_identifier + 'digit_0'),
-        InlineButton(TEXT["next"], 
+        InlineButton(get_text("next"), 
             callback_data=pattern_identifier + 'end_numeric_keyboard')
     ]]))
 
@@ -49,17 +49,17 @@ def login_keyboard(pattern_identifier):
     return ({
     "step_1": InlineKeyboardMarkup([
     [
-        InlineButton(TEXT["cancel"], 
+        InlineButton(get_text("cancel"), 
             callback_data=pattern_identifier + 'cancel_loging_process'),
-        InlineButton(TEXT["next"], 
+        InlineButton(get_text("next"), 
             callback_data=pattern_identifier + 'next_step_1_login_process'),
     ]]),
     "step_2": numeric_keyboard(pattern_identifier),
     "step_3": InlineKeyboardMarkup([
     [
-        InlineButton(TEXT["cancel"], 
+        InlineButton(get_text("cancel"),
             callback_data=pattern_identifier + 'cancel_loging_process'),
-        InlineButton(TEXT["next"],
+        InlineButton(get_text("next"),
             callback_data=pattern_identifier + 'end_login_process'),
     ]]) })
 
