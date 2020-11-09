@@ -5,7 +5,12 @@ text_pt = ({
 type /show_categories to see categories.
 type /login to autenticate your account.
 type /help for more information.""",
-    "start_description" : "A wellcome message if you dont known this bot",
+    "start" : 
+"""Olá, eu sou um bot que irá te ajudar a fazer compras nesse e-commerce.
+Digite /show_categories para ver as categorias
+Digite /register para criar uma conta
+Ou digite /help para mais informações.""",
+    "start_description" : "Uma mensagem de boas vindas.",
     "help" : 
 
 """The fallowing are instructions of how use this bot:
@@ -40,9 +45,13 @@ To change the settings of a product you can search for it and for a button that 
 To add others admin you can use the command(Note: have sure that the people already have an account in this e-commerce):
 /add_admin username
 """,
+    "choose_language" : "Qual é sua linguagem?",
+    "selected_language" : "Linguagem selecionada.",
+    "language_dont_exist" : "Não possui suporte a essa linguagem.",
     "en" : "My language is 🇺🇸English",
     "pt" : "Minha linguagem é 🇵🇹Português",
     "register_description" : "Criar senha para fazer compras",
+    "language_description" : "Mudar a linguagem.", 
     "cancel" : "❌Cancelar",
     "previus" : "⬅️ Anterior",
     "next" : "➡️ Próximo",
