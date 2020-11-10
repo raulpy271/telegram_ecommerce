@@ -75,3 +75,12 @@ def get_key(dictionary, value):
         ])
 
 
+def get_lang(context):
+    try:
+        user_data = context.user_data
+        if "language" in list(user_data.keys()):
+            return user_data["language"]
+    except:
+        return context 
+
+
