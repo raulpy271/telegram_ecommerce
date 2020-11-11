@@ -1,10 +1,10 @@
 from telegram.ext import CommandHandler
 
-from ..utils.consts import TEXT
+from ..language import get_text
 
 
 def start_callback(update, context):
-    text = TEXT["start"]
+    text = get_text("start", context)
     update.message.reply_text(text)
 
 

@@ -90,14 +90,14 @@ def save_product_info_in_db(update, context):
 
 def ask_for_product_name(update, context):
     put_product_data_in_user_data(context.user_data)
-    text = get_text("ask_for_product_name")
+    text = get_text("ask_for_product_name", context)
     update.message.reply_text(text)
     return ASK_FOR_PRODUCT_PRICE
 
 
 def ask_for_product_price(update, context):
     save_name_in_user_data(context.user_data, update.message.text)
-    text = get_text("ask_for_product_price")
+    text = get_text("ask_for_product_price", context)
     update.message.reply_text(text)
     return ASK_FOR_QUANTITY_IN_STOCK
 
@@ -105,11 +105,11 @@ def ask_for_product_price(update, context):
 def ask_for_quantity_in_stock(update, context):
     try:
         save_price_in_user_data(context.user_data, update.message.text)
-        text = get_text("ask_for_quantity_in_stock")
+        text = get_text("ask_for_quantity_in_stock", context)
         update.message.reply_text(text)
         return ASK_FOR_CATEGORY_NAME
     except:
-        text = get_text("this_is_not_a_number")
+        text = get_text("this_is_not_a_number", context)
         update.message.reply_text(text)
         cancel_add_product(update, context)
         return END
@@ -119,14 +119,14 @@ def ask_for_category_name(update, context):
     try:
         save_quantity_in_stock_in_user_data(
             context.user_data, update.message.text)
-        text = get_text("ask_for_category_name_of_the_product")
+        text = get_text("ask_for_category_name_of_the_product", context)
         buttons_with_list_of_all_names = (
             get_list_of_buttons(*(get_name_of_all_categories())))
         update.message.reply_text(text, 
             reply_markup=buttons_with_list_of_all_names)
         return ASK_FOR_PRODUCT_PHOTO
     except:
-        text = get_text("this_is_not_a_integer")
+        text = get_text("this_is_not_a_integer", context)
         update.message.reply_text(text)
         cancel_add_product(update, context)
         return END
@@ -135,11 +135,11 @@ def ask_for_category_name(update, context):
 def ask_for_product_photo(update, context):
     try:
         save_category_id_in_user_data(context.user_data, update.message.text)
-        text = get_text("ask_for_product_photo")
+        text = get_text("ask_for_product_photo", context)
         update.message.reply_text(text, reply_markup=ReplyKeyboardRemove())
         return ASK_IF_ITS_ALL_OK
     except:
-        text = get_text("this_is_not_a_valid_category")
+        text = get_text("this_is_not_a_valid_category", context)
         update.message.reply_text(text)
         cancel_add_product(update, context)
         return END
@@ -150,7 +150,7 @@ def ask_if_its_all_ok(update, context):
         save_photo_in_user_data(update, context)
         ask_a_boolean_question(update, context, pattern_to_save_everything)
     except:
-        text = get_text("error_when_storing_photo")
+        text = get_text("error_when_storing_photo", context)
         update.message.reply_text(text)
         cancel_add_product(update, context)
         return END
@@ -160,9 +160,9 @@ def catch_response(update, context):
     query = update.callback_query
     if query.data == pattern_to_save_everything + "OK":
         save_product_info_in_db(update, context)
-        text = get_text("information_stored")
+        text = get_text("information_stored", context)
     else:
-        text = get_text("canceled_operation")
+        text = get_text("canceled_operation", context)
     query.edit_message_text(text)
     delete_product_data_from_user_data(context.user_data)
     return END
@@ -170,7 +170,7 @@ def catch_response(update, context):
 
 def cancel_add_product(update, context):
     delete_product_data_from_user_data(context.user_data)
-    text = get_text("canceled_operation")
+    text = get_text("canceled_operation", context)
     update.message.reply_text(text, reply_markup=ReplyKeyboardRemove())
     return END
 

@@ -8,18 +8,18 @@ from telegram import (
 from ..language import get_text
 
 
-def boolean_question(pattern_identifier):
+def boolean_question(pattern_identifier, context=None):
     return InlineKeyboardMarkup([
         [
-            InlineButton(get_text("cancel"), 
+            InlineButton(get_text("cancel", context), 
                 callback_data=pattern_identifier + 'cancel'),
-            InlineButton(get_text("OK"), 
+            InlineButton(get_text("OK", context), 
                 callback_data=pattern_identifier + 'OK')
         ]
     ])
 
 
-def numeric_keyboard(pattern_identifier):
+def numeric_keyboard(pattern_identifier, context=None):
     return (InlineKeyboardMarkup([
     [
         InlineButton("1", callback_data=pattern_identifier + 'digit_1'),
@@ -37,29 +37,29 @@ def numeric_keyboard(pattern_identifier):
         InlineButton("9", callback_data=pattern_identifier + 'digit_9')
     ],
     [
-        InlineButton(get_text("cancel"), 
+        InlineButton(get_text("cancel", context), 
             callback_data=pattern_identifier + 'cancel_numeric_keyboard'),
         InlineButton("0", callback_data=pattern_identifier + 'digit_0'),
-        InlineButton(get_text("next"), 
+        InlineButton(get_text("next", context), 
             callback_data=pattern_identifier + 'end_numeric_keyboard')
     ]]))
 
 
-def login_keyboard(pattern_identifier): 
+def login_keyboard(pattern_identifier, context=None): 
     return ({
     "step_1": InlineKeyboardMarkup([
     [
-        InlineButton(get_text("cancel"), 
+        InlineButton(get_text("cancel", context), 
             callback_data=pattern_identifier + 'cancel_loging_process'),
-        InlineButton(get_text("next"), 
+        InlineButton(get_text("next", context), 
             callback_data=pattern_identifier + 'next_step_1_login_process'),
     ]]),
-    "step_2": numeric_keyboard(pattern_identifier),
+    "step_2": numeric_keyboard(pattern_identifier, context),
     "step_3": InlineKeyboardMarkup([
     [
-        InlineButton(get_text("cancel"),
+        InlineButton(get_text("cancel", context),
             callback_data=pattern_identifier + 'cancel_loging_process'),
-        InlineButton(get_text("next"),
+        InlineButton(get_text("next", context),
             callback_data=pattern_identifier + 'end_login_process'),
     ]]) })
 

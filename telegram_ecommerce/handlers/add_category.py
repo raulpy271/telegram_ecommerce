@@ -71,28 +71,28 @@ def save_category_info_in_db(update, context):
 
 def ask_for_category_name(update, context):
     put_category_data_in_user_data(context.user_data)
-    text = get_text("ask_for_category_name")
+    text = get_text("ask_for_category_name", context)
     update.message.reply_text(text)
     return ASK_FOR_CATEGORY_DESCRIPTION
 
 
 def ask_for_category_description(update, context):
     save_name_in_user_data(context.user_data, update.message.text)
-    text = get_text("ask_for_category_description")
+    text = get_text("ask_for_category_description", context)
     update.message.reply_text(text)
     return ASK_FOR_CATEGORY_TAGS
 
 
 def ask_for_category_tags(update, context):
     save_description_in_user_data(context.user_data, update.message.text)
-    text = get_text("ask_for_category_tags")
+    text = get_text("ask_for_category_tags", context)
     update.message.reply_text(text)
     return ASK_FOR_CATEGORY_PHOTO
 
 
 def ask_for_category_photo(update, context):
     save_tags_in_user_data(context.user_data, update.message.text)
-    text = get_text("ask_for_category_photo")
+    text = get_text("ask_for_category_photo", context)
     update.message.reply_text(text)
     return ASK_IF_ITS_ALL_OK
 
@@ -102,7 +102,7 @@ def ask_if_its_all_ok(update, context):
         save_photo_in_user_data(update, context)
         ask_a_boolean_question(update, context, pattern_to_save_everything)
     except:
-        text = get_text("error_when_storing_photo")
+        text = get_text("error_when_storing_photo", context)
         update.message.reply_text(text)
         cancel_add_product(update, context)
         return END
@@ -112,16 +112,16 @@ def catch_response(update, context):
     query = update.callback_query
     if query.data == pattern_to_save_everything + "OK":
         save_category_info_in_db(update, context)
-        text = get_text("information_stored")
+        text = get_text("information_stored", context)
     else:
-        text = get_text("canceled_operation")
+        text = get_text("canceled_operation", context)
     query.edit_message_text(text)
     return END
 
 
 def cancel_add_category(update, context):
     delete_category_data_from_user_data(context.user_data)
-    text = get_text("canceled_operation")
+    text = get_text("canceled_operation", context)
     update.message.reply_text(text)
     return END
 

@@ -8,7 +8,6 @@ from .add_category import add_category
 from .add_product import add_product 
 from .language import language
 
-
 all_handlers = [
     start,
     help_command,
