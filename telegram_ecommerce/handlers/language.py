@@ -7,9 +7,7 @@ from telegram.ext import (
 
 from ..tamplates.buttons import get_list_of_buttons
 from ..language import (TEXT, get_text)
-from ..utils.utils import (
-    get_key,
-    get_lang)
+from ..utils.utils import get_key
 
 
 (END, SELECTING_THE_LANGUAGE) = [-1, 1]

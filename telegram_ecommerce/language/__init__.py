@@ -36,7 +36,7 @@ the context which indicates the user's language."""
         if hasattr(context, 'user_data'):
             user_data = context.user_data
             if "language" in user_data:
-                return self.get_lang(user_data["language"])
+                return self.extract_lang(user_data["language"])
             return self.default_language
         elif context in self.suported_languages:
             return context
