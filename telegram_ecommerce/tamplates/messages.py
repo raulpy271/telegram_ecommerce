@@ -14,7 +14,7 @@ def ask_a_boolean_question(
         text = question
     else:
         text = get_text("ask_if_its_all_ok", context)
-    markup = boolean_question(pattern_identifier)
+    markup = boolean_question(pattern_identifier, context)
     update.message.reply_text(text, reply_markup=markup)
 
 
