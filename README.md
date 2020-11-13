@@ -10,6 +10,10 @@ This is a telegram bot made using the python language. To connect with the teleg
 
 ![Using the register command](/assets/register_command.gif)
 
+### Changing the language
+
+![Changing the language used](/assets/changing_the_language.gif)
+
 ## how to setup
 
 Fist of all, see the dependencies in the requirements file or type pip install -r requirements.txt to install the dependencies automatically.
