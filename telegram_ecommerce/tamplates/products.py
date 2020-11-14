@@ -3,6 +3,51 @@ from telegram import (
     InlineKeyboardMarkup)
 
 
+class Product():
+    def __init__(
+        self, 
+        product_id,
+        name,
+        price, 
+        rating,
+        quantity_in_stock,
+        quantity_purchased,
+        category_id,
+        image_id = None):
+        self.product_id = product_id
+        self.name = name
+        self.price = price
+        self.rating = rating
+        self.quantity_in_stock = quantity_in_stock
+        self.quantity_purchased = quantity_purchased
+        self.category_id = category_id
+        self.image_id = image_id
+
+
+class ListProductIterator():
+    def __init__(self, *list_of_products):
+        self.list_of_products = list_of_products
+
+
+    def __iter__(self):
+        self.iter = 0 
+        return self
+
+
+    def __next__(self):
+        actual_product = self.list_of_products[self.iter]
+        self.__increment_iter__()
+        return actual_product
+
+
+    def __increment_iter__(self):
+        if self.iter == len(self.list_of_products) - 1:
+            self.iter = 0
+        else: 
+            self.iter += 1
+
+
+
 def get_product(
     update, 
     context,
@@ -10,7 +55,7 @@ def get_product(
     price, 
     rating, 
     image_id, 
-    pattern_identifier) 
+    pattern_identifier):
     markup = InlineKeyboardMarkup([
         [
             InlineButton(
@@ -40,7 +85,7 @@ def get_product_details(
     rating, 
     quantity_purchased,
     image_id, 
-    pattern_identifier) 
+    pattern_identifier):
     markup = InlineKeyboardMarkup([
         [
             InlineButton(
