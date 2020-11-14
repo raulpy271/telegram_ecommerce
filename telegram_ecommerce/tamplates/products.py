@@ -1,9 +1,22 @@
 from telegram import (
     InlineKeyboardButton as InlineButton,
+    InputMediaPhoto,
     InlineKeyboardMarkup)
+from telegram.ext import (
+    Filters,
+    ConversationHandler,
+    CommandHandler,
+    MessageHandler,
+    CallbackQueryHandler)
 
-from ..utils.utils import show_rating
 from ..language import get_text
+from .buttons import tamplate_for_show_a_list_of_products
+
+
+(END, RUNING) = [-1, 1]
+PATTERN_TO_CATCH_THE_PREVIUS_PRODUCT = 'previus_product'
+PATTERN_TO_CATCH_THE_NEXT_PRODUCT = 'next_product'
+PATTERN_TO_CATCH_THE_VIEW_DETAILS = 'product_details'
 
 
 class Product():
@@ -59,80 +72,66 @@ class ListProductIterator():
             self.iter -= 1
 
 
-def get_product(
-    update, 
-    context,
-    product,
-    pattern_identifier):
-    markup = InlineKeyboardMarkup([
-        [
-            InlineButton(
-                get_text("previus_product", context),
-                callback_data=pattern_identifier + 'previus_product'),
-            InlineButton(
-                get_text("product_details", context),
-                callback_data=pattern_identifier + 'product_details'),
-            InlineButton(
-                get_text("next_product", context),
-                callback_data=pattern_identifier + 'next_product')
-        ]])
+def send_a_product(update, context, product, pattern_identifier):
+    query = update.callback_query
+    markup = tamplate_for_show_a_list_of_products(
+        pattern_identifier, context)
+    text = get_text_for_product(product, context)
+    query.message.edit_media(
+        media = InputMediaPhoto(product.image_id, text),
+        reply_markup = markup)
+
+
+def show_rating(rating):
+    return str(rating)
+
+
+def get_text_for_product(product, context):
     text = product.name + ", " + get_text("price", context) + \
            str(product.price) + '\n' + \
            get_text("rating", context) + show_rating(product.rating)
-    update.message.reply_photo(
-        product.image_id,
-        caption = text, 
-        reply_markup=markup) 
+    return text
 
 
-def get_product_details(
-    update, 
-    context,
-    product,
-    pattern_identifier):
-    markup = InlineKeyboardMarkup([
-        [
-            InlineButton(
-                get_text("previus_step", context),
-                callback_data=pattern_identifier + 'previus_step'),
-            InlineButton(
-                get_text("buy", context),
-                callback_data=pattern_identifier + 'buy_product')
-        ]])
+def get_text_for_detailed_product(product, context):
     text = product.name + ", " + get_text("price", context) + \
            str(product.price) + '\n' + \
            product.description + '\n' + \
            get_text("rating", context) + show_rating(product.rating) + '\n' + \
            get_text("purchased", context) + str(product.quantity_purchased)
-    update.message.reply_photo(
-        image_id,
-        caption = text, 
-        reply_markup=markup) 
 
 
 def get_a_handler_with_a_list_of_products(products, pattern_identifier):
-    (END, RUNING) = [-1, 1]
-    PATTERN_TO_CATCH_THE_PREVIUS_PRODUCT = 'previus_product'
-    PATTERN_TO_CATCH_THE_NEXT_PRODUCT = 'next_product'
-    PATTERN_TO_CATCH_THE_VIEW_DETAILS = 'product_details'
+
+
+    def entry_point_callback(update, context):
+        product = products.next()
+        markup = tamplate_for_show_a_list_of_products(
+            pattern_identifier, context)
+        text = get_text_for_product(product, context)
+        update.message.reply_photo(
+            product.image_id,
+            caption = text,
+            reply_markup=markup) 
+        return RUNING
+
+
+    def catch_previus(update, context):
+        product = products.previus()
+        send_a_product(update, context, product, pattern_identifier)
+        return RUNING
+
+
+    def catch_next(update, context):
+        product = products.next()
+        send_a_product(update, context, product, pattern_identifier)
+        return RUNING
 
 
     def catch_details(update, context):
         pass
 
 
-    def catch_next(update, context):
-        product = products.next()
-        get_product(update, context, product, pattern_identifier)
-        return RUNING
-
-
-    def catch_previus(update, context):
-        product = products.previus()
-        get_product(update, context, product, pattern_identifier)
-        return RUNING
-
-    
     def cancel_list_of_products(update, context):
         query = update.callback_query
         if update.message:
@@ -140,11 +139,6 @@ def get_a_handler_with_a_list_of_products(products, pattern_identifier):
         elif query:
             query.edit_message_text(get_text("canceled_operation", context))
         return END
-
-
-    def entry_point_callback(update, context):
-        catch_next()
-        return RUNING
 
 
     return ConversationHandler(

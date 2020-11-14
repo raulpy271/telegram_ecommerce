@@ -75,7 +75,3 @@ def get_key(dictionary, value):
         ])
 
 
-def show_rating(rating):
-    return str(rating)
-
-
