@@ -2,6 +2,9 @@ from telegram import (
     InlineKeyboardButton as InlineButton,
     InlineKeyboardMarkup)
 
+from ..utils.utils import show_rating
+from ..language import get_text
+
 
 class Product():
     def __init__(
@@ -43,14 +46,10 @@ class ListProductIterator():
             self.iter += 1
 
 
-
 def get_product(
     update, 
     context,
-    name, 
-    price, 
-    rating, 
-    image_id, 
+    product,
     pattern_identifier):
     markup = InlineKeyboardMarkup([
         [
@@ -64,10 +63,11 @@ def get_product(
                 get_text("next_product", context),
                 callback_data=pattern_identifier + 'next_product')
         ]])
-    text = name + " por " + str(price) + \
-           "\nAvaliações: 3.0 ❤️❤️❤️🤍🤍"
+    text = product.name + ", " + get_text("price", context) + \
+           str(product.price) + '\n' + \
+           get_text("rating", context) + show_rating(product.rating)
     update.message.reply_photo(
-        image_id,
+        product.image_id,
         caption = text, 
         reply_markup=markup) 
 
@@ -75,12 +75,7 @@ def get_product(
 def get_product_details(
     update, 
     context,
-    name, 
-    description,
-    price, 
-    rating, 
-    quantity_purchased,
-    image_id, 
+    product,
     pattern_identifier):
     markup = InlineKeyboardMarkup([
         [
@@ -91,10 +86,11 @@ def get_product_details(
                 get_text("buy", context),
                 callback_data=pattern_identifier + 'buy_product')
         ]])
-    text = name + " por " + str(price) + '\n' + \
-           description + '\n' + \
-           "Avaliações: 3.0 ❤️❤️❤️🤍🤍" + '\n'  + \
-           "Foi comprado: 30 unidades" 
+    text = product.name + ", " + get_text("price", context) + \
+           str(product.price) + '\n' + \
+           product.description + '\n' + \
+           get_text("rating", context) + show_rating(product.rating) + '\n' + \
+           get_text("purchased", context) + str(product.quantity_purchased)
     update.message.reply_photo(
         image_id,
         caption = text, 
