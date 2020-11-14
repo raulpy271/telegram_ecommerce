@@ -30,12 +30,18 @@ class Product():
 class ListProductIterator():
     def __init__(self, *list_of_products):
         self.list_of_products = list_of_products
-        self.iter = 0 
+        self.iter = -1 
 
 
-    def __next__(self):
-        actual_product = self.list_of_products[self.iter]
+    def next(self):
         self.__increment_iter__()
+        actual_product = self.list_of_products[self.iter]
+        return actual_product
+
+
+    def previus(self):
+        self.__decrement_iter__()
+        actual_product = self.list_of_products[self.iter]
         return actual_product
 
 
@@ -44,6 +50,13 @@ class ListProductIterator():
             self.iter = 0
         else: 
             self.iter += 1
+
+
+    def __decrement_iter__(self):
+        if self.iter <= 0:
+            self.iter = len(self.list_of_products) - 1
+        else:
+            self.iter -= 1
 
 
 def get_product(
@@ -95,5 +108,59 @@ def get_product_details(
         image_id,
         caption = text, 
         reply_markup=markup) 
+
+
+def get_a_handler_with_a_list_of_products(products, pattern_identifier):
+    (END, RUNING) = [-1, 1]
+    PATTERN_TO_CATCH_THE_PREVIUS_PRODUCT = 'previus_product'
+    PATTERN_TO_CATCH_THE_NEXT_PRODUCT = 'next_product'
+    PATTERN_TO_CATCH_THE_VIEW_DETAILS = 'product_details'
+
+
+    def catch_details(update, context):
+        pass
+
+
+    def catch_next(update, context):
+        product = products.next()
+        get_product(update, context, product, pattern_identifier)
+        return RUNING
+
+
+    def catch_previus(update, context):
+        product = products.previus()
+        get_product(update, context, product, pattern_identifier)
+        return RUNING
+
+    
+    def cancel_list_of_products(update, context):
+        query = update.callback_query
+        if update.message:
+            update.message.reply_text(get_text("canceled_operation", context))
+        elif query:
+            query.edit_message_text(get_text("canceled_operation", context))
+        return END
+
+
+    def entry_point_callback(update, context):
+        catch_next()
+        return RUNING
+
+
+    return ConversationHandler(
+    entry_points = [CommandHandler("list", entry_point_callback)],
+    states = {
+        RUNING : [
+            CallbackQueryHandler(
+                catch_next, 
+                pattern = pattern_identifier +
+                    PATTERN_TO_CATCH_THE_NEXT_PRODUCT),
+            CallbackQueryHandler(
+                catch_previus, 
+                pattern = pattern_identifier +
+                    PATTERN_TO_CATCH_THE_PREVIUS_PRODUCT)
+        ]},
+    fallbacks = [MessageHandler(Filters.all, cancel_list_of_products)]
+    )
 
 
