@@ -27,11 +27,7 @@ class Product():
 class ListProductIterator():
     def __init__(self, *list_of_products):
         self.list_of_products = list_of_products
-
-
-    def __iter__(self):
         self.iter = 0 
-        return self
 
 
     def __next__(self):
