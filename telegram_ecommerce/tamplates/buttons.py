@@ -75,3 +75,18 @@ def get_list_of_buttons(*names_in_buttons):
     return ReplyKeyboardMarkup(list_of_buttons)
 
 
+def tamplate_for_show_a_list_of_products(pattern_identifier, context=None):
+    return InlineKeyboardMarkup([
+        [
+            InlineButton(
+                get_text("previus_product", context),
+                callback_data=pattern_identifier + 'previus_product'),
+            InlineButton(
+                get_text("product_details", context),
+                callback_data=pattern_identifier + 'product_details'),
+            InlineButton(
+                get_text("next_product", context),
+                callback_data=pattern_identifier + 'next_product')
+        ]])
+
+
