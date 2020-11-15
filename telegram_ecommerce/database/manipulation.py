@@ -68,7 +68,6 @@ def add_category(name, description, tags=None, image_id=None):
 def add_product(
     name, 
     unit_price=0, 
-    rating=0, 
     quantity_in_stock=0, 
     quantity_purchased=0,
     category_id=None, 
@@ -77,7 +76,6 @@ def add_product(
         INSERT INTO products
             (name, 
             unit_price, 
-            rating, 
             quantity_in_stock, 
             quantity_purchased,
             category_id, 
@@ -86,7 +84,6 @@ def add_product(
     command_args = (
         name, 
         float(unit_price), 
-        float(rating), 
         int(quantity_in_stock), 
         int(quantity_purchased),
         int(category_id), 

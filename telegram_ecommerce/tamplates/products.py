@@ -25,7 +25,6 @@ class Product():
         product_id,
         name,
         price, 
-        rating,
         quantity_in_stock,
         quantity_purchased,
         category_id,
@@ -33,7 +32,6 @@ class Product():
         self.product_id = product_id
         self.name = name
         self.price = price
-        self.rating = rating
         self.quantity_in_stock = quantity_in_stock
         self.quantity_purchased = quantity_purchased
         self.category_id = category_id
@@ -95,14 +93,9 @@ def send_a_product(update, context, product, pattern_identifier):
         reply_markup = markup)
 
 
-def show_rating(rating):
-    return str(rating)
-
-
 def get_text_for_product(product, context):
     text = product.name + ", " + get_text("price", context) + \
            str(product.price) + '\n' + \
-           get_text("rating", context) + show_rating(product.rating)
     return text
 
 
@@ -110,7 +103,6 @@ def get_text_for_detailed_product(product, context):
     text = product.name + ", " + get_text("price", context) + \
            str(product.price) + '\n' + \
            product.description + '\n' + \
-           get_text("rating", context) + show_rating(product.rating) + '\n' + \
            get_text("purchased", context) + str(product.quantity_purchased)
 
 

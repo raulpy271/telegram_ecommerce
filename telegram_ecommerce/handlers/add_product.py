@@ -30,7 +30,6 @@ product_data_key = "product_data"
 product_data = {
     "name"               : "",
     "unit_price"         : 0,
-    "rating"             : 0,
     "quantity_in_stock"  : 0,
     "quantity_purchased" : 0,
     "category_id"        : 0,
@@ -81,7 +80,6 @@ def save_product_info_in_db(update, context):
     add_product_in_db(
         product_data["name"],
         product_data["unit_price"],
-        product_data["rating"],
         product_data["quantity_in_stock"],
         product_data["quantity_purchased"],
         product_data["category_id"],
