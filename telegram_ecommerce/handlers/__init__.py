@@ -1,12 +1,14 @@
 from telegram import BotCommand
 
 from ..language import get_text
+from .language import language
 from .start import start
 from .help import help_command
 from .register import register
 from .add_category import add_category
 from .add_product import add_product 
-from .language import language
+from .show_categories import show_categories
+
 
 all_handlers = [
     start,
@@ -14,7 +16,8 @@ all_handlers = [
     register,
     add_category, 
     add_product, 
-    language] 
+    language,
+    show_categories] 
 
 
 all_public_commands_descriptions = [
