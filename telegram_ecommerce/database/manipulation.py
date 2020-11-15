@@ -80,7 +80,7 @@ def add_product(
             quantity_purchased,
             category_id, 
             image_id)
-        VALUES (%s, %s, %s, %s, %s, %s, %s)""")
+        VALUES (%s, %s, %s, %s, %s, %s)""")
     command_args = (
         name, 
         float(unit_price), 
