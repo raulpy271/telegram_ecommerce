@@ -40,10 +40,23 @@ class Product():
         self.image_id = image_id
 
 
+    def create_a_instance_of_this_class_from_a_list_of_properties(
+            properties):
+        return Product(*properties)
+
+
 class ListProductIterator():
     def __init__(self, *list_of_products):
         self.list_of_products = list_of_products
         self.iter = -1 
+
+    
+    def create_a_list_from_a_query(query):
+        list_of_instances_of_Product_class = list(map(
+            Product.create_a_instance_of_this_class_from_a_list_of_properties,
+            query))
+        return ListProductIterator(
+            *list_of_instances_of_Product_class)
 
 
     def next(self):
