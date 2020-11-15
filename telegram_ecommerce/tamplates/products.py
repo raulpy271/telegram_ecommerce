@@ -95,7 +95,7 @@ def send_a_product(update, context, product, pattern_identifier):
 
 def get_text_for_product(product, context):
     text = product.name + ", " + get_text("price", context) + \
-           str(product.price) + '\n' + \
+           str(product.price) + '\n'  
     return text
 
 
