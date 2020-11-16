@@ -40,7 +40,11 @@ def put_products_data_in_user_data(user_data):
     user_data[products_data_key] = products_data
 
 
-def save_products_in_user_data(user_data, products):
+def save_products_in_user_data(user_data, message):
+    products_from_a_category_query = (
+        get_products_by_category_name(message))
+    products = ListProductIterator.create_a_list_from_a_query(
+        products_from_a_category_query)
     user_data[products_data_key]["products"] = products
 
 
@@ -60,14 +64,10 @@ def ask_for_category_name(update, context):
 
 def get_list_of_products(update, context):
     try:
-        products_from_a_category_query = get_products_by_category_name(
-            update.message.text)
-        print(products_from_a_category_query)
-        products = ListProductIterator.create_a_list_from_a_query(
-            products_from_a_category_query)
-        save_products_in_user_data(context.user_data, products)
+        save_products_in_user_data(context.user_data, update.message.text)
         text = get_text("OK", context)
         update.message.reply_text(text, reply_markup=ReplyKeyboardRemove())
+        show_list_of_products(update, context)
         return SHOW_LIST_OF_PRODUCTS
     except:
         text = get_text("this_is_not_a_valid_category", context)
@@ -76,19 +76,8 @@ def get_list_of_products(update, context):
         return END
 
 
-def get_list_of_products(update, context):
-    products_from_a_category_query = get_products_by_category_name(
-        update.message.text)
-    products = ListProductIterator.create_a_list_from_a_query(
-        products_from_a_category_query)
-    save_products_in_user_data(context.user_data, products)
-    text = get_text("OK", context)
-    update.message.reply_text(text, reply_markup=ReplyKeyboardRemove())
-    return SHOW_LIST_OF_PRODUCTS
-
-
 def show_list_of_products(update, context):
-    product = context.user_data[product_data_key]["products"].next()
+    product = context.user_data[products_data_key]["products"].next()
     markup = tamplate_for_show_a_list_of_products(
         pattern_identifier, context)
     text = get_text_for_product(product, context)
@@ -100,13 +89,13 @@ def show_list_of_products(update, context):
 
 
 def catch_previus(update, context):
-    product = context.user_data[product_data_key]["products"].previus()
+    product = context.user_data[products_data_key]["products"].previus()
     send_a_product(update, context, product, pattern_identifier)
     return SHOW_LIST_OF_PRODUCTS
 
 
 def catch_next(update, context):
-    product = context.user_data[product_data_key]["products"].next()
+    product = context.user_data[products_data_key]["products"].next()
     send_a_product(update, context, product, pattern_identifier)
     return SHOW_LIST_OF_PRODUCTS
 
