@@ -47,6 +47,7 @@ To add others admin you can use the command(Note: have sure that the people alre
     "pt" : "Minha linguagem é 🇵🇹Português",
     "register_description" : "Create a password to make purchase",
     "language_description" : "Change the language.", 
+    "show_categories_description" : "See products by category",
     "cancel" : "❌Cancel",
     "previus" : "⬅️ Previus",
     "next" : "➡️ Next",

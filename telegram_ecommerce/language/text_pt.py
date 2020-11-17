@@ -52,6 +52,7 @@ To add others admin you can use the command(Note: have sure that the people alre
     "pt" : "Minha linguagem é 🇵🇹Português",
     "register_description" : "Criar senha para fazer compras",
     "language_description" : "Mudar a linguagem.", 
+    "show_categories_description" : "Ver produtos por categoria",
     "cancel" : "❌Cancelar",
     "previus" : "⬅️ Anterior",
     "next" : "➡️ Próximo",

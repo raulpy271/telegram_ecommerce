@@ -36,6 +36,10 @@ all_public_commands_descriptions = [
     BotCommand(
         "language", 
         get_text("language_description")
+        ),
+    BotCommand(
+        "show_categories", 
+        get_text("show_categories_description")
         )
     ]
 
