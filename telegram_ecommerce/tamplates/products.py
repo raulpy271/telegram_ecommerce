@@ -1,7 +1,9 @@
 from telegram import InputMediaPhoto
 
 from ..language import get_text
-from .buttons import tamplate_for_show_a_list_of_products
+from .buttons import (
+    tamplate_for_show_a_list_of_products,
+    tamplate_for_show_a_detailed_product)
 
 
 class Product():
@@ -42,6 +44,11 @@ class ListProductIterator():
             *list_of_instances_of_Product_class)
 
 
+    def actual_product(self)
+        actual_product = self.list_of_products[self.iter]
+        return actual_product
+
+
     def next(self):
         self.__increment_iter__()
         actual_product = self.list_of_products[self.iter]
@@ -78,6 +85,16 @@ def send_a_product(update, context, product, pattern_identifier):
         reply_markup = markup)
 
 
+def send_a_detailed_product(update, context,  product, pattern_identifier)
+    query = update.callback_query
+    markup = tamplate_for_show_a_detailed_product(
+        pattern_identifier, context)
+    text = get_text_for_detailed_product(product, context)
+    query.message.edit_media(
+        media = InputMediaPhoto(product.image_id, text),
+        reply_markup = markup)
+
+
 def get_text_for_product(product, context):
     text = product.name + ", " + get_text("price", context) + \
            str(product.price) + '\n'  
@@ -89,6 +106,5 @@ def get_text_for_detailed_product(product, context):
            str(product.price) + '\n' + \
            product.description + '\n' + \
            get_text("purchased", context) + str(product.quantity_purchased)
-
 
 
