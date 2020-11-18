@@ -7,6 +7,7 @@ from telegram.ext import (
     ConversationHandler)
 
 from ..language import get_text
+from ..tamplates.buy_callbacks import process_of_buy_a_product
 from ..tamplates.buttons import (
     get_list_of_buttons,
     tamplate_for_show_a_list_of_products)
@@ -101,13 +102,24 @@ def catch_next(update, context):
 
 
 def catch_details(update, context):
-    pass
+    product = context.user_data[products_data_key]["products"].actual()
+    process_of_buy_a_product(update, context, product, pattern_identifier)
+    return SHOW_LIST_OF_PRODUCTS
 
 
 def cancel_show_categories(update, context):
     delete_list_of_products(context.user_data)
-    text = get_text("canceled_operation", context)
-    update.message.reply_text(text, reply_markup=ReplyKeyboardRemove())
+    query = update.callback_query
+    if update.message:
+        update.message.reply_text(
+            get_text("canceled_operation", context),
+            reply_markup = ReplyKeyboardRemove()
+            )
+    elif query:
+        query.edit_message_text(
+            get_text("canceled_operation", context),
+            reply_markup = ReplyKeyboardRemove()
+            )
     return END
 
 
@@ -140,7 +152,11 @@ show_categories = ConversationHandler(
             CallbackQueryHandler(
                 catch_previus, 
                 pattern = pattern_identifier +
-                PATTERN_TO_CATCH_THE_PREVIUS_PRODUCT)
+                PATTERN_TO_CATCH_THE_PREVIUS_PRODUCT),
+            CallbackQueryHandler(
+                catch_details,
+                pattern = pattern_identifier +
+                PATTERN_TO_CATCH_THE_VIEW_DETAILS)
             ]
         },
     fallbacks = [MessageHandler(Filters.all, cancel_show_categories)]
