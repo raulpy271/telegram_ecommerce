@@ -78,6 +78,7 @@ To add others admin you can use the command(Note: have sure that the people alre
     "ask_for_category_tags" : "Type the tags of the category:",
     "ask_for_category_photo" : "Send me a photo that represent this category:",
     "ask_for_product_name" : "Type the name of the product:",
+    "ask_for_product_description" : "Type the description of the product:",
     "ask_for_product_price" : "Type the price of the product:",
     "ask_for_quantity_in_stock" : "Type the number of units of this product available:",
     "ask_for_category_name_of_the_product" : "Type the name of the category which this product is in:",
