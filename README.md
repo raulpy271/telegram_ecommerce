@@ -4,6 +4,18 @@ This is a telegram bot made using the python language. To connect with the teleg
 
 ## what this bot can do?
 
+A telegram bot that can sell products and the salespeople can add, delete, and manage them. 
+
+The fallowing are instructions of how use this bot:
+
+ - type `/show_categories` to see products by category.
+
+ - To searh to something you can use the command `/search`.
+
+ - To buy something you need to register a password. To do this type `/register`.
+
+ - The admins can add products and categories with the commands `/add_product` and `/add_category`. 
+
 ## screenshot
 
 ### Register Command
