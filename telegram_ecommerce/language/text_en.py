@@ -3,7 +3,7 @@ text_en = ({
     "start" : 
 """hello, I'm a bot that will help you buy products in this e-commerce. 
 type /show_categories to see categories.
-type /login to autenticate your account.
+type /register to autenticate your account.
 type /help for more information.""",
     "start_description" : "A wellcome message if you dont known this bot",
     "help" : 
@@ -12,16 +12,7 @@ type /help for more information.""",
 
 type /show_categories to see products by category.
 
-type /show_products to see products by a especified category.
-The syntax are:
-/show_products product name
-
-To search to something you can use the commands:
-/search_product and /search_category.
-The syntax are:
-/search_product product name
-/search_category category name
-And these commands will show you a list with the thing you want buy.
+To search to something you can use the command /search
 
 To buy something you need to register a password. 
 To do this type /login.""",

@@ -1,11 +1,6 @@
 
 text_pt = ({
     "start" : 
-"""hello, I'm a bot that will help you buy products in this e-commerce. 
-type /show_categories to see categories.
-type /login to autenticate your account.
-type /help for more information.""",
-    "start" : 
 """Olá, eu sou um bot que irá te ajudar a fazer compras nesse e-commerce.
 Digite /show_categories para ver as categorias
 Digite /register para criar uma conta
@@ -13,23 +8,13 @@ Ou digite /help para mais informações.""",
     "start_description" : "Uma mensagem de boas vindas.",
     "help" : 
 
-"""The fallowing are instructions of how use this bot:
+"""A seguir são instruções de como usar esse bot
 
-type /show_categories to see products by category.
+Digite /show_categories para ver produtos por categoria
 
-type /show_products to see products by a especified category.
-The syntax are:
-/show_products product name
+Digite /search para pesquisar por algum produto.
 
-To search to something you can use the commands:
-/search_product and /search_category.
-The syntax are:
-/search_product product name
-/search_category category name
-And these commands will show you a list with the thing you want buy.
-
-To buy something you need to register a password. 
-To do this type /login.""",
+Para fazer compras você precisar criar uma conta, para fazer isso digite /register.""",
     "help_description" : "A long message with all commands avaible for you, and how to use them.",
     "help_admin":
 """
