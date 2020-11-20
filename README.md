@@ -10,7 +10,7 @@ The fallowing are instructions of how use this bot:
 
  - type `/show_categories` to see products by category.
 
- - To searh to something you can use the command `/search`.
+ - To search to something you can use the command `/search`.
 
  - To buy something you need to register a password. To do this type `/register`.
 
@@ -46,6 +46,6 @@ After all, you can run the bot typing:
 
  - Add feature to change password
  - Add salt when storing the password
- - Add full suport to the portuguese language 
- - Add suport to other language
+ - Add full support to the Portuguese language 
+ - Add support to other language
 
