@@ -11,6 +11,7 @@ class Product():
         self, 
         product_id,
         name,
+        description,
         price, 
         quantity_in_stock,
         quantity_purchased,
@@ -18,6 +19,7 @@ class Product():
         image_id = None):
         self.product_id = product_id
         self.name = name
+        self.description = description
         self.price = price
         self.quantity_in_stock = quantity_in_stock
         self.quantity_purchased = quantity_purchased
@@ -104,6 +106,7 @@ def get_text_for_product(product, context):
 def get_text_for_detailed_product(product, context):
     text = product.name + ", " + get_text("price", context) + \
            str(product.price) + '\n' + \
+           str(product.description) + '\n' + \
            get_text("purchased", context) + str(product.quantity_purchased)
     return text
 
