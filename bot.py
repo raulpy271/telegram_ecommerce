@@ -1,4 +1,7 @@
-from telegram.ext import Updater
+from telegram.ext import (
+    Updater,
+    ShippingQueryHandler,
+    PreCheckoutQueryHandler)
 
 from telegram_ecommerce.database.db_wrapper import db
 from telegram_ecommerce.utils.consts import credentials
@@ -6,6 +9,10 @@ from telegram_ecommerce.utils.log import logger
 from telegram_ecommerce.handlers import (
     all_public_commands_descriptions, 
     all_handlers)
+from telegram_ecommerce.handlers.show_categories import (
+    shipping_callback, 
+    pre_checkout_callback)
+
 
 
 token = credentials["token"]
@@ -20,6 +27,10 @@ def main():
 
     for handler in all_handlers:
         dp.add_handler(handler)
+
+
+    dp.add_handler(ShippingQueryHandler(shipping_callback))
+    dp.add_handler(PreCheckoutQueryHandler(pre_checkout_callback))
 
 
     logger.info("bot started")
