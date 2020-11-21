@@ -16,11 +16,11 @@ def send_a_shipping_message(update, context, product , pattern_identifier):
     description = product.description
     payload = "Custom-Payload"
     start_parameter = "test-payment"
-    prices = [LabeledPrice("Price", product.price)]
+    prices = [LabeledPrice("Price", int( 100 * product.price))]
 
 
     context.bot.send_invoice(
-        update.message.chat_id, 
+        update.effective_chat.id, 
         title, 
         description, 
         payload, 
