@@ -2,7 +2,9 @@ from .db_wrapper import db
 from ..utils.utils import hash_password
 from .query import (
     get_password,
-    user_in_credentials_file)
+    user_in_credentials_file, 
+    get_quantity_in_stock,
+    get_quantity_purchased)
 
 
 def create_account(user):
@@ -93,4 +95,40 @@ def add_product(
         image_id)
     db.execute_a_data_manipulation(command, command_args)
     
+
+def add_orders(
+    order_id,
+    price,
+    user_id,
+    product_id,
+    rating = None):
+    command = ("""
+        INSERT INTO orders 
+            (order_id, 
+            price,
+            user_id, 
+            product_id, 
+            rating)
+        VALUES (%s, %s, %s, %s, %s)""")
+    command_args = (
+        order_id, 
+        price,
+        int(user_id), 
+        int(product_id), 
+        rating)
+    db.execute_a_data_manipulation(command, command_args)
+
+
+def product_has_purchased(product_id):
+    quantity_in_stock = get_quantity_in_stock(product_id) - 1
+    quantity_purchased = get_quantity_purchased(product_id) + 1
+    command = ("""
+        UPDATE products SET 
+            quantity_in_stock = %s,
+            quantity_purchased = %s
+        WHERE
+            product_id = %s""")
+    command_args = (quantity_in_stock, quantity_purchased, product_id)
+    db.execute_a_data_manipulation(command, command_args)
+
 

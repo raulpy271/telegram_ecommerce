@@ -79,12 +79,12 @@ def get_products_by_category_name(name):
 def get_quantity_in_stock(product_id):
     command = "SELECT quantity_in_stock FROM products WHERE product_id = %s"
     quantity_in_stock = db.execute_a_query(command, (product_id,))
-    return extract_value_from_a_query(category_id)
+    return extract_value_from_a_query(quantity_in_stock)
 
 
 def get_quantity_purchased(product_id):
     command = "SELECT quantity_purchased FROM products WHERE product_id = %s"
     quantity_purchased = db.execute_a_query(command, (product_id,))
-    return extract_value_from_a_query(category_id)
+    return extract_value_from_a_query(quantity_purchased)
 
 
