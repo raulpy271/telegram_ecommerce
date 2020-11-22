@@ -8,13 +8,13 @@ from telegram.ext import (
 
 from ..language import get_text
 from ..tamplates.buy_callbacks import (
-    send_a_shipping_message as shipping_message,
-    process_of_buy_a_product)
+    send_a_shipping_message as shipping_message)
 from ..tamplates.buttons import (
     get_list_of_buttons,
     tamplate_for_show_a_list_of_products)
 from ..tamplates.products import (
     send_a_product,
+    send_a_detailed_product,
     get_text_for_product,
     ListProductIterator)
 from ..database.query import (
@@ -107,14 +107,14 @@ def catch_next(update, context):
 
 def catch_details(update, context):
     product = context.user_data[products_data_key]["products"].actual()
-    process_of_buy_a_product(update, context, product, pattern_identifier)
+    send_a_detailed_product(update, context, product, pattern_identifier)
     return BUY_PROCESS 
 
 
 def send_a_shipping_message(update, context):
     product = context.user_data[products_data_key]["products"].actual()
     shipping_message(update, context, product, pattern_identifier)
-    return BUY_PROCESS 
+    return END
 
 
 def cancel_show_categories(update, context):
@@ -175,7 +175,7 @@ show_categories = ConversationHandler(
                 PATTERN_TO_CATCH_THE_PREVIUS_PRODUCT),
             CallbackQueryHandler(
                 send_a_shipping_message, 
-                pattern = pattern_identifier +
+                pattern = pattern_identifier + 
                 PATTERN_TO_CATCH_THE_BUY_BUTTON)
             ]
         },
