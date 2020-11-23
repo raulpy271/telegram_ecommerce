@@ -64,16 +64,17 @@ def get_category_id_from_name(name):
     return extract_value_from_a_query(category_id)
 
 
-def get_products_by_category_id(category_id):
-    command = "SELECT * FROM products WHERE category_id = %s"
+def get_all_available_by_category_id(category_id):
+    command = """ SELECT * FROM products 
+        WHERE category_id = %s AND quantity_in_stock > 0"""
     products_with_category_id = db.execute_a_query(
         command, (category_id,))
     return products_with_category_id
 
 
-def get_products_by_category_name(name):
+def get_all_available_by_category_name(name):
     category_id = get_category_id_from_name(name)
-    return get_products_by_category_id(category_id)
+    return get_all_available_by_category_id(category_id)
 
 
 def get_quantity_in_stock(product_id):
