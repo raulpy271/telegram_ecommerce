@@ -7,6 +7,7 @@ from telegram.ext import (
     ConversationHandler)
 
 from ..language import get_text
+from ..filters.decorators import execute_if_user_exist
 from ..tamplates.buy_callbacks import (
     send_a_shipping_message as shipping_message)
 from ..tamplates.buttons import (
@@ -18,6 +19,7 @@ from ..tamplates.products import (
     get_text_for_product,
     ListProductIterator)
 from ..database.query import (
+    user_exist,
     get_products_by_category_name,
     get_name_of_all_categories)
 
@@ -111,6 +113,7 @@ def catch_details(update, context):
     return BUY_PROCESS 
 
 
+@execute_if_user_exist
 def send_a_shipping_message(update, context):
     product = context.user_data[products_data_key]["products"].actual()
     shipping_message(update, context, product, pattern_identifier)
