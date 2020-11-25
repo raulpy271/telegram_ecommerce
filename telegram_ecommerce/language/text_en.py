@@ -76,8 +76,13 @@ To add others admin you can use the command(Note: have sure that the people alre
     "ask_for_product_photo" : "Send me a photo that represent this product:",
     "information_dont_match" : "The database information dont match", 
     "error_in_orders" : "An error occurred when making this orders", 
-    "successful_payment" : "Payment has been made! Thank you"
-
+    "successful_payment" : "Payment has been made! Thank you",
+    "ask_if_user_want_avaluate_the_product" : "You want to give your opinion on this product?",  
+    "ask_for_the_rating" : "What is your opinion of this product?",
+    "thanks_opinion" : "Thank you for your opinion! 😁 ",
+    "good" : "Good 😁 ",
+    "bad" : "Bad 😞 ",
+    "regular" : "Regular 🙂 "
 })
 
 
