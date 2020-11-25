@@ -11,9 +11,10 @@ from .show_categories import show_categories
 from ..tamplates.buy_callbacks import (
     pre_checkout_handler,
     successful_payment_handler)
+from ..tamplates.rating import rating_precess_handlers
 
 
-all_handlers = [
+all_handlers = ([
     start,
     help_command,
     register,
@@ -22,7 +23,8 @@ all_handlers = [
     language,
     show_categories, 
     pre_checkout_handler, 
-    successful_payment_handler] 
+    successful_payment_handler] +
+    rating_precess_handlers)
 
 
 all_public_commands_descriptions = [
