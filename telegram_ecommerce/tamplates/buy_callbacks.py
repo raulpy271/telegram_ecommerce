@@ -7,6 +7,7 @@ from telegram.ext import (
 
 from ..language import get_text
 from ..utils.consts import provider_token, currency
+from .rating import ask_if_user_want_avaluate_the_product
 from ..database.manipulation import (
     add_orders,
     product_has_purchased)
@@ -66,7 +67,9 @@ def pre_checkout_callback(update, context):
 
 
 def successful_payment_callback(update, context):
+    product = context.user_data[products_data_key]["products"].actual()
     update.message.reply_text(get_text("successful_payment", context))
+    ask_if_user_want_avaluate_the_product(update, context, product)
 
 
 pre_checkout_handler = PreCheckoutQueryHandler(pre_checkout_callback)
