@@ -16,6 +16,10 @@ from ..database.manipulation import (
 products_data_key = "list_of_products"
 
 
+def add_pre_checkout_query_to_user_data(context, query):
+    context.user_data["last_order"] = query
+
+
 def send_a_shipping_message(update, context, product , pattern_identifier):
     title = product.name
     description = product.description
@@ -58,6 +62,7 @@ def process_order(query, product, context):
 
 def pre_checkout_callback(update, context):
     query = update.pre_checkout_query
+    add_pre_checkout_query_to_user_data(context, query)
     product = context.user_data[products_data_key]["products"].actual()
     (status, error_message) = process_order(query, product, context)
     if status:
