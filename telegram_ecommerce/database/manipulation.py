@@ -132,3 +132,13 @@ def product_has_purchased(product_id):
     db.execute_a_data_manipulation(command, command_args)
 
 
+def add_rating_to_an_order(order_id, rating):
+    command = ("""
+        UPDATE orders SET
+            rating = %s
+        WHERE
+            order_id = %s""")
+    command_args = (int(rating), order_id)
+    db.execute_a_data_manipulation(command, command_args)
+
+
