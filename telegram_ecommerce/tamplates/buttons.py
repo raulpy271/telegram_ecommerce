@@ -5,6 +5,7 @@ from telegram import (
     InlineKeyboardButton as InlineButton,
     InlineKeyboardMarkup)
 
+from ..utils.consts import BAD_RATING, REGULAR_RATING, GOOD_RATING
 from ..language import get_text
 
 
@@ -15,6 +16,23 @@ def boolean_question(pattern_identifier, context=None):
                 callback_data=pattern_identifier + 'cancel'),
             InlineButton(get_text("OK", context), 
                 callback_data=pattern_identifier + 'OK')
+        ]
+    ])
+
+
+def rating_tamplate(pattern_identifier, context=None):
+    return InlineKeyboardMarkup([
+        [
+            InlineButton(get_text("bad", context), 
+                callback_data=pattern_identifier + str(BAD_RATING))
+        ],
+        [
+            InlineButton(get_text("regular", context), 
+                callback_data=pattern_identifier + str(REGULAR_RATING))
+        ],
+        [
+            InlineButton(get_text("good", context), 
+                callback_data=pattern_identifier + str(GOOD_RATING))
         ]
     ])
 
@@ -87,6 +105,18 @@ def tamplate_for_show_a_list_of_products(pattern_identifier, context=None):
             InlineButton(
                 get_text("next_product", context),
                 callback_data=pattern_identifier + 'next_product')
+        ]])
+
+
+def tamplate_for_show_a_detailed_product(pattern_identifier, context=None):
+    return InlineKeyboardMarkup([
+        [
+            InlineButton(
+                get_text("previus_product", context),
+                callback_data=pattern_identifier + 'previus_product'),
+            InlineButton(
+                get_text("buy", context),
+                callback_data=pattern_identifier + 'buy_product')
         ]])
 
 

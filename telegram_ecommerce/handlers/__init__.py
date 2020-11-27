@@ -8,16 +8,23 @@ from .register import register
 from .add_category import add_category
 from .add_product import add_product 
 from .show_categories import show_categories
+from ..tamplates.buy_callbacks import (
+    pre_checkout_handler,
+    successful_payment_handler)
+from ..tamplates.rating import rating_precess_handlers
 
 
-all_handlers = [
+all_handlers = ([
     start,
     help_command,
     register,
     add_category, 
     add_product, 
     language,
-    show_categories] 
+    show_categories, 
+    pre_checkout_handler, 
+    successful_payment_handler] +
+    rating_precess_handlers)
 
 
 all_public_commands_descriptions = [

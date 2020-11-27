@@ -7,22 +7,28 @@ from telegram.ext import (
     ConversationHandler)
 
 from ..language import get_text
+from ..filters.decorators import execute_if_user_exist
+from ..tamplates.buy_callbacks import (
+    send_a_shipping_message as shipping_message)
 from ..tamplates.buttons import (
     get_list_of_buttons,
     tamplate_for_show_a_list_of_products)
 from ..tamplates.products import (
     send_a_product,
+    send_a_detailed_product,
     get_text_for_product,
     ListProductIterator)
 from ..database.query import (
-    get_products_by_category_name,
+    user_exist,
+    get_all_available_by_category_name,
     get_name_of_all_categories)
 
 
 (END                  ,
 ASK_FOR_CATEGORY_NAME , 
 GET_LIST_OF_PRODUCTS  ,
-SHOW_LIST_OF_PRODUCTS ) = range(-1, 3)
+SHOW_LIST_OF_PRODUCTS ,
+BUY_PROCESS           ) = range(-1, 4)
 
 
 products_data_key = "list_of_products"
@@ -34,6 +40,7 @@ pattern_identifier = "pattern_to_catch_response_from_callbacks"
 PATTERN_TO_CATCH_THE_PREVIUS_PRODUCT = 'previus_product'
 PATTERN_TO_CATCH_THE_NEXT_PRODUCT = 'next_product'
 PATTERN_TO_CATCH_THE_VIEW_DETAILS = 'product_details'
+PATTERN_TO_CATCH_THE_BUY_BUTTON = 'buy_product'
 
 
 def put_products_data_in_user_data(user_data):
@@ -42,7 +49,7 @@ def put_products_data_in_user_data(user_data):
 
 def save_products_in_user_data(user_data, message):
     products_from_a_category_query = (
-        get_products_by_category_name(message))
+        get_all_available_by_category_name(message))
     products = ListProductIterator.create_a_list_from_a_query(
         products_from_a_category_query)
     user_data[products_data_key]["products"] = products
@@ -101,13 +108,31 @@ def catch_next(update, context):
 
 
 def catch_details(update, context):
-    pass
+    product = context.user_data[products_data_key]["products"].actual()
+    send_a_detailed_product(update, context, product, pattern_identifier)
+    return BUY_PROCESS 
+
+
+@execute_if_user_exist
+def send_a_shipping_message(update, context):
+    product = context.user_data[products_data_key]["products"].actual()
+    shipping_message(update, context, product, pattern_identifier)
+    return END
 
 
 def cancel_show_categories(update, context):
     delete_list_of_products(context.user_data)
-    text = get_text("canceled_operation", context)
-    update.message.reply_text(text, reply_markup=ReplyKeyboardRemove())
+    query = update.callback_query
+    if update.message:
+        update.message.reply_text(
+            get_text("canceled_operation", context),
+            reply_markup = ReplyKeyboardRemove()
+            )
+    elif query:
+        query.edit_message_text(
+            get_text("canceled_operation", context),
+            reply_markup = ReplyKeyboardRemove()
+            )
     return END
 
 
@@ -140,7 +165,21 @@ show_categories = ConversationHandler(
             CallbackQueryHandler(
                 catch_previus, 
                 pattern = pattern_identifier +
-                PATTERN_TO_CATCH_THE_PREVIUS_PRODUCT)
+                PATTERN_TO_CATCH_THE_PREVIUS_PRODUCT),
+            CallbackQueryHandler(
+                catch_details,
+                pattern = pattern_identifier +
+                PATTERN_TO_CATCH_THE_VIEW_DETAILS)
+            ],
+        BUY_PROCESS : [
+            CallbackQueryHandler(
+                catch_previus, 
+                pattern = pattern_identifier +
+                PATTERN_TO_CATCH_THE_PREVIUS_PRODUCT),
+            CallbackQueryHandler(
+                send_a_shipping_message, 
+                pattern = pattern_identifier + 
+                PATTERN_TO_CATCH_THE_BUY_BUTTON)
             ]
         },
     fallbacks = [MessageHandler(Filters.all, cancel_show_categories)]

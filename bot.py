@@ -1,4 +1,7 @@
-from telegram.ext import Updater
+from telegram.ext import (
+    Updater,
+    ShippingQueryHandler,
+    PreCheckoutQueryHandler)
 
 from telegram_ecommerce.database.db_wrapper import db
 from telegram_ecommerce.utils.consts import credentials

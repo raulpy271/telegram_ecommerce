@@ -18,17 +18,19 @@ from ..database.manipulation import (
     add_photo)
 
 
-(END                      ,
-ASK_FOR_PRODUCT_PRICE     ,
-ASK_FOR_QUANTITY_IN_STOCK ,
-ASK_FOR_CATEGORY_NAME     ,
-ASK_FOR_PRODUCT_PHOTO     ,
-ASK_IF_ITS_ALL_OK         ) = range(-1, 5)
+(END                        ,
+ASK_FOR_PRODUCT_DESCRIPTION ,
+ASK_FOR_PRODUCT_PRICE       ,
+ASK_FOR_QUANTITY_IN_STOCK   ,
+ASK_FOR_CATEGORY_NAME       ,
+ASK_FOR_PRODUCT_PHOTO       ,
+ASK_IF_ITS_ALL_OK           ) = range(-1, 6)
 
 
 product_data_key = "product_data"
 product_data = {
     "name"               : "",
+    "description"        : "",
     "unit_price"         : 0,
     "quantity_in_stock"  : 0,
     "quantity_purchased" : 0,
@@ -49,6 +51,10 @@ def delete_product_data_from_user_data(user_data):
 
 def save_name_in_user_data(user_data, name):
     user_data[product_data_key]["name"] = name
+
+
+def save_description_in_user_data(user_data, description):
+    user_data[product_data_key]["description"] = description
 
 
 def save_price_in_user_data(user_data, price):
@@ -79,6 +85,7 @@ def save_product_info_in_db(update, context):
         photo.download_as_bytearray())
     add_product_in_db(
         product_data["name"],
+        product_data["description"],
         product_data["unit_price"],
         product_data["quantity_in_stock"],
         product_data["quantity_purchased"],
@@ -90,11 +97,18 @@ def ask_for_product_name(update, context):
     put_product_data_in_user_data(context.user_data)
     text = get_text("ask_for_product_name", context)
     update.message.reply_text(text)
+    return ASK_FOR_PRODUCT_DESCRIPTION
+
+
+def ask_for_product_description(update, context):
+    save_name_in_user_data(context.user_data, update.message.text)
+    text = get_text("ask_for_product_description", context)
+    update.message.reply_text(text)
     return ASK_FOR_PRODUCT_PRICE
 
 
 def ask_for_product_price(update, context):
-    save_name_in_user_data(context.user_data, update.message.text)
+    save_description_in_user_data(context.user_data, update.message.text)
     text = get_text("ask_for_product_price", context)
     update.message.reply_text(text)
     return ASK_FOR_QUANTITY_IN_STOCK
@@ -180,6 +194,11 @@ add_product_command = (
 add_product = ConversationHandler(
     entry_points = [add_product_command],
     states = {
+        ASK_FOR_PRODUCT_DESCRIPTION : [
+            MessageHandler(
+                Filters.text,
+                ask_for_product_description)
+            ],
         ASK_FOR_PRODUCT_PRICE : [
             MessageHandler(
                 Filters.text, 

@@ -74,8 +74,16 @@ To add others admin you can use the command(Note: have sure that the people alre
     "ask_for_product_price" : "Digite o preço do produto:",
     "ask_for_quantity_in_stock" : "Digite a quantidade desse produto no estoque:",
     "ask_for_category_name_of_the_product" : "Type the name of the category which this product is in:",
-    "ask_for_product_photo" : "Me envie uma foto que represente esse produto:"
-
+    "ask_for_product_photo" : "Me envie uma foto que represente esse produto:",
+    "information_dont_match" : "As informações do banco de dados não batem",
+    "error_in_orders" : "UM erro ocorreu quando suas informações seriam armazenadas",
+    "successful_payment" : "O pagamento foi recebido. Muito Obrigado!",
+    "ask_if_user_want_avaluate_the_product" : "Você quer dar sua opinião sobre esse produto?",
+    "ask_for_the_rating" : "O que você acha desse produto?",
+    "thanks_opinion" : "Obrigado por sua opinião! 😁 ",
+    "good" : "Bom 😁 ",
+    "bad" : "Ruim 😞 ",
+    "regular" : "Normal 🙂 "
 })
 
 

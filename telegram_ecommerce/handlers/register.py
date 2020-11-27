@@ -7,6 +7,7 @@ from telegram.ext import (
 
 from ..language import get_text
 from ..tamplates.buttons import login_keyboard
+from ..filters.decorators import execute_if_user_dont_exist
 from ..database.query import (
     user_exist,
     get_password)
@@ -25,15 +26,11 @@ PATTERN_TO_CATCH_THE_DIGITS                           = "register_step_2_"
 PATTERN_TO_CATCH_THE_RESPONSE_TO_SAVE_THE_PASSWORD    = "register_step_3_"
 
 
+@execute_if_user_dont_exist
 def start_register(update, context):
     user_id = update.effective_user.id
-    if not user_exist(user_id):
-        register_callback(update, context)
-        return RUNING
-    else:
-        text = get_text("user_have_account", context)
-        update.message.reply_text(text)
-        return END
+    register_callback(update, context)
+    return RUNING
 
 
 def register_callback(update, context):
