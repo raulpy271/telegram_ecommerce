@@ -48,6 +48,6 @@ After all, you can run the bot typing:
  - Add salt when storing the password
  - Add full support to the Portuguese language 
  - Add support to other language
- - Ask to user the password when making the user want make purchase
+ - Ask the user the password when the user wants to make a purchase
  - fix error when the command `/show_categories` are run and dont there are products. The command dont tell to user that the stock in empty
  - Add an filter to block non admins commands like there: `/add_product` and `/add_category`
