@@ -1,8 +1,8 @@
-from ..utils.utils import extract_value_from_a_query
 from .db_wrapper import db
 from ..utils.consts import credentials
 from ..utils.utils import (
     write_file,
+    extract_value_from_a_query,
     extract_list_of_values_from_a_query,
     hash_password)
 
@@ -87,5 +87,17 @@ def get_quantity_purchased(product_id):
     command = "SELECT quantity_purchased FROM products WHERE product_id = %s"
     quantity_purchased = db.execute_a_query(command, (product_id,))
     return extract_value_from_a_query(quantity_purchased)
+
+
+def get_ratings_of_a_product(product_id):
+    command = """ SELECT rating FROM orders
+        WHERE product_id = %s AND rating IS NOT NULL"""
+    ratings_query = db.execute_a_query(command, (product_id,))
+    return extract_list_of_values_from_a_query(ratings_query)
+
+
+def count_occurrence_of_specified_rating(product_id, rating):
+    all_ratings = get_ratings_of_a_product(product_id)
+    return all_ratings.count(rating)
 
 
