@@ -48,4 +48,5 @@ After all, you can run the bot typing:
  - Add salt when storing the password
  - Add full support to the Portuguese language 
  - Add support to other language
-
+ - fix error when the command /show\_categories are run and dont there are products. The command dont tell to user that the stock in empty
+ - Add an filter to block non admins commands like there: /add\_product and /add\_category
