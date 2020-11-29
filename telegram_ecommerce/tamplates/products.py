@@ -1,6 +1,7 @@
 from telegram import InputMediaPhoto
 
 from ..language import get_text
+from ..database.query import count_occurrence_of_specified_rating
 from .buttons import (
     tamplate_for_show_a_list_of_products,
     tamplate_for_show_a_detailed_product)
@@ -98,16 +99,26 @@ def send_a_detailed_product(update, context,  product, pattern_identifier):
 
 
 def get_text_for_product(product, context):
-    text = product.name + ", " + get_text("price", context) + \
-           str(product.price) + '\n'  
+    text = (product.name + "\n\n" + 
+        get_text("price", context) + str(product.price))
     return text
 
 
 def get_text_for_detailed_product(product, context):
-    text = product.name + ", " + get_text("price", context) + \
-           str(product.price) + '\n' + \
-           str(product.description) + '\n' + \
-           get_text("purchased", context) + str(product.quantity_purchased)
+    product_id = product.product_id
+    text = (product.name + "\n\n" +
+        get_text("price", context) + str(product.price) + '\n\n' +
+        str(product.description) + '\n\n' + 
+        get_text("purchased", context) + 
+        str(product.quantity_purchased) + '\n\n' +
+        get_text("rating", context) + '\n' + 
+        str(count_occurrence_of_specified_rating(product_id, 10)) + ' ' +
+        get_text("good", context) + '\n' + 
+        str(count_occurrence_of_specified_rating(product_id, 5)) + ' ' +
+        get_text("regular", context) + '\n' + 
+        str(count_occurrence_of_specified_rating(product_id, 0)) + ' ' +
+        get_text("bad", context) 
+        )
     return text
 
 

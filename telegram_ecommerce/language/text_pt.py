@@ -81,6 +81,7 @@ To add others admin you can use the command(Note: have sure that the people alre
     "ask_if_user_want_avaluate_the_product" : "Você quer dar sua opinião sobre esse produto?",
     "ask_for_the_rating" : "O que você acha desse produto?",
     "thanks_opinion" : "Obrigado por sua opinião! 😁 ",
+    "rating" : "Essas são as avaliações das pessoas: ", 
     "good" : "Bom 😁 ",
     "bad" : "Ruim 😞 ",
     "regular" : "Normal 🙂 "
