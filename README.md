@@ -26,6 +26,10 @@ The fallowing are instructions of how use this bot:
 
 ![Seeing products](/assets/show_categories_command.gif)
 
+### Making a payment
+
+![Making a payment](/assets/payment.gif)
+
 ### Changing the language
 
 ![Changing the language used](/assets/changing_the_language.gif)
@@ -34,7 +38,9 @@ The fallowing are instructions of how use this bot:
 
 First of all, see the dependencies in the requirements file or type `pip install -r requirements.txt` to install the dependencies automatically.
 
-The second process is to create a bot with the [Bot Father](https://core.telegram.org/bots#6-botfather) and get your token. Now, put your token in the file `/telegram_ecommerce/utils/user_credentials.json`, in this file you can put the admin's usernames and the credentials of your MySQL database. Moreover, you can change some settings in the `consts.py` file, like the default language.
+The second process is to create a bot with the [Bot Father](https://core.telegram.org/bots#6-botfather) and get your bot token and to make test payments you should have a token from a payment provider, learn more about this in the [telegram payment page](https://core.telegram.org/bots/payments).
+
+Now, put your tokens in the file `/telegram_ecommerce/utils/user_credentials.json`, in this file you can put the admin's usernames and the credentials of your MySQL database. Moreover, you can change some settings in the `consts.py` file, like the default language.
 
 After all, you can run the bot typing:
 
@@ -49,5 +55,7 @@ After all, you can run the bot typing:
  - Add full support to the Portuguese language 
  - Add support to other language
  - Ask the user the password when the user wants to make a purchase
- - fix error when the command `/show_categories` are run and dont there are products. The command dont tell to user that the stock in empty
+ - Fix error when the command `/show_categories` are run and dont there are products. The command dont tell to user that the stock in empty
  - Add an filter to block non admins commands like there: `/add_product` and `/add_category`
+
+
