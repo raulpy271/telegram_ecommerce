@@ -83,7 +83,8 @@ To add others admin you can use the command(Note: have sure that the people alre
     "rating" : "These are the rating of the people: ",
     "good" : "Good 😁 ",
     "bad" : "Bad 😞 ",
-    "regular" : "Regular 🙂 "
+    "regular" : "Regular 🙂 ",
+    "stock_empty" :"The stock are empty"
 })
 
 
