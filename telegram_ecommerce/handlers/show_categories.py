@@ -8,20 +8,19 @@ from telegram.ext import (
 
 from ..language import get_text
 from ..filters.decorators import execute_if_user_exist
+from ..tamplates.buttons import tamplate_for_show_a_list_of_products
 from ..tamplates.buy_callbacks import (
     send_a_shipping_message as shipping_message)
-from ..tamplates.buttons import (
-    get_list_of_buttons,
-    tamplate_for_show_a_list_of_products)
-from ..tamplates.products import (
-    send_a_product,
-    send_a_detailed_product,
-    get_text_for_product,
-    ListProductIterator)
 from ..database.query import (
     user_exist,
     get_all_available_by_category_name,
     get_name_of_all_categories)
+from ..tamplates.products import (
+    send_a_product,
+    send_a_detailed_product,
+    send_a_inline_with_a_list_of_products,
+    get_text_for_product,
+    ListProductIterator)
 
 
 (END                  ,
@@ -62,11 +61,17 @@ def delete_list_of_products(user_data):
 def ask_for_category_name(update, context):
     put_products_data_in_user_data(context.user_data)
     text = get_text("ask_for_category_name_of_the_product", context)
-    buttons_with_list_of_all_names = (
-        get_list_of_buttons(*(get_name_of_all_categories())))
-    update.message.reply_text(text, 
-        reply_markup=buttons_with_list_of_all_names)
-    return GET_LIST_OF_PRODUCTS
+    name_of_all_categories = get_name_of_all_categories()
+    if name_of_all_categories:
+        send_a_inline_with_a_list_of_products(
+            update, 
+            context, 
+            text,
+            name_of_all_categories)
+        return GET_LIST_OF_PRODUCTS
+    else:
+        update.message.reply_text(get_text("stock_empty", context))
+        return END
 
 
 def get_list_of_products(update, context):
