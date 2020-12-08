@@ -75,17 +75,22 @@ def ask_for_category_name(update, context):
 
 
 def get_list_of_products(update, context):
-    try:
-        save_products_in_user_data(context.user_data, update.message.text)
-        text = get_text("OK", context)
-        update.message.reply_text(text, reply_markup=ReplyKeyboardRemove())
-        show_list_of_products(update, context)
-        return SHOW_LIST_OF_PRODUCTS
-    except:
+    category_name = update.message.text
+    name_of_all_categories = get_name_of_all_categories()
+    if category_name in name_of_all_categories:
+        save_products_in_user_data(context.user_data, category_name)
+        if not context.user_data[products_data_key]["products"].is_empty():
+            text = get_text("OK", context)
+            update.message.reply_text(text, reply_markup=ReplyKeyboardRemove())
+            show_list_of_products(update, context)
+            return SHOW_LIST_OF_PRODUCTS
+        else:
+            text = get_text("without_product_in_this_category", context)
+    else:
         text = get_text("this_is_not_a_valid_category", context)
-        update.message.reply_text(text)
-        cancel_show_categories(update, context)
-        return END
+    update.message.reply_text(text)
+    cancel_show_categories(update, context)
+    return END
 
 
 def show_list_of_products(update, context):
