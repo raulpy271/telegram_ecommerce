@@ -79,6 +79,12 @@ class ListProductIterator():
             self.iter -= 1
 
 
+    def is_empty(self):
+        if self.list_of_products:
+            return False
+        return True
+
+
 def send_a_product(update, context, product, pattern_identifier):
     query = update.callback_query
     markup = tamplate_for_show_a_list_of_products(
