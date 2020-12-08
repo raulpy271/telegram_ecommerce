@@ -19,15 +19,15 @@ Para fazer compras você precisar criar uma conta, para fazer isso digite /regis
     "help_admin":
 """
 
-You are admin. You can sell products and change theirs prices and add others admins.
+Você é administrador, você pode vender produtos, mudar seus preços e adicionar outros administradores.
 
-The fallowing are instructions of how make this things:
+Aqui estão instruções de como fazer isso:
 
-To add a product you can type:
+Para adicionar produtos você pode digitar:
 /add_product
-To change the settings of a product you can search for it and for a button that does these actions.
+Para mudar as informações sobre o produto você pode pesquisar por ele e por um botão que faça essas ações.
 
-To add others admin you can use the command(Note: have sure that the people already have an account in this e-commerce):
+Para adicionar outros administradores você pode usar o comando:
 /add_admin username
 """,
     "choose_language" : "Qual é sua linguagem?",
