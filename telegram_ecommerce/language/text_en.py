@@ -84,7 +84,8 @@ To add others admin you can use the command(Note: have sure that the people alre
     "good" : "Good 😁 ",
     "bad" : "Bad 😞 ",
     "regular" : "Regular 🙂 ",
-    "stock_empty" :"The stock are empty"
+    "stock_empty" :"The stock are empty",
+    "without_product_in_this_category" : "There is no product in this category" 
 })
 
 

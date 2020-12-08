@@ -85,7 +85,8 @@ Para adicionar outros administradores você pode usar o comando:
     "good" : "Bom 😁 ",
     "bad" : "Ruim 😞 ",
     "regular" : "Normal 🙂 ",
-    "stock_empty" : "O estoque está vazio"
+    "stock_empty" : "O estoque está vazio",
+    "without_product_in_this_category" : "Não há produtos nessa categoria"
 })
 
 
