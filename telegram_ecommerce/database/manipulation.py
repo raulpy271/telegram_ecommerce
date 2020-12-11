@@ -11,22 +11,22 @@ def create_account(user):
     user_id = user.id
     username = user.username
     user_is_admin = user_in_credentials_file(username)
-    command = "UPDATE customers SET password_hash = %s WHERE user_id = %s"
+    command = "UPDATE customers SET password_hash = %s WHERE id = %s"
     command = ("""
         INSERT INTO customers 
-            (user_id, username, password_hash, is_admin) 
+            (id, username, password_hash, is_admin) 
             VALUES (%s, %s, %s, %s)""")
     command_args = (user_id, username, "", user_is_admin)
     db.execute_a_data_manipulation(command, command_args)
 
 
 def delete_account(user_id):
-    command = "DELETE FROM customers WHERE user_id = %s"
+    command = "DELETE FROM customers WHERE id = %s"
     db.execute_a_data_manipulation(command, (user_id,))
 
 
 def set_password(user_id, password):
-    command = "UPDATE customers SET password_hash = %s WHERE user_id = %s"
+    command = "UPDATE customers SET password_hash = %s WHERE id = %s"
     db.execute_a_data_manipulation(command, (password, user_id))
 
 
@@ -43,25 +43,21 @@ def hash_user_password(user_id):
 
 
 def update_photo(photo_id, blob):
-    command = "UPDATE photo SET image = %s WHERE photo_id = %s"
+    command = "UPDATE photo SET image_blob = %s WHERE id = %s"
     command_args = (bytes(blob), photo_id)
     db.execute_a_data_manipulation(command, command_args)
 
 
 def add_photo(photo_id, bytes_of_photo):
-    command = ("""
-        INSERT INTO photo
-               (photo_id)
-        VALUES (%s)""")
+    command = "INSERT INTO photo (id) VALUES (%s)"
     command_args = (photo_id,)
     db.execute_a_data_manipulation(command, command_args)
     update_photo(photo_id, bytes_of_photo)
 
 
 def add_category(name, description, tags=None, image_id=None):
-    command = ("""
-        INSERT INTO category
-               (category_name, category_description, tags, image_id)
+    command = (""" INSERT INTO category
+        (name, description, tags, image_id)
         VALUES (%s, %s, %s, %s)""")
     command_args = (name, description, tags, image_id)
     db.execute_a_data_manipulation(command, command_args)
@@ -78,8 +74,8 @@ def add_product(
     command = ("""
         INSERT INTO products
             (name, 
-            product_description,
-            unit_price, 
+            description,
+            price, 
             quantity_in_stock, 
             quantity_purchased,
             category_id, 
@@ -102,13 +98,8 @@ def add_orders(
     user_id,
     product_id,
     rating = None):
-    command = ("""
-        INSERT INTO orders 
-            (order_id, 
-            price,
-            user_id, 
-            product_id, 
-            rating)
+    command = ("""INSERT INTO orders 
+        (id, price, user_id, product_id, rating)
         VALUES (%s, %s, %s, %s, %s)""")
     command_args = (
         order_id, 
@@ -126,8 +117,7 @@ def product_has_purchased(product_id):
         UPDATE products SET 
             quantity_in_stock = %s,
             quantity_purchased = %s
-        WHERE
-            product_id = %s""")
+        WHERE id = %s""")
     command_args = (quantity_in_stock, quantity_purchased, product_id)
     db.execute_a_data_manipulation(command, command_args)
 
@@ -136,8 +126,7 @@ def add_rating_to_an_order(order_id, rating):
     command = ("""
         UPDATE orders SET
             rating = %s
-        WHERE
-            order_id = %s""")
+        WHERE id = %s""")
     command_args = (int(rating), order_id)
     db.execute_a_data_manipulation(command, command_args)
 
