@@ -8,10 +8,11 @@ from .register import register
 from .add_category import add_category
 from .add_product import add_product 
 from .show_categories import show_categories
+from .search import search
+from ..tamplates.rating import rating_precess_handlers
 from ..tamplates.buy_callbacks import (
     pre_checkout_handler,
     successful_payment_handler)
-from ..tamplates.rating import rating_precess_handlers
 
 
 all_handlers = ([
@@ -21,6 +22,7 @@ all_handlers = ([
     add_category, 
     add_product, 
     language,
+    search,
     show_categories, 
     pre_checkout_handler, 
     successful_payment_handler] +
