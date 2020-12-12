@@ -37,7 +37,8 @@ CREATE TABLE IF NOT EXISTS products (
     FOREIGN KEY (image_id)
     REFERENCES photo (id),
     FOREIGN KEY (category_id)
-    REFERENCES category (id)
+    REFERENCES category (id),
+    FULLTEXT(name, description)
 ) engine=InnoDB;
 
 
