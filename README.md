@@ -55,6 +55,7 @@ After all, you can run the bot typing:
  - Add full support to the Portuguese language 
  - Add support to other language
  - Ask the user the password when the user wants to make a purchase
+ - The handler that add product in database dont heck if the description of the products have more char than the description column have
  - When the user select the command `\show_categories` more than one time the bot only show products one time
  - Add an filter to block non admins commands like there: `/add_product` and `/add_category`
 
