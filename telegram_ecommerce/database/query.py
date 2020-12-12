@@ -101,3 +101,11 @@ def count_occurrence_of_specified_rating(product_id, rating):
     return all_ratings.count(rating)
 
 
+def search_products(string_to_search):
+    command = """SELECT * FROM products 
+        WHERE MATCH(name, description) AGAINST(%s)"""
+    products_that_match = (
+        db.execute_a_query(command, (string_to_search,)))
+    return products_that_match 
+
+
