@@ -86,7 +86,9 @@ Para adicionar outros administradores você pode usar o comando:
     "bad" : "Ruim 😞 ",
     "regular" : "Normal 🙂 ",
     "stock_empty" : "O estoque está vazio",
-    "without_product_in_this_category" : "Não há produtos nessa categoria"
+    "without_product_in_this_category" : "Não há produtos nessa categoria",
+    "ask_for_term_to_search" : "Digite termos para pesquisar por produtos:",
+    "without_product_in_this_search" : "Não há produtos com esses termos. Verifique erros de escrita ou tente algo similar."
 })
 
 
