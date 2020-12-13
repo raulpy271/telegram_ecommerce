@@ -39,6 +39,10 @@ all_public_commands_descriptions = [
         get_text("help_description")
         ),
     BotCommand(
+        "search", 
+        get_text("search_description")
+        ),
+    BotCommand(
         "register", 
         get_text("register_description")
         ),
