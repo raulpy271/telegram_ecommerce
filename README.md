@@ -30,6 +30,10 @@ The fallowing are instructions of how use this bot:
 
 ![Making a payment](/assets/payment.gif)
 
+### Searching for a product
+
+![Searching a product](/assets/search.gif)
+
 ### Changing the language
 
 ![Changing the language used](/assets/changing_the_language.gif)
