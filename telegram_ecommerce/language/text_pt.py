@@ -88,7 +88,8 @@ Para adicionar outros administradores você pode usar o comando:
     "stock_empty" : "O estoque está vazio",
     "without_product_in_this_category" : "Não há produtos nessa categoria",
     "ask_for_term_to_search" : "Digite termos para pesquisar por produtos:",
-    "without_product_in_this_search" : "Não há produtos com esses termos. Verifique erros de escrita ou tente algo similar."
+    "without_product_in_this_search" : "Não há produtos com esses termos. Verifique erros de escrita ou tente algo similar.",
+    "search_description" : "Comando para pesquisar produtos"
 })
 
 
