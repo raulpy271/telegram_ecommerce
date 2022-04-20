@@ -2,6 +2,7 @@
 
 This is a telegram bot made using the python language. To connect with the telegram API I use the [python-telegram-bot](https://python-telegram-bot.org/) wrapper and on the database side, I use MySQL.
 
+
 ## what this bot can do?
 
 A telegram bot that can sell products and the salespeople can add, delete, and manage them. 
@@ -51,6 +52,11 @@ After all, you can run the bot typing:
 ```sh
  $ python bot.py
 ```
+
+## Disclaimer
+
+This project it's just a demo, it's only have learning propose. To be ready for production, many features are need to be added. So I don't have the proposal to make it production-ready.
+
 
 ## TODO
 
