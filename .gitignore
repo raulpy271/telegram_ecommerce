@@ -1,8 +1,11 @@
 __pycache__
 
 # my token json
-telegram_ecommerce/utils/.user_credentials.json
+telegram_ecommerce/utils/user_credentials.json
 
 #vim files:
 *.vim*
 *.swp
+
+.idea
+telegram_ecommerce.iml

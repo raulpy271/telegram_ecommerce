@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: telegram_ecomm:latest
+    restart: unless-stopped
+    depends_on:
+      - db
+    networks:
+      - app-network
+
+  db:
+    image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3306:3306"
+    restart: unless-stopped
+    networks:
+      - app-network
+
+networks:
+  app-network:
