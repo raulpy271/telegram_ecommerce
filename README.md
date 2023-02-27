@@ -1,72 +1,81 @@
-# telegram ecommerce
+# 🤖 Telegram e-commerce
 
-This is a telegram bot made using the python language. To connect with the telegram API I use the [python-telegram-bot](https://python-telegram-bot.org/) wrapper and on the database side, I use MySQL.
+This is a Telegram bot made using the Python language. To connect with the Telegram API, I use the python-telegram-bot wrapper, and on the database side, I use MySQL.
+## 💖 All Contributors
 
+<a href="https://github.com/raulpy271/telegram_ecommerce/graphs/contributors">
+ <img alt="All Contributors" src="https://contrib.rocks/image?repo=raulpy271/telegram_ecommerce"/>
+</a>
 
-## what this bot can do?
+## 🛠️ TODO
 
-A telegram bot that can sell products and the salespeople can add, delete, and manage them. 
+- Add a feature to change password.
+- Add salt when storing the password.
+- Add support for other languages.
+- Add password confirmation when a user buys a product.
+- The handler that adds a product in the database doesn't check if the description of the product has more characters than the description column has.
+- When the user selects the command \show_categories more than once, the bot only shows products one time.
+- Add a filter to block non-admin commands like /add_product and /add_category.
 
-The fallowing are instructions of how use this bot:
+## ❓What can this bot do ?
 
- - type `/show_categories` to see products by category.
+This is a Telegram bot where you can buy items.
 
- - To search to something you can use the command `/search`.
+Sellers can add, delete, and manage them.
 
- - To buy something you need to register a password. To do this type `/register`.
+The following are instructions on how to use this bot:
 
- - The admins can add products and categories with the commands `/add_product` and `/add_category`. 
+- Type /show_categories to see products by category.
+- To search for something, you can use the command /search.
+- To buy something, you need to register a password. To do this, type /register.
+- The admins can add products and categories with the commands /add_product and /add_category.
 
-## screenshot
+## 🚸 Tutorial
 
 ### Register Command
 
-![Using the register command](/assets/register_command.gif)
+![Using the register command](./assets/register_command.gif)
 
 ### Seeing products
 
-![Seeing products](/assets/show_categories_command.gif)
+![Seeing products](./assets/show_categories_command.gif)
 
 ### Making a payment
 
-![Making a payment](/assets/payment.gif)
+![Making a payment](./assets/payment.gif)
 
 ### Searching for a product
 
-![Searching a product](/assets/search.gif)
+![Searching a product](./assets/search.gif)
 
 ### Changing the language
 
-![Changing the language used](/assets/changing_the_language.gif)
+![Changing the language used](./assets/changing_the_language.gif)
 
-## how to setup
+## ⚙️ How to set up ?
 
-First of all, see the dependencies in the requirements file or type `pip install -r requirements.txt` to install the dependencies automatically.
+First of all, see the dependencies in the requirements file or type pip install -r requirements.txt to install the dependencies automatically.
 
-The second process is to create a bot with the [Bot Father](https://core.telegram.org/bots#6-botfather) and get your bot token and to make test payments you should have a token from a payment provider, learn more about this in the [telegram payment page](https://core.telegram.org/bots/payments).
+The second process is to create a bot with the Bot Father and get your bot token. To make test payments, you should have a token from a payment provider. Learn more about this on the Telegram payment page.
 
-Now, put your tokens in the file `/telegram_ecommerce/utils/user_credentials.json`, in this file you can put the admin's usernames and the credentials of your MySQL database. Moreover, you can change some settings in the `consts.py` file, like the default language.
+Now, put your tokens in the file /telegram_ecommerce/utils/user_credentials.json. In this file, you can put the admin's usernames and the credentials of your MySQL database. Moreover, you can change some settings in the consts.py file, like the default language.
 
-After all, you can run the bot typing:
+After all, you can run the bot by typing:
 
 ```sh
  $ python bot.py
 ```
 
-## Disclaimer
+or, if you want to run the bot inside a container, use:
 
-This project it's just a demo, it's only have learning propose. To be ready for production, many features are need to be added. So I don't have the proposal to make it production-ready.
+```sh
+$ bash run.sh
+```
 
+📌 **PS**: To run the command above Docker is needed. Installation instruction [here.](https://docs.docker.com/engine/install/)
 
-## TODO
+## 🛑 Disclaimer
 
- - Add feature to change password
- - Add salt when storing the password
- - Add full support to the Portuguese language 
- - Add support to other language
- - Ask to the user the password when the user wants to make a purchase
- - The handler that add product in database dont check if the description of the products have more char than the description column have
- - When the user select the command `\show_categories` more than one time the bot only show products one time
- - Add an filter to block non admins commands like these: `/add_product` and `/add_category`
+This project is a demo, it's only for learning purposes. To be ready for production, many features need to be added.
 
 
