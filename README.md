@@ -4,7 +4,7 @@ This is a Telegram bot made using the Python language. To connect with the Teleg
 ## 💖 All Contributors
 
 <a href="https://github.com/raulpy271/telegram_ecommerce/graphs/contributors">
-  <img alt="All Contributors" src="https://contrib.rocks/image?repo=raulpy271/telegram_ecommerce"/>
+ <img alt="All Contributors" src="https://contrib.rocks/image?repo=raulpy271/telegram_ecommerce"/>
 </a>
 
 ## 🛠️ TODO
@@ -66,13 +66,13 @@ After all, you can run the bot by typing:
  $ python bot.py
 ```
 
-or
+or, if you want to run the bot inside a container, use:
 
 ```sh
- $ bash run.sh
+$ bash run.sh
 ```
 
-📌 **PS**: Docker is needed. Installation instruction [here.](https://docs.docker.com/engine/install/)
+📌 **PS**: To run the command above Docker is needed. Installation instruction [here.](https://docs.docker.com/engine/install/)
 
 ## 🛑 Disclaimer
 
