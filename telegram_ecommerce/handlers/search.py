@@ -1,5 +1,5 @@
 from telegram.ext import (
-    Filters,
+    filters,
     CommandHandler,
     MessageHandler,
     CallbackQueryHandler,
@@ -122,17 +122,17 @@ search = ConversationHandler(
     states = {
         ASK_FOR_TERM_TO_SEARCH : [
             MessageHandler(
-                Filters.text,
+                filters.TEXT,
                 ask_for_term_to_search)
             ],
         GET_LIST_OF_PRODUCTS : [
             MessageHandler(
-                Filters.text, 
+                filters.TEXT, 
                 get_list_of_products_that_match)
             ],
         SHOW_LIST_OF_PRODUCT_THAT_MATCH : [
             MessageHandler(
-                Filters.text, 
+                filters.TEXT, 
                 show_list_of_product_that_match),
             CallbackQueryHandler(
                 catch_next, 
@@ -158,7 +158,7 @@ search = ConversationHandler(
                 PATTERN_TO_CATCH_THE_BUY_BUTTON)
             ]
         },
-    fallbacks = [MessageHandler(Filters.all, cancel_search)]
+    fallbacks = [MessageHandler(filters.ALL, cancel_search)]
     )
 
 

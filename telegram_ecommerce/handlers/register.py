@@ -1,5 +1,5 @@
 from telegram.ext import (
-    Filters,
+    filters,
     ConversationHandler,
     CommandHandler,
     MessageHandler,
@@ -134,7 +134,7 @@ register = ConversationHandler(
     states = {
         RUNING : [
         MessageHandler(
-            Filters.all,
+            filters.ALL,
             register_callback
             ),
         CallbackQueryHandler(
@@ -151,7 +151,7 @@ register = ConversationHandler(
             )
         ]
     },
-    fallbacks = [MessageHandler(Filters.all, cancel_register)],
+    fallbacks = [MessageHandler(filters.ALL, cancel_register)],
     )
 
 

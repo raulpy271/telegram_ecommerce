@@ -1,5 +1,5 @@
 from telegram.ext import (
-    Filters,
+    filters,
     CommandHandler,
     MessageHandler,
     CallbackQueryHandler,
@@ -135,22 +135,22 @@ add_category = ConversationHandler(
     states = {
         ASK_FOR_CATEGORY_DESCRIPTION : [
             MessageHandler(
-                Filters.text, 
+                filters.TEXT, 
                 ask_for_category_description)
             ],
         ASK_FOR_CATEGORY_TAGS : [
             MessageHandler(
-                Filters.text, 
+                filters.TEXT, 
                 ask_for_category_tags)
             ],
         ASK_FOR_CATEGORY_PHOTO : [
             MessageHandler(
-                Filters.text, 
+                filters.TEXT, 
                 ask_for_category_photo)
             ],
         ASK_IF_ITS_ALL_OK : [
             MessageHandler(
-                Filters.photo,
+                filters.PHOTO,
                 ask_if_its_all_ok),
             CallbackQueryHandler(
                 catch_response,
@@ -158,7 +158,7 @@ add_category = ConversationHandler(
                 )
             ]
         },
-    fallbacks = [MessageHandler(Filters.all, cancel_add_category)]
+    fallbacks = [MessageHandler(filters.ALL, cancel_add_category)]
     )
 
 

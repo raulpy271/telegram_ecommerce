@@ -1,6 +1,6 @@
 from telegram import ReplyKeyboardRemove
 from telegram.ext import (
-    Filters,
+    filters,
     ConversationHandler,
     CommandHandler,
     MessageHandler)
@@ -64,12 +64,12 @@ language = ConversationHandler(
     states = {
         SELECTING_THE_LANGUAGE : [
         MessageHandler(
-            Filters.text,
+            filters.TEXT,
             selecting_the_language
             )
         ]
     },
-    fallbacks = [MessageHandler(Filters.all, cancel_language)]
+    fallbacks = [MessageHandler(filters.ALL, cancel_language)]
     )
 
 

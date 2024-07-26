@@ -1,6 +1,6 @@
 from telegram import ReplyKeyboardRemove
 from telegram.ext import (
-    Filters,
+    filters,
     CommandHandler,
     MessageHandler,
     CallbackQueryHandler,
@@ -153,17 +153,17 @@ show_categories = ConversationHandler(
     states = {
         ASK_FOR_CATEGORY_NAME : [
             MessageHandler(
-                Filters.text, 
+                filters.TEXT, 
                 ask_for_category_name)
             ],
         GET_LIST_OF_PRODUCTS : [
             MessageHandler(
-                Filters.text, 
+                filters.TEXT, 
                 get_list_of_products)
             ],
         SHOW_LIST_OF_PRODUCTS : [
             MessageHandler(
-                Filters.text, 
+                filters.TEXT, 
                 show_list_of_products
                 ),
             CallbackQueryHandler(
@@ -190,7 +190,7 @@ show_categories = ConversationHandler(
                 PATTERN_TO_CATCH_THE_BUY_BUTTON)
             ]
         },
-    fallbacks = [MessageHandler(Filters.all, cancel_show_categories)]
+    fallbacks = [MessageHandler(filters.ALL, cancel_show_categories)]
     )
 
 

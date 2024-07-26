@@ -1,7 +1,5 @@
-from telegram.ext import (
-    Updater,
-    ShippingQueryHandler,
-    PreCheckoutQueryHandler)
+
+from telegram.ext import ApplicationBuilder
 
 from telegram_ecommerce.database.db_wrapper import db
 from telegram_ecommerce.utils.consts import credentials
@@ -14,20 +12,18 @@ from telegram_ecommerce.handlers import (
 token = credentials["token"]
 admins = credentials["admins_username"]
 
+async def post_init(app):
+    await app.bot.set_my_commands(all_public_commands_descriptions)
 
 def main():
-    updater = Updater(token, use_context=True)
-    dp = updater.dispatcher
-    dp.bot.set_my_commands(all_public_commands_descriptions)
-
+    app = ApplicationBuilder().token(token).post_init(post_init).build()
 
     for handler in all_handlers:
-        dp.add_handler(handler)
+        app.add_handler(handler)
 
 
     logger.info("bot started")
-    updater.start_polling()
-    updater.idle()
+    app.run_polling()
     db.close()
     logger.info("bot closed")
 

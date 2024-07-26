@@ -1,7 +1,7 @@
 from telegram import LabeledPrice
 
 from telegram.ext import (
-    Filters,
+    filters,
     PreCheckoutQueryHandler,
     MessageHandler)
 
@@ -81,6 +81,6 @@ pre_checkout_handler = PreCheckoutQueryHandler(pre_checkout_callback)
 
 
 successful_payment_handler = MessageHandler(
-    Filters.successful_payment, successful_payment_callback)
+    filters.SUCCESSFUL_PAYMENT, successful_payment_callback)
 
 
