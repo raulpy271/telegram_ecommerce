@@ -20,12 +20,12 @@ async def ask_a_boolean_question(
     await update.message.reply_text(text, reply_markup=markup)
 
 
-def send_a_rating_message(update, context, pattern_identifier=""):
+async def send_a_rating_message(update, context, pattern_identifier=""):
     text = get_text("ask_for_the_rating", context)
     markup = rating_tamplate(pattern_identifier, context)
     if update.message:
-        update.message.reply_text(text, reply_markup=markup)
+        await update.message.reply_text(text, reply_markup=markup)
     else:
-        update.callback_query.edit_message_text(text, reply_markup = markup)
+        await update.callback_query.edit_message_text(text, reply_markup = markup)
 
 

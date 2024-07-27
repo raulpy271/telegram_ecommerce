@@ -16,34 +16,34 @@ def store_rating_response(context, rating):
     add_rating_to_an_order(order_id, rating)
 
 
-def ask_if_user_want_avaluate_the_product(update, context, product):
-    ask_a_boolean_question(
+async def ask_if_user_want_avaluate_the_product(update, context, product):
+    await ask_a_boolean_question(
         update, 
         context,
         PATTERN_TO_CATCH_IF_USER_WANT_RATE_THE_PRODUCT,
         get_text("ask_if_user_want_avaluate_the_product", context))
 
 
-def catch_the_response_if_user_want_evaluate(update, context):
+async def catch_the_response_if_user_want_evaluate(update, context):
     query = update.callback_query
     if query.data == (PATTERN_TO_CATCH_IF_USER_WANT_RATE_THE_PRODUCT + 'OK'):
-        send_a_rating_message(
+        await send_a_rating_message(
             update, 
             context,
             PATTERN_TO_CATCH_THE_RATE)
     elif query.data == (
         PATTERN_TO_CATCH_IF_USER_WANT_RATE_THE_PRODUCT + 'cancel'):
-        query.edit_message_text(get_text("OK", context))
+        await query.edit_message_text(get_text("OK", context))
 
 
-def catch_the_rating_response_callback(update, context):
+async def catch_the_rating_response_callback(update, context):
     query = update.callback_query
     try:
         rating = int(query.data.replace(PATTERN_TO_CATCH_THE_RATE, ""))
         store_rating_response(context, rating)
-        query.edit_message_text(get_text("thanks_opinion", context))
+        await query.edit_message_text(get_text("thanks_opinion", context))
     except: 
-        query.edit_message_text(get_text("canceled_operation", context))
+        await query.edit_message_text(get_text("canceled_operation", context))
 
 
 catch_the_response_if_user_want_evaluate_handler = CallbackQueryHandler(
