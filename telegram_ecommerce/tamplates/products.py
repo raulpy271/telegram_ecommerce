@@ -85,33 +85,33 @@ class ListProductIterator():
         return True
 
 
-def send_a_product(update, context, product, pattern_identifier):
+async def send_a_product(update, context, product, pattern_identifier):
     query = update.callback_query
     markup = tamplate_for_show_a_list_of_products(
         pattern_identifier, context)
     text = get_text_for_product(product, context)
-    query.message.edit_media(
+    await query.message.edit_media(
         media = InputMediaPhoto(product.image_id, text),
         reply_markup = markup)
 
 
-def send_a_detailed_product(update, context,  product, pattern_identifier):
+async def send_a_detailed_product(update, context,  product, pattern_identifier):
     query = update.callback_query
     markup = tamplate_for_show_a_detailed_product(
         pattern_identifier, context)
     text = get_text_for_detailed_product(product, context)
-    query.message.edit_media(
+    await query.message.edit_media(
         media = InputMediaPhoto(product.image_id, text),
         reply_markup = markup)
 
 
-def send_a_inline_with_a_list_of_products(
+async def send_a_inline_with_a_list_of_products(
     update, 
     context,
     text,
     list_of_names):
     buttons_with_list_of_names = get_list_of_buttons(*list_of_names)
-    update.message.reply_text(text, reply_markup=buttons_with_list_of_names)
+    await update.message.reply_text(text, reply_markup=buttons_with_list_of_names)
 
 
 def get_text_for_product(product, context):

@@ -7,9 +7,9 @@ from ..database.query import (
 END = -1
 
 
-def warning_the_user_that_already_have_an_account(update, context):
+async def warning_the_user_that_already_have_an_account(update, context):
     text = get_text("user_have_account", context)
-    update.message.reply_text(text)
+    await update.message.reply_text(text)
     return END
 
 

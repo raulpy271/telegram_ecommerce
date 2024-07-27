@@ -1,5 +1,5 @@
 from telegram.ext import (
-    Filters,
+    filters,
     CommandHandler,
     MessageHandler,
     CallbackQueryHandler,
@@ -48,68 +48,68 @@ def save_products_in_user_data(user_data, string_to_search):
     user_data[products_data_key]["products"] = products
 
 
-def ask_for_term_to_search(update, context):
+async def ask_for_term_to_search(update, context):
     put_products_data_in_user_data(context.user_data)
     text = get_text("ask_for_term_to_search", context)
-    update.message.reply_text(text)
+    await update.message.reply_text(text)
     return GET_LIST_OF_PRODUCTS
 
 
-def get_list_of_products_that_match(update, context):
+async def get_list_of_products_that_match(update, context):
     string_to_search = update.message.text
     save_products_in_user_data(context.user_data, string_to_search)
     if not context.user_data[products_data_key]["products"].is_empty():
         text = get_text("OK", context)
-        update.message.reply_text(text)
-        show_list_of_product_that_match(update, context)
+        await update.message.reply_text(text)
+        await show_list_of_product_that_match(update, context)
         return SHOW_LIST_OF_PRODUCT_THAT_MATCH
     else:
         text = get_text("without_product_in_this_search", context)
-        update.message.reply_text(text)
-        cancel_search(update, context)
+        await update.message.reply_text(text)
+        await cancel_search(update, context)
         return END
 
 
-def show_list_of_product_that_match(update, context):
+async def show_list_of_product_that_match(update, context):
     product = context.user_data[products_data_key]["products"].next()
     markup = tamplate_for_show_a_list_of_products(
         pattern_identifier, context)
     text = get_text_for_product(product, context)
-    update.message.reply_photo(
+    await update.message.reply_photo(
         product.image_id,
         caption = text,
         reply_markup=markup) 
     return SHOW_LIST_OF_PRODUCT_THAT_MATCH
 
 
-def catch_previus(update, context):
+async def catch_previus(update, context):
     product = context.user_data[products_data_key]["products"].previus()
-    send_a_product(update, context, product, pattern_identifier)
+    await send_a_product(update, context, product, pattern_identifier)
     return SHOW_LIST_OF_PRODUCT_THAT_MATCH
 
 
-def catch_next(update, context):
+async def catch_next(update, context):
     product = context.user_data[products_data_key]["products"].next()
-    send_a_product(update, context, product, pattern_identifier)
+    await send_a_product(update, context, product, pattern_identifier)
     return SHOW_LIST_OF_PRODUCT_THAT_MATCH
 
 
-def catch_details(update, context):
+async def catch_details(update, context):
     product = context.user_data[products_data_key]["products"].actual()
-    send_a_detailed_product(update, context, product, pattern_identifier)
+    await send_a_detailed_product(update, context, product, pattern_identifier)
     return BUY_PROCESS 
 
 
 @execute_if_user_exist
-def send_a_shipping_message_callback(update, context):
+async def send_a_shipping_message_callback(update, context):
     product = context.user_data[products_data_key]["products"].actual()
-    send_a_shipping_message(update, context, product, pattern_identifier)
+    await send_a_shipping_message(update, context, product, pattern_identifier)
     return END
 
 
-def cancel_search(update, context):
+async def cancel_search(update, context):
     text = get_text("canceled_operation", context)
-    update.message.reply_text(text) 
+    await update.message.reply_text(text) 
     return END
 
 
@@ -122,17 +122,17 @@ search = ConversationHandler(
     states = {
         ASK_FOR_TERM_TO_SEARCH : [
             MessageHandler(
-                Filters.text,
+                filters.TEXT,
                 ask_for_term_to_search)
             ],
         GET_LIST_OF_PRODUCTS : [
             MessageHandler(
-                Filters.text, 
+                filters.TEXT, 
                 get_list_of_products_that_match)
             ],
         SHOW_LIST_OF_PRODUCT_THAT_MATCH : [
             MessageHandler(
-                Filters.text, 
+                filters.TEXT, 
                 show_list_of_product_that_match),
             CallbackQueryHandler(
                 catch_next, 
@@ -158,7 +158,7 @@ search = ConversationHandler(
                 PATTERN_TO_CATCH_THE_BUY_BUTTON)
             ]
         },
-    fallbacks = [MessageHandler(Filters.all, cancel_search)]
+    fallbacks = [MessageHandler(filters.ALL, cancel_search)]
     )
 
 
