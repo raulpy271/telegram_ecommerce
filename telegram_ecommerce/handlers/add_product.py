@@ -28,25 +28,23 @@ ASK_IF_ITS_ALL_OK           ) = range(-1, 6)
 
 
 product_data_key = "product_data"
-product_data = {
-    "name"               : "",
-    "description"        : "",
-    "unit_price"         : 0,
-    "quantity_in_stock"  : 0,
-    "quantity_purchased" : 0,
-    "category_id"        : 0,
-    "photo"              : None}
-
-
 pattern_to_save_everything = "boolean_response"
 
 
 def put_product_data_in_user_data(user_data):
-    user_data[product_data_key] = product_data
+    user_data[product_data_key] = {
+        "name"               : "",
+        "description"        : "",
+        "unit_price"         : 0,
+        "quantity_in_stock"  : 0,
+        "quantity_purchased" : 0,
+        "category_id"        : 0,
+        "photo"              : None
+    }
 
 
-def delete_product_data_from_user_data(user_data):
-    user_data[product_data_key] = {}
+def clear_product_data_from_user_data(user_data):
+    user_data[product_data_key].clear()
 
 
 def save_name_in_user_data(user_data, name):
@@ -175,12 +173,12 @@ async def catch_response(update, context):
     else:
         text = get_text("canceled_operation", context)
     await query.edit_message_text(text)
-    delete_product_data_from_user_data(context.user_data)
+    clear_product_data_from_user_data(context.user_data)
     return END
 
 
 async def cancel_add_product(update, context):
-    delete_product_data_from_user_data(context.user_data)
+    clear_product_data_from_user_data(context.user_data)
     text = get_text("canceled_operation", context)
     await update.message.reply_text(text, reply_markup=ReplyKeyboardRemove())
     return END
