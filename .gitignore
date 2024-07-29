@@ -9,3 +9,5 @@ telegram_ecommerce/utils/user_credentials.json
 
 .idea
 telegram_ecommerce.iml
+
+*.env
