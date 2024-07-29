@@ -26,10 +26,6 @@ BUY_PROCESS                     ) = range(-1, 4)
 
 
 products_data_key = "list_of_products"
-products_data = {
-    'products' : []}
-
-
 pattern_identifier = "response_from_buttons_in_products_that_match"
 PATTERN_TO_CATCH_THE_PREVIUS_PRODUCT = 'previus_product'
 PATTERN_TO_CATCH_THE_NEXT_PRODUCT = 'next_product'
@@ -38,7 +34,9 @@ PATTERN_TO_CATCH_THE_BUY_BUTTON = 'buy_product'
 
 
 def put_products_data_in_user_data(user_data):
-    user_data[products_data_key] = products_data
+    user_data[products_data_key] = {
+        "products": []
+    }
 
 
 def save_products_in_user_data(user_data, string_to_search):

@@ -20,22 +20,20 @@ ASK_IF_ITS_ALL_OK            ) = range(-1, 4)
 
 
 category_data_key = "category_data"
-category_data = {
-    "name"        : "",
-    "description" : "",
-    "tags"        : "",
-    "photo"       : ""}
-
-
 pattern_to_save_everything = "boolean_response"
 
 
 def put_category_data_in_user_data(user_data):
-    user_data[category_data_key] = category_data
+    user_data[category_data_key] = {
+        "name"        : "",
+        "description" : "",
+        "tags"        : "",
+        "photo"       : None
+    }
 
 
-def delete_category_data_from_user_data(user_data):
-    user_data[category_data_key] = {}
+def clear_category_data_from_user_data(user_data):
+    user_data[category_data_key].clear()
 
 
 def save_name_in_user_data(user_data, name):
@@ -114,12 +112,13 @@ async def catch_response(update, context):
         text = get_text("information_stored", context)
     else:
         text = get_text("canceled_operation", context)
+    clear_category_data_from_user_data(context.user_data)
     await query.edit_message_text(text)
     return END
 
 
 async def cancel_add_category(update, context):
-    delete_category_data_from_user_data(context.user_data)
+    clear_category_data_from_user_data(context.user_data)
     text = get_text("canceled_operation", context)
     await update.message.reply_text(text)
     return END

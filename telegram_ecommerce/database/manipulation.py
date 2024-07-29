@@ -11,7 +11,6 @@ def create_account(user):
     user_id = user.id
     username = user.username
     user_is_admin = user_in_credentials_file(username)
-    command = "UPDATE customers SET password_hash = %s WHERE id = %s"
     command = ("""
         INSERT INTO customers 
             (id, username, password_hash, is_admin) 
