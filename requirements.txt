@@ -1,2 +1,4 @@
 python_telegram_bot==21.4
 mysql-connector-python==8.0.32
+SQLAlchemy==2.0.31
+PyMySQL==1.1.1
