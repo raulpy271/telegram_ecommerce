@@ -1,5 +1,7 @@
+
 from .db_wrapper import db
 from ..utils.consts import credentials
+from .models import Session, Customer
 from ..utils.utils import (
     write_file,
     extract_value_from_a_query,
@@ -14,13 +16,9 @@ def user_exist(user_id):
 
 
 def is_admin(user_id):
-    command = "SELECT is_admin FROM customers WHERE id = %s"
-    user_is_admin = db.execute_a_query(command, (user_id,))
-    user_exist = bool(user_is_admin)
-    if user_exist:
-        return extract_value_from_a_query(user_is_admin)
-    else: return False
-
+    with Session() as session:
+        user = session.get(Customer, user_id)
+        return user.is_admin if user else False
 
 def get_password(user_id):
     command = "SELECT password_hash FROM customers WHERE id = %s"
