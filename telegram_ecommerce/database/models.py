@@ -70,8 +70,7 @@ class Order(Base):
     product = relationship('Product')
     user = relationship('Customer')
 
-engine = create_engine(
-    f"mysql+pymysql://{db_credentials['user']}:{db_credentials['password']}@{db_credentials['host']}/telegram_ecommerce"
-)
+db_url = f"mysql+pymysql://{db_credentials['user']}:{db_credentials['password']}@{db_credentials['host']}/telegram_ecommerce"
+engine = create_engine(db_url)
 Session = sessionmaker(engine)
 

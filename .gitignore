@@ -1,5 +1,12 @@
 __pycache__
 
+# Venv
+lib
+lib64
+bin
+include
+pyvenv.cfg
+
 # my token json
 telegram_ecommerce/utils/user_credentials.json
 
