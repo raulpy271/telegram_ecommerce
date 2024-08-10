@@ -62,33 +62,24 @@ def add_category(name, description, tags=None, image_id=None):
         session.commit()
 
 def add_product(
-    name, 
-    description,
-    unit_price=0, 
-    quantity_in_stock=0, 
-    quantity_purchased=0,
-    category_id=None, 
-    image_id=None):
-    command = ("""
-        INSERT INTO products
-            (name, 
-            description,
-            price, 
-            quantity_in_stock, 
-            quantity_purchased,
-            category_id, 
-            image_id)
-        VALUES (%s, %s, %s, %s, %s, %s, %s)""")
-    command_args = (
         name, 
         description,
-        float(unit_price), 
-        int(quantity_in_stock), 
-        int(quantity_purchased),
-        int(category_id), 
-        image_id)
-    db.execute_a_data_manipulation(command, command_args)
-    
+        unit_price=0, 
+        quantity_in_stock=0, 
+        quantity_purchased=0,
+        category_id=None, 
+        image_id=None):
+    with Session() as session:
+        session.add(models.Product(
+            name=name,
+            description=description,
+            price=unit_price,
+            quantity_in_stock=quantity_in_stock,
+            quantity_purchased=quantity_purchased,
+            category_id=category_id,
+            image_id=image_id
+        ))
+        session.commit()
 
 def add_orders(
     order_id,

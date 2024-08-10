@@ -1,8 +1,11 @@
 
-from .db_wrapper import db
-from ..utils.consts import credentials
-from .models import Session, Customer
-from ..utils.utils import (
+from sqlalchemy import select
+
+from telegram_ecommerce.database.db_wrapper import db
+from telegram_ecommerce.utils.consts import credentials
+from telegram_ecommerce.database import models
+from telegram_ecommerce.database.models import Session
+from telegram_ecommerce.utils.utils import (
     write_file,
     extract_value_from_a_query,
     extract_list_of_values_from_a_query,
@@ -17,7 +20,7 @@ def user_exist(user_id):
 
 def is_admin(user_id):
     with Session() as session:
-        user = session.get(Customer, user_id)
+        user = session.get(models.Customer, user_id)
         return user.is_admin if user else False
 
 def get_password(user_id):
@@ -50,16 +53,13 @@ def save_photo_in_file(photo_id, file_path):
 
 
 def get_name_of_all_categories():
-    command = "SELECT name FROM category"
-    all_names_query = db.execute_a_query(command)
-    names = extract_list_of_values_from_a_query(all_names_query)
-    return names 
-
+    with Session() as session:
+        return session.scalars(select(models.Category.name)).all()
 
 def get_category_id_from_name(name):
-    command = "SELECT id FROM category WHERE name = %s"
-    category_id = db.execute_a_query(command, (name,))
-    return extract_value_from_a_query(category_id)
+    with Session() as session:
+        stmt = select(models.Category.id).where(models.Category.name == name)
+        return session.scalars(stmt).first()
 
 
 def get_all_available_by_category_id(category_id):
