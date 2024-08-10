@@ -1,6 +1,10 @@
-from .db_wrapper import db
-from ..utils.utils import hash_password
-from .query import (
+from sqlalchemy import select
+
+from telegram_ecommerce.database.db_wrapper import db
+from telegram_ecommerce.database import models
+from telegram_ecommerce.database.models import Session
+from telegram_ecommerce.utils.utils import hash_password
+from telegram_ecommerce.database.query import (
     get_password,
     user_in_credentials_file, 
     get_quantity_in_stock,
@@ -48,19 +52,14 @@ def update_photo(photo_id, blob):
 
 
 def add_photo(photo_id, bytes_of_photo):
-    command = "INSERT INTO photo (id) VALUES (%s)"
-    command_args = (photo_id,)
-    db.execute_a_data_manipulation(command, command_args)
-    update_photo(photo_id, bytes_of_photo)
-
+    with Session() as session:
+        session.add(models.Photo(id=photo_id, image_blob=bytes_of_photo))
+        session.commit()
 
 def add_category(name, description, tags=None, image_id=None):
-    command = (""" INSERT INTO category
-        (name, description, tags, image_id)
-        VALUES (%s, %s, %s, %s)""")
-    command_args = (name, description, tags, image_id)
-    db.execute_a_data_manipulation(command, command_args)
-
+    with Session() as session:
+        session.add(models.Category(name=name, description=description, tags=tags, image_id=image_id))
+        session.commit()
 
 def add_product(
     name, 
