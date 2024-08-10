@@ -1,4 +1,3 @@
-from sqlalchemy import select
 
 from telegram_ecommerce.database.db_wrapper import db
 from telegram_ecommerce.database import models
@@ -15,23 +14,24 @@ def create_account(user):
     user_id = user.id
     username = user.username
     user_is_admin = user_in_credentials_file(username)
-    command = ("""
-        INSERT INTO customers 
-            (id, username, password_hash, is_admin) 
-            VALUES (%s, %s, %s, %s)""")
-    command_args = (user_id, username, "", user_is_admin)
-    db.execute_a_data_manipulation(command, command_args)
-
+    with Session() as session:
+        session.add(models.Customer(id=user_id, username=username, password_hash="", is_admin=user_is_admin))
+        session.commit()
 
 def delete_account(user_id):
-    command = "DELETE FROM customers WHERE id = %s"
-    db.execute_a_data_manipulation(command, (user_id,))
-
+    with Session() as session:
+        user = session.get(models.Customer, user_id)
+        if user:
+            session.delete(user)
+            session.commit()
+            return True
+        else: return False
 
 def set_password(user_id, password):
-    command = "UPDATE customers SET password_hash = %s WHERE id = %s"
-    db.execute_a_data_manipulation(command, (password, user_id))
-
+    with Session() as session:
+        user = session.get(models.Customer, user_id)
+        user.password_hash = password
+        session.commit()
 
 def append_password(user_id, password):
     old_password = get_password(user_id)
@@ -43,12 +43,6 @@ def hash_user_password(user_id):
     password = get_password(user_id)
     password_hash = hash_password(password)
     set_password(user_id, password_hash)
-
-
-def update_photo(photo_id, blob):
-    command = "UPDATE photo SET image_blob = %s WHERE id = %s"
-    command_args = (bytes(blob), photo_id)
-    db.execute_a_data_manipulation(command, command_args)
 
 
 def add_photo(photo_id, bytes_of_photo):

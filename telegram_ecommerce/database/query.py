@@ -13,10 +13,8 @@ from telegram_ecommerce.utils.utils import (
 
 
 def user_exist(user_id):
-    command = "SELECT * FROM customers WHERE id = %s"
-    user_exist = bool(db.execute_a_query(command, (user_id,)))
-    return user_exist
-
+    with Session() as session:
+        return bool(session.get(models.Customer, user_id))
 
 def is_admin(user_id):
     with Session() as session:
@@ -24,10 +22,9 @@ def is_admin(user_id):
         return user.is_admin if user else False
 
 def get_password(user_id):
-    command = "SELECT password_hash FROM customers WHERE id = %s"
-    user_password = db.execute_a_query(command, (user_id,))
-    return extract_value_from_a_query(user_password)
-
+    with Session() as session:
+        user = session.get(models.Customer, user_id)
+        return user.password_hash
 
 def check_password(user_id, password):
     return hash_password(password) == get_password(user_id)
