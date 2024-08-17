@@ -1,5 +1,6 @@
 
 from sqlalchemy import select
+from sqlalchemy.dialects.mysql import match
 
 from telegram_ecommerce.database.db_wrapper import db
 from telegram_ecommerce.utils.consts import credentials
@@ -8,7 +9,6 @@ from telegram_ecommerce.database.models import Session
 from telegram_ecommerce.utils.utils import (
     write_file,
     extract_value_from_a_query,
-    extract_list_of_values_from_a_query,
     hash_password)
 
 
@@ -85,22 +85,22 @@ def get_quantity_purchased(product_id):
 
 
 def get_ratings_of_a_product(product_id):
-    command = """ SELECT rating FROM orders
-        WHERE product_id = %s AND rating IS NOT NULL"""
-    ratings_query = db.execute_a_query(command, (product_id,))
-    return extract_list_of_values_from_a_query(ratings_query)
-
+    with Session() as session:
+        stmt = (
+            select(models.Order.rating)
+            .where(models.Order.product_id == product_id)
+            .where(models.Order.rating != None)
+        )
+        return session.scalars(stmt).all()
 
 def count_occurrence_of_specified_rating(product_id, rating):
     all_ratings = get_ratings_of_a_product(product_id)
     return all_ratings.count(rating)
 
-
 def search_products(string_to_search):
-    command = """SELECT * FROM products 
-        WHERE MATCH(name, description) AGAINST(%s)"""
-    products_that_match = (
-        db.execute_a_query(command, (string_to_search,)))
-    return products_that_match 
-
+    with Session() as session:
+        stmt = select(models.Product).where(
+            match(models.Product.name, models.Product.description, against=string_to_search)
+        )
+        return session.scalars(stmt).all()
 

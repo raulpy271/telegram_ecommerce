@@ -1,13 +1,10 @@
 
-from telegram_ecommerce.database.db_wrapper import db
 from telegram_ecommerce.database import models
 from telegram_ecommerce.database.models import Session
 from telegram_ecommerce.utils.utils import hash_password
 from telegram_ecommerce.database.query import (
     get_password,
-    user_in_credentials_file, 
-    get_quantity_in_stock,
-    get_quantity_purchased)
+    user_in_credentials_file)
 
 
 def create_account(user):
@@ -75,42 +72,21 @@ def add_product(
         ))
         session.commit()
 
-def add_orders(
-    order_id,
-    price,
-    user_id,
-    product_id,
-    rating = None):
-    command = ("""INSERT INTO orders 
-        (id, price, user_id, product_id, rating)
-        VALUES (%s, %s, %s, %s, %s)""")
-    command_args = (
-        order_id, 
-        price,
-        int(user_id), 
-        int(product_id), 
-        rating)
-    db.execute_a_data_manipulation(command, command_args)
-
+def add_orders(order_id, price, user_id, product_id, rating = None):
+    with Session() as session:
+        session.add(models.Order(id=order_id, price=price, user_id=user_id, product_id=product_id, rating=rating))
+        session.commit()
 
 def product_has_purchased(product_id):
-    quantity_in_stock = get_quantity_in_stock(product_id) - 1
-    quantity_purchased = get_quantity_purchased(product_id) + 1
-    command = ("""
-        UPDATE products SET 
-            quantity_in_stock = %s,
-            quantity_purchased = %s
-        WHERE id = %s""")
-    command_args = (quantity_in_stock, quantity_purchased, product_id)
-    db.execute_a_data_manipulation(command, command_args)
-
+    with Session() as session:
+        product = session.get(models.Product, product_id)
+        product.quantity_in_stock -= 1
+        product.quantity_purchased += 1
+        session.commit()
 
 def add_rating_to_an_order(order_id, rating):
-    command = ("""
-        UPDATE orders SET
-            rating = %s
-        WHERE id = %s""")
-    command_args = (int(rating), order_id)
-    db.execute_a_data_manipulation(command, command_args)
-
+    with Session() as session:
+        order = session.get(models.Order, order_id)
+        order.rating = rating
+        session.commit()
 

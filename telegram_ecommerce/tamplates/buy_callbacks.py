@@ -23,7 +23,7 @@ def add_pre_checkout_query_to_user_data(context, query):
 async def send_a_shipping_message(update, context, product , pattern_identifier):
     title = product.name
     description = product.description
-    payload = str(product.product_id)
+    payload = str(product.id)
     prices = [LabeledPrice("Price", int( 100 * product.price))]
 
 
@@ -44,15 +44,15 @@ async def send_a_shipping_message(update, context, product , pattern_identifier)
 
 def process_order(query, product, context):
     PROCESS_OK, PROCESS_FAIL = (True, False)
-    if query.invoice_payload != str(product.product_id):
+    if query.invoice_payload != str(product.id):
         return (PROCESS_FAIL, get_text("information_dont_match", context))
     try:
         add_orders(
             query.id,
             (query.total_amount / 100),
             query.from_user.id,
-            product.product_id)
-        product_has_purchased(product.product_id)
+            product.id)
+        product_has_purchased(product.id)
         return (PROCESS_OK, None) 
     except:
         return (PROCESS_FAIL, get_text("error_in_orders", context))

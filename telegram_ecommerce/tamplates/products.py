@@ -121,7 +121,7 @@ def get_text_for_product(product, context):
 
 
 def get_text_for_detailed_product(product, context):
-    product_id = product.product_id
+    product_id = product.id
     text = (product.name + "\n\n" +
         get_text("price", context) + str(product.price) + '\n\n' +
         str(product.description) + '\n\n' + 
