@@ -1,7 +1,6 @@
-from ..language import get_text
-from ..database.query import (
-    user_exist,
-    is_admin)
+
+from telegram_ecommerce.language import get_text
+from telegram_ecommerce.database.query import user_exist
 
 
 END = -1

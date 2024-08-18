@@ -1,9 +1,7 @@
+
 from telegram.ext import BaseFilter
 
-from ..database.query import (
-    user_exist,
-    get_password,
-    is_admin)
+from telegram_ecommerce.database.query import is_admin
 
 
 class Filter_with_a_boolean_function(BaseFilter):
