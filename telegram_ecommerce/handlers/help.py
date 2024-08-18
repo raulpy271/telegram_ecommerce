@@ -5,7 +5,7 @@ from ..database.query import is_admin
 
 
 async def help_callback(update, context):
-    text = get_text("help", update)
+    text = get_text("help", context)
     user = update.effective_user
     user_is_admin = is_admin(user.id)
     if user_is_admin:

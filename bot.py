@@ -1,7 +1,6 @@
 
 from telegram.ext import ApplicationBuilder
 
-from telegram_ecommerce.database.db_wrapper import db
 from telegram_ecommerce.utils.consts import credentials
 from telegram_ecommerce.utils.log import logger
 from telegram_ecommerce.handlers import (
@@ -24,11 +23,10 @@ def main():
 
     logger.info("bot started")
     app.run_polling()
-    db.close()
     logger.info("bot closed")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
 
 

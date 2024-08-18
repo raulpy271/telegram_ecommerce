@@ -5,13 +5,11 @@ from telegram.ext import (
     MessageHandler,
     CallbackQueryHandler)
 
-from ..language import get_text
-from ..tamplates.buttons import login_keyboard
-from ..filters.decorators import execute_if_user_dont_exist
-from ..database.query import (
-    user_exist,
-    get_password)
-from ..database.manipulation import (
+from telegram_ecommerce.language import get_text
+from telegram_ecommerce.tamplates.buttons import login_keyboard
+from telegram_ecommerce.filters.decorators import execute_if_user_dont_exist
+from telegram_ecommerce.database.query import get_password
+from telegram_ecommerce.database.manipulation import (
     hash_user_password,
     append_password,
     create_account, 

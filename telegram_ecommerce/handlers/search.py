@@ -13,7 +13,6 @@ from ..language import get_text
 from ..tamplates.products import (
     send_a_product,
     send_a_detailed_product,
-    send_a_inline_with_a_list_of_products,
     get_text_for_product,
     ListProductIterator)
 
@@ -41,8 +40,7 @@ def put_products_data_in_user_data(user_data):
 
 def save_products_in_user_data(user_data, string_to_search):
     products_from_a_search_query = search_products(string_to_search)
-    products = ListProductIterator.create_a_list_from_a_query(
-        products_from_a_search_query)
+    products = ListProductIterator(*products_from_a_search_query)
     user_data[products_data_key]["products"] = products
 
 

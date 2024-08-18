@@ -44,10 +44,8 @@ def put_products_data_in_user_data(user_data):
 
 
 def save_products_in_user_data(user_data, message):
-    products_from_a_category_query = (
-        get_all_available_by_category_name(message))
-    products = ListProductIterator.create_a_list_from_a_query(
-        products_from_a_category_query)
+    products_from_a_category_query = get_all_available_by_category_name(message)
+    products = ListProductIterator(*products_from_a_category_query)
     user_data[products_data_key]["products"] = products
 
 

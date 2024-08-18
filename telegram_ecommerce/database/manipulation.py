@@ -1,33 +1,34 @@
-from .db_wrapper import db
-from ..utils.utils import hash_password
-from .query import (
+
+from telegram_ecommerce.database import models
+from telegram_ecommerce.database.models import Session
+from telegram_ecommerce.utils.utils import hash_password
+from telegram_ecommerce.database.query import (
     get_password,
-    user_in_credentials_file, 
-    get_quantity_in_stock,
-    get_quantity_purchased)
+    user_in_credentials_file)
 
 
 def create_account(user):
     user_id = user.id
     username = user.username
     user_is_admin = user_in_credentials_file(username)
-    command = ("""
-        INSERT INTO customers 
-            (id, username, password_hash, is_admin) 
-            VALUES (%s, %s, %s, %s)""")
-    command_args = (user_id, username, "", user_is_admin)
-    db.execute_a_data_manipulation(command, command_args)
-
+    with Session() as session:
+        session.add(models.Customer(id=user_id, username=username, password_hash="", is_admin=user_is_admin))
+        session.commit()
 
 def delete_account(user_id):
-    command = "DELETE FROM customers WHERE id = %s"
-    db.execute_a_data_manipulation(command, (user_id,))
-
+    with Session() as session:
+        user = session.get(models.Customer, user_id)
+        if user:
+            session.delete(user)
+            session.commit()
+            return True
+        else: return False
 
 def set_password(user_id, password):
-    command = "UPDATE customers SET password_hash = %s WHERE id = %s"
-    db.execute_a_data_manipulation(command, (password, user_id))
-
+    with Session() as session:
+        user = session.get(models.Customer, user_id)
+        user.password_hash = password
+        session.commit()
 
 def append_password(user_id, password):
     old_password = get_password(user_id)
@@ -41,92 +42,51 @@ def hash_user_password(user_id):
     set_password(user_id, password_hash)
 
 
-def update_photo(photo_id, blob):
-    command = "UPDATE photo SET image_blob = %s WHERE id = %s"
-    command_args = (bytes(blob), photo_id)
-    db.execute_a_data_manipulation(command, command_args)
-
-
 def add_photo(photo_id, bytes_of_photo):
-    command = "INSERT INTO photo (id) VALUES (%s)"
-    command_args = (photo_id,)
-    db.execute_a_data_manipulation(command, command_args)
-    update_photo(photo_id, bytes_of_photo)
-
+    with Session() as session:
+        session.add(models.Photo(id=photo_id, image_blob=bytes_of_photo))
+        session.commit()
 
 def add_category(name, description, tags=None, image_id=None):
-    command = (""" INSERT INTO category
-        (name, description, tags, image_id)
-        VALUES (%s, %s, %s, %s)""")
-    command_args = (name, description, tags, image_id)
-    db.execute_a_data_manipulation(command, command_args)
-
+    with Session() as session:
+        session.add(models.Category(name=name, description=description, tags=tags, image_id=image_id))
+        session.commit()
 
 def add_product(
-    name, 
-    description,
-    unit_price=0, 
-    quantity_in_stock=0, 
-    quantity_purchased=0,
-    category_id=None, 
-    image_id=None):
-    command = ("""
-        INSERT INTO products
-            (name, 
-            description,
-            price, 
-            quantity_in_stock, 
-            quantity_purchased,
-            category_id, 
-            image_id)
-        VALUES (%s, %s, %s, %s, %s, %s, %s)""")
-    command_args = (
         name, 
         description,
-        float(unit_price), 
-        int(quantity_in_stock), 
-        int(quantity_purchased),
-        int(category_id), 
-        image_id)
-    db.execute_a_data_manipulation(command, command_args)
-    
+        unit_price=0, 
+        quantity_in_stock=0, 
+        quantity_purchased=0,
+        category_id=None, 
+        image_id=None):
+    with Session() as session:
+        session.add(models.Product(
+            name=name,
+            description=description,
+            price=unit_price,
+            quantity_in_stock=quantity_in_stock,
+            quantity_purchased=quantity_purchased,
+            category_id=category_id,
+            image_id=image_id
+        ))
+        session.commit()
 
-def add_orders(
-    order_id,
-    price,
-    user_id,
-    product_id,
-    rating = None):
-    command = ("""INSERT INTO orders 
-        (id, price, user_id, product_id, rating)
-        VALUES (%s, %s, %s, %s, %s)""")
-    command_args = (
-        order_id, 
-        price,
-        int(user_id), 
-        int(product_id), 
-        rating)
-    db.execute_a_data_manipulation(command, command_args)
-
+def add_orders(order_id, price, user_id, product_id, rating = None):
+    with Session() as session:
+        session.add(models.Order(id=order_id, price=price, user_id=user_id, product_id=product_id, rating=rating))
+        session.commit()
 
 def product_has_purchased(product_id):
-    quantity_in_stock = get_quantity_in_stock(product_id) - 1
-    quantity_purchased = get_quantity_purchased(product_id) + 1
-    command = ("""
-        UPDATE products SET 
-            quantity_in_stock = %s,
-            quantity_purchased = %s
-        WHERE id = %s""")
-    command_args = (quantity_in_stock, quantity_purchased, product_id)
-    db.execute_a_data_manipulation(command, command_args)
-
+    with Session() as session:
+        product = session.get(models.Product, product_id)
+        product.quantity_in_stock -= 1
+        product.quantity_purchased += 1
+        session.commit()
 
 def add_rating_to_an_order(order_id, rating):
-    command = ("""
-        UPDATE orders SET
-            rating = %s
-        WHERE id = %s""")
-    command_args = (int(rating), order_id)
-    db.execute_a_data_manipulation(command, command_args)
-
+    with Session() as session:
+        order = session.get(models.Order, order_id)
+        order.rating = rating
+        session.commit()
 
