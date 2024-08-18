@@ -5,8 +5,8 @@ from telegram import (
     InlineKeyboardButton as InlineButton,
     InlineKeyboardMarkup)
 
-from ..utils.consts import BAD_RATING, REGULAR_RATING, GOOD_RATING
-from ..language import get_text
+from telegram_ecommerce.utils.consts import BAD_RATING, REGULAR_RATING, GOOD_RATING
+from telegram_ecommerce.language import get_text
 
 
 def boolean_question(pattern_identifier, context=None):

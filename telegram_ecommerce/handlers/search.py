@@ -5,12 +5,12 @@ from telegram.ext import (
     CallbackQueryHandler,
     ConversationHandler)
 
-from ..filters.decorators import execute_if_user_exist
-from ..tamplates.buttons import tamplate_for_show_a_list_of_products
-from ..tamplates.buy_callbacks import send_a_shipping_message
-from ..database.query import search_products
-from ..language import get_text
-from ..tamplates.products import (
+from telegram_ecommerce.filters.decorators import execute_if_user_exist
+from telegram_ecommerce.tamplates.buttons import tamplate_for_show_a_list_of_products
+from telegram_ecommerce.tamplates.buy_callbacks import send_a_shipping_message
+from telegram_ecommerce.database.query import search_products
+from telegram_ecommerce.language import get_text
+from telegram_ecommerce.tamplates.products import (
     send_a_product,
     send_a_detailed_product,
     get_text_for_product,

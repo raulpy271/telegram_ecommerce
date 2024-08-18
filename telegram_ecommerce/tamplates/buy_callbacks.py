@@ -5,10 +5,10 @@ from telegram.ext import (
     PreCheckoutQueryHandler,
     MessageHandler)
 
-from ..language import get_text
-from ..utils.consts import provider_token, currency
-from .rating import ask_if_user_want_avaluate_the_product
-from ..database.manipulation import (
+from telegram_ecommerce.language import get_text
+from telegram_ecommerce.utils.consts import provider_token, currency
+from telegram_ecommerce.tamplates.rating import ask_if_user_want_avaluate_the_product
+from telegram_ecommerce.database.manipulation import (
     add_orders,
     product_has_purchased)
 

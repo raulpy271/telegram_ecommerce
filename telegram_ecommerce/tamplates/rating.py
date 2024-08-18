@@ -1,8 +1,8 @@
 from telegram.ext import CallbackQueryHandler
 
-from ..language import get_text
-from .messages import ask_a_boolean_question, send_a_rating_message
-from ..database.manipulation import add_rating_to_an_order
+from telegram_ecommerce.language import get_text
+from telegram_ecommerce.tamplates.messages import ask_a_boolean_question, send_a_rating_message
+from telegram_ecommerce.database.manipulation import add_rating_to_an_order
 
 
 PATTERN_TO_CATCH_THE_RATE = "rate_response_"

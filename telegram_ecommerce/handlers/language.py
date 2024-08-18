@@ -5,9 +5,9 @@ from telegram.ext import (
     CommandHandler,
     MessageHandler)
 
-from ..tamplates.buttons import get_list_of_buttons
-from ..language import (TEXT, get_text)
-from ..utils.utils import get_key
+from telegram_ecommerce.tamplates.buttons import get_list_of_buttons
+from telegram_ecommerce.language import (TEXT, get_text)
+from telegram_ecommerce.utils.utils import get_key
 
 
 (END, SELECTING_THE_LANGUAGE) = [-1, 1]

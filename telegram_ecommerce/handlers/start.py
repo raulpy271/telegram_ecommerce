@@ -1,6 +1,6 @@
 from telegram.ext import CommandHandler
 
-from ..language import get_text
+from telegram_ecommerce.language import get_text
 
 
 async def start_callback(update, context):

@@ -1,5 +1,5 @@
-from ..language import get_text
-from .buttons import (
+from telegram_ecommerce.language import get_text
+from telegram_ecommerce.tamplates.buttons import (
     boolean_question,
     rating_tamplate)
 

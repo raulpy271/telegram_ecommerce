@@ -1,7 +1,7 @@
 from telegram.ext import CommandHandler
 
-from ..language import get_text
-from ..database.query import is_admin
+from telegram_ecommerce.language import get_text
+from telegram_ecommerce.database.query import is_admin
 
 
 async def help_callback(update, context):

@@ -1,16 +1,16 @@
 from telegram import BotCommand
 
-from ..language import get_text
-from .language import language
-from .start import start
-from .help import help_command
-from .register import register
-from .add_category import add_category
-from .add_product import add_product 
-from .show_categories import show_categories
-from .search import search
-from ..tamplates.rating import rating_precess_handlers
-from ..tamplates.buy_callbacks import (
+from telegram_ecommerce.language import get_text
+from telegram_ecommerce.handlers.language import language
+from telegram_ecommerce.handlers.start import start
+from telegram_ecommerce.handlers.help import help_command
+from telegram_ecommerce.handlers.register import register
+from telegram_ecommerce.handlers.add_category import add_category
+from telegram_ecommerce.handlers.add_product import add_product 
+from telegram_ecommerce.handlers.show_categories import show_categories
+from telegram_ecommerce.handlers.search import search
+from telegram_ecommerce.tamplates.rating import rating_precess_handlers
+from telegram_ecommerce.tamplates.buy_callbacks import (
     pre_checkout_handler,
     successful_payment_handler)
 

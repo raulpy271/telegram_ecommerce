@@ -6,14 +6,14 @@ from telegram.ext import (
     CallbackQueryHandler,
     ConversationHandler)
 
-from ..language import get_text
-from ..tamplates.messages import ask_a_boolean_question
-from ..tamplates.buttons import get_list_of_buttons
-from ..utils.utils import float_from_user_input
-from ..database.query import (
+from telegram_ecommerce.language import get_text
+from telegram_ecommerce.tamplates.messages import ask_a_boolean_question
+from telegram_ecommerce.tamplates.buttons import get_list_of_buttons
+from telegram_ecommerce.utils.utils import float_from_user_input
+from telegram_ecommerce.database.query import (
     get_category_id_from_name,
     get_name_of_all_categories)
-from ..database.manipulation import (
+from telegram_ecommerce.database.manipulation import (
     add_product as add_product_in_db,
     add_photo)
 

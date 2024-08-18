@@ -5,7 +5,7 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm import relationship
 from sqlalchemy.orm import DeclarativeBase
 
-from ..utils.consts import db_credentials
+from telegram_ecommerce.utils.consts import db_credentials
 
 
 class Base(DeclarativeBase):

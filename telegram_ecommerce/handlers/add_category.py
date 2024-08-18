@@ -5,9 +5,9 @@ from telegram.ext import (
     CallbackQueryHandler,
     ConversationHandler)
 
-from ..language import get_text
-from ..tamplates.messages import ask_a_boolean_question
-from ..database.manipulation import (
+from telegram_ecommerce.language import get_text
+from telegram_ecommerce.tamplates.messages import ask_a_boolean_question
+from telegram_ecommerce.database.manipulation import (
     add_category as add_category_in_db,
     add_photo)
 

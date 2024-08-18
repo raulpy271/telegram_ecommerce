@@ -1,6 +1,6 @@
-from .text_en import text_en
-from .text_pt import text_pt
-from ..utils.consts import default_language
+from telegram_ecommerce.language.text_en import text_en
+from telegram_ecommerce.language.text_pt import text_pt
+from telegram_ecommerce.utils.consts import default_language
 
 
 all_languages = {
