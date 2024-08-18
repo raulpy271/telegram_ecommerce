@@ -1,53 +1,18 @@
 from telegram import InputMediaPhoto
 
-from ..language import get_text
-from ..database.query import count_occurrence_of_specified_rating
-from .buttons import (
+from telegram_ecommerce.language import get_text
+from telegram_ecommerce.database.query import count_occurrence_of_specified_rating
+from telegram_ecommerce.tamplates.buttons import (
     get_list_of_buttons,
     tamplate_for_show_a_list_of_products,
     tamplate_for_show_a_detailed_product)
-
-
-class Product():
-    def __init__(
-        self, 
-        product_id,
-        name,
-        description,
-        price, 
-        quantity_in_stock,
-        quantity_purchased,
-        category_id,
-        image_id = None):
-        self.product_id = product_id
-        self.name = name
-        self.description = description
-        self.price = price
-        self.quantity_in_stock = quantity_in_stock
-        self.quantity_purchased = quantity_purchased
-        self.category_id = category_id
-        self.image_id = image_id
-
-
-    def create_a_instance_of_this_class_from_a_list_of_properties(
-            properties):
-        return Product(*properties)
 
 
 class ListProductIterator():
     def __init__(self, *list_of_products):
         self.list_of_products = list_of_products
         self.iter = -1 
-
     
-    def create_a_list_from_a_query(query):
-        list_of_instances_of_Product_class = list(map(
-            Product.create_a_instance_of_this_class_from_a_list_of_properties,
-            query))
-        return ListProductIterator(
-            *list_of_instances_of_Product_class)
-
-
     def actual(self):
         actual_product = self.list_of_products[self.iter]
         return actual_product
@@ -136,5 +101,4 @@ def get_text_for_detailed_product(product, context):
         get_text("bad", context) 
         )
     return text
-
 
