@@ -2,17 +2,16 @@
 from telegram_ecommerce.database import models
 from telegram_ecommerce.database.models import Session
 from telegram_ecommerce.utils.utils import hash_password
-from telegram_ecommerce.database.query import (
-    get_password,
-    user_in_credentials_file)
+from telegram_ecommerce.utils.consts import admins
+from telegram_ecommerce.database.query import get_password
 
 
 def create_account(user):
     user_id = user.id
     username = user.username
-    user_is_admin = user_in_credentials_file(username)
+    is_admin = username in admins
     with Session() as session:
-        session.add(models.Customer(id=user_id, username=username, password_hash="", is_admin=user_is_admin))
+        session.add(models.Customer(id=user_id, username=username, password_hash="", is_admin=is_admin))
         session.commit()
 
 def delete_account(user_id):

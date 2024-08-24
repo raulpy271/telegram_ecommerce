@@ -2,7 +2,6 @@
 from sqlalchemy import select
 from sqlalchemy.dialects.mysql import match
 
-from telegram_ecommerce.utils.consts import credentials
 from telegram_ecommerce.database import models
 from telegram_ecommerce.database.models import Session
 from telegram_ecommerce.utils.utils import hash_password
@@ -24,11 +23,6 @@ def get_password(user_id):
 
 def check_password(user_id, password):
     return hash_password(password) == get_password(user_id)
-
-
-def user_in_credentials_file(username):
-    admins = credentials["admins_username"]
-    return username in admins
 
 def get_name_of_all_categories():
     with Session() as session:

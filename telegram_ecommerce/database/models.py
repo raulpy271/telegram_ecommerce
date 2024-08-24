@@ -1,11 +1,12 @@
 
+from os import environ
+
 from sqlalchemy import Column, Float, ForeignKey, Index, Integer, LargeBinary, String, Boolean, text
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm import relationship
 from sqlalchemy.orm import DeclarativeBase
 
-from telegram_ecommerce.utils.consts import db_credentials
 
 
 class Base(DeclarativeBase):
@@ -70,7 +71,7 @@ class Order(Base):
     product = relationship('Product')
     user = relationship('Customer')
 
-db_url = f"mysql+pymysql://{db_credentials['user']}:{db_credentials['password']}@{db_credentials['host']}/telegram_ecommerce"
+db_url = f"mysql+pymysql://{environ['DB_USER']}:{environ['DB_PASSWORD']}@{environ['DB_HOST']}/{environ['DB_NAME']}"
 engine = create_engine(db_url)
 Session = sessionmaker(engine)
 
