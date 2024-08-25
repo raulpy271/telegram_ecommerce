@@ -1,4 +1,8 @@
 
+from os import environ
+if not environ.get("BOT_TOKEN"):
+    from dotenv import load_dotenv
+    load_dotenv()
 from telegram.ext import ApplicationBuilder
 
 from telegram_ecommerce.utils.consts import bot_token 
