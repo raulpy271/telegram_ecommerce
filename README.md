@@ -54,7 +54,7 @@ The following are instructions on how to use this bot:
 
 ## ⚙️ How to set up ?
 
-To setup the bot for testing and development it's used Docker along with the command `docker compose`. This tool is recommended because it's more easy to setup the bot and his database. However, if you don't want to use Docker you still can run the bot anyway, if it's your case after read this topic you can jump to [Setup in local machine](#setup-in-local-machine).
+To setup the bot for testing and development is used Docker along with the command `docker compose`. This tool is recommended because it's more easy to setup the bot and it's database. However, if you don't want to use Docker you still can run the bot anyway, if it's your case after reading this topic you can jump to [Setup in local machine](#setup-in-local-machine).
 
 To have a Telegram Bot, you need to open a chat with the Bot Father in Telegram, this bot will create a token that's needed to run your created bot. To make test payments, you should have a token from a payment provider as well. Learn more about payments on the [Telegram payment page](https://core.telegram.org/bots/payments). To learn more about Bot Token read [How Do I Create a Bot?](https://core.telegram.org/bots#how-do-i-create-a-bot).
 
@@ -84,11 +84,11 @@ The database connection is already filled in the `.env.example`, this connection
 
 ### Setup in local machine
 
-First of all, see the dependencies in the requirements file or type `pip install -r requirements.txt` to install the dependencies automatically.
+First of all, see the dependencies in the requirements file or type `pip3 install -r requirements.txt` to install the dependencies automatically.
 
-In this method you should setup a MySQL database, it can be run on your machine or hosted on a cloud provider. After the database setup, you should put in the `.env.` the database connection settings.
+In this method you should setup a MySQL database, it can be run on your machine or hosted on a cloud provider. After the database setup, you should put in the `.env` the database connection settings.
 
-In a nearly created database, you should create on it the schema(tables) used in the Bot, to do it use the alembic command bellow:
+In a nearly created database you should create the schema(tables) used in the Bot, to do it use the alembic command below:
 
 ```sh
 alembic upgrade head
