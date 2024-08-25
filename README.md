@@ -54,11 +54,11 @@ The following are instructions on how to use this bot:
 
 ## ⚙️ How to set up ?
 
-To setup the bot for testing and development it's used Docker along with the command `docker compose`. This tool is recommended because it's more easy to setup the bot and his database. However, if you don't want to use Docker you still can run the bot anyway, if it's your case after read this topic you can jump to [Setup in local machine](#Setup in local machine).
+To setup the bot for testing and development it's used Docker along with the command `docker compose`. This tool is recommended because it's more easy to setup the bot and his database. However, if you don't want to use Docker you still can run the bot anyway, if it's your case after read this topic you can jump to [Setup in local machine](#setup-in-local-machine).
 
-To have a Telegram Bot is needed to open a chat with the Bot Father in Telegram, this bot will create a token which is needed to run you created bot. To make test payments, you should have a token from a payment provider as well. Learn more about payments int the [Telegram payment page](https://core.telegram.org/bots/payments). To learn more about Bot Token read [How Do I Create a Bot?](https://core.telegram.org/bots#how-do-i-create-a-bot).
+To have a Telegram Bot, you need to open a chat with the Bot Father in Telegram, this bot will create a token that's needed to run your created bot. To make test payments, you should have a token from a payment provider as well. Learn more about payments on the [Telegram payment page](https://core.telegram.org/bots/payments). To learn more about Bot Token read [How Do I Create a Bot?](https://core.telegram.org/bots#how-do-i-create-a-bot).
 
-The two token created need to be placed in the file `.env`, create this file using the template file `.env.example` which already come with some settings filled. The created `.env` file is where you can change some settings and place private data as your tokens.
+The two tokens created need to be placed in the file `.env`, create this file using the template file `.env.example` which already comes with some settings filled. The created `.env` file is where you can change some settings and place private data as your tokens.
 
 ### Setup with Docker
 
@@ -76,11 +76,29 @@ docker compose up -d
 # Use alembic to create the database structure in the MySQL database running on docker.
 docker compose exec app alembic upgrade head
 
-# Run the application again inside the terminal(it will print logs to help you identify if it's all working
+# Run the application again inside the terminal(it will print logs to help you identify if it's all working)
 docker compose down && docker compose up
 ```
 
+The database connection is already filled in the `.env.example`, this connection is to the database created in a docker container using the commands above.
+
 ### Setup in local machine
+
+First of all, see the dependencies in the requirements file or type `pip install -r requirements.txt` to install the dependencies automatically.
+
+In this method you should setup a MySQL database, it can be run on your machine or hosted on a cloud provider. After the database setup, you should put in the `.env.` the database connection settings.
+
+In a nearly created database, you should create on it the schema(tables) used in the Bot, to do it use the alembic command bellow:
+
+```sh
+alembic upgrade head
+```
+
+Finally, you can run the Bot in your machine:
+
+```py
+python3 bot.py
+```
 
 ## 🛑 Disclaimer
 
