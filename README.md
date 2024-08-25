@@ -54,25 +54,33 @@ The following are instructions on how to use this bot:
 
 ## ⚙️ How to set up ?
 
-First of all, see the dependencies in the requirements file or type pip install -r requirements.txt to install the dependencies automatically.
+To setup the bot for testing and development it's used Docker along with the command `docker compose`. This tool is recommended because it's more easy to setup the bot and his database. However, if you don't want to use Docker you still can run the bot anyway, if it's your case after read this topic you can jump to [Setup in local machine](#Setup in local machine).
 
-The second process is to create a bot with the Bot Father and get your bot token. To make test payments, you should have a token from a payment provider. Learn more about this on the Telegram payment page.
+To have a Telegram Bot is needed to open a chat with the Bot Father in Telegram, this bot will create a token which is needed to run you created bot. To make test payments, you should have a token from a payment provider as well. Learn more about payments int the [Telegram payment page](https://core.telegram.org/bots/payments). To learn more about Bot Token read [How Do I Create a Bot?](https://core.telegram.org/bots#how-do-i-create-a-bot).
 
-Now, put your tokens in the file /telegram_ecommerce/utils/user_credentials.json. In this file, you can put the admin's usernames and the credentials of your MySQL database. Moreover, you can change some settings in the consts.py file, like the default language.
+The two token created need to be placed in the file `.env`, create this file using the template file `.env.example` which already come with some settings filled. The created `.env` file is where you can change some settings and place private data as your tokens.
 
-After all, you can run the bot by typing:
+### Setup with Docker
 
-```sh
- $ python bot.py
-```
+First of all, install Docker Engine (or Docker Desktop, if you on Windows), [Install Docker Engine](https://docs.docker.com/engine/install/).
 
-or, if you want to run the bot inside a container, use:
+With docker installed, run the following commands to build the application and create the database schema needed:
 
 ```sh
-$ bash run.sh
+# Build the application
+docker compose build
+
+# Run the application in background
+docker compose up -d
+
+# Use alembic to create the database structure in the MySQL database running on docker.
+docker compose exec app alembic upgrade head
+
+# Run the application again inside the terminal(it will print logs to help you identify if it's all working
+docker compose down && docker compose up
 ```
 
-📌 **PS**: To run the command above Docker is needed. Installation instruction [here.](https://docs.docker.com/engine/install/)
+### Setup in local machine
 
 ## 🛑 Disclaimer
 
