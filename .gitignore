@@ -7,9 +7,6 @@ bin
 include
 pyvenv.cfg
 
-# my token json
-telegram_ecommerce/utils/user_credentials.json
-
 #vim files:
 *.vim*
 *.swp

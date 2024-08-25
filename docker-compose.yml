@@ -3,6 +3,7 @@ services:
   app:
     build: .
     restart: unless-stopped
+    env_file: .env
     depends_on:
       db:
         condition: service_healthy
@@ -11,16 +12,19 @@ services:
 
   db:
     image: mysql
+    container_name: $DB_HOST
     environment:
-      MYSQL_ROOT_PASSWORD: $DB_PASSWORD
-      MYSQL_DATABASE: telegram_ecommerce
+      MYSQL_RANDOM_ROOT_PASSWORD: yes
+      MYSQL_DATABASE: $DB_NAME
+      MYSQL_USER: $DB_USER
+      MYSQL_PASSWORD: $DB_PASSWORD
     ports:
       - "3306:3306"
     restart: unless-stopped
     volumes:
       - mysql:/var/lib/mysql
     healthcheck:
-      test: mysql -h localhost --password=$DB_PASSWORD --execute "select version();"
+      test: mysql -h localhost --user=$DB_USER --password=$DB_PASSWORD --execute "select version();"
       interval: 5s
       retries: 5
     networks:
@@ -31,3 +35,4 @@ networks:
 
 volumes:
   mysql:
+
