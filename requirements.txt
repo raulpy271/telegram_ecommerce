@@ -2,5 +2,6 @@ python-dotenv==1.0.1
 python_telegram_bot==21.4
 SQLAlchemy==2.0.31
 cryptography==44.0.1
-PyMySQL==1.1.1
+psycopg[binary]==3.3.8
 alembic==1.13.2
+openai==3.35.1
