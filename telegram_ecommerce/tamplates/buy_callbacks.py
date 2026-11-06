@@ -44,13 +44,17 @@ async def send_a_shipping_message(update, context, product, pattern_identifier):
 async def pre_checkout_callback(update, context):
     query = update.pre_checkout_query
     product_id = _product_id(query.invoice_payload)
-    valid = product_id is not None and validate_checkout(
-        product_id,
-        query.from_user.id,
-        query.total_amount,
-        query.currency,
-        currency,
-    )
+    try:
+        valid = product_id is not None and validate_checkout(
+            product_id,
+            query.from_user.id,
+            query.total_amount,
+            query.currency,
+            currency,
+        )
+    except Exception:
+        logger.exception("Pre-checkout validation failed")
+        valid = False
     if valid:
         await query.answer(ok=True)
     else:

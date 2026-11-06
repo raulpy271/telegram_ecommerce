@@ -4,6 +4,7 @@ from sqlalchemy import func, select, text
 from telegram_ecommerce.database import models
 from telegram_ecommerce.database.models import Session
 from telegram_ecommerce.utils.utils import hash_password, verify_password
+from telegram_ecommerce.utils.consts import admins
 
 
 def user_exist(user_id):
@@ -11,9 +12,7 @@ def user_exist(user_id):
         return bool(session.get(models.Customer, user_id))
 
 def is_admin(user_id):
-    with Session() as session:
-        user = session.get(models.Customer, user_id)
-        return user.is_admin if user else False
+    return user_id in admins and user_exist(user_id)
 
 def get_password(user_id):
     with Session() as session:

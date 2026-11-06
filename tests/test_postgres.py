@@ -4,6 +4,8 @@ Set DATABASE_URL to an expendable PostgreSQL database before running these tests
 """
 
 import os
+from concurrent.futures import ThreadPoolExecutor
+from threading import Barrier
 
 import pytest
 from alembic import command
@@ -105,3 +107,59 @@ def test_order_rating_and_status_constraints(database):
         with database.begin() as connection:
             connection.execute(text('''INSERT INTO orders (id, price, user_id, product_id, status)
                 VALUES ('invalid-status', 5, 10000000000, :product_id, 'unknown')'''), {'product_id': product_id})
+
+
+def test_duplicate_payment_decrements_stock_once(database):
+    from telegram_ecommerce.database import models
+    from telegram_ecommerce.database.manipulation import complete_paid_order
+
+    with models.Session.begin() as session:
+        customer = models.Customer(id=123456789, username='buyer', password_hash='')
+        category = models.Category(name='Books', description='Books')
+        session.add_all([customer, category])
+        session.flush()
+        product = models.Product(name='Book', description='Blue book', price='5.00',
+                                 quantity_in_stock=1, quantity_purchased=0,
+                                 category_id=category.id)
+        session.add(product)
+        session.flush()
+        product_id = product.id
+
+    barrier = Barrier(2)
+
+    def complete():
+        barrier.wait(timeout=5)
+        return complete_paid_order('charge-1', product_id, 123456789, 500, 'USD', 'USD')
+
+    with ThreadPoolExecutor(max_workers=2) as pool:
+        results = list(pool.map(lambda _: complete(), range(2)))
+
+    assert results == ['paid', 'paid']
+    with models.Session() as session:
+        product = session.get(models.Product, product_id)
+        assert product.quantity_in_stock == 0
+        assert product.quantity_purchased == 1
+        assert session.query(models.Order).count() == 1
+
+
+def test_paid_but_sold_out_is_recorded_for_review(database):
+    from telegram_ecommerce.database import models
+    from telegram_ecommerce.database.manipulation import complete_paid_order
+
+    with models.Session.begin() as session:
+        customer = models.Customer(id=123456789, username='buyer', password_hash='')
+        category = models.Category(name='Books', description='Books')
+        session.add_all([customer, category])
+        session.flush()
+        product = models.Product(name='Book', description='Blue book', price='5.00',
+                                 quantity_in_stock=0, quantity_purchased=0,
+                                 category_id=category.id)
+        session.add(product)
+        session.flush()
+        product_id = product.id
+
+    assert complete_paid_order('charge-sold-out', product_id, 123456789, 500, 'USD', 'USD') == 'needs_review'
+    with models.Session() as session:
+        order = session.get(models.Order, 'charge-sold-out')
+        assert order.status == 'needs_review'
+        assert session.get(models.Product, product_id).quantity_purchased == 0
