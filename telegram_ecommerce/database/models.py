@@ -3,6 +3,7 @@ from os import environ
 
 from sqlalchemy import BigInteger, CheckConstraint, Column, DateTime, ForeignKey, Index, Integer, LargeBinary, Numeric, String, Boolean, func, text
 from sqlalchemy import create_engine
+from sqlalchemy.dialects import postgresql  # Registers PostgreSQL full-text functions.
 from sqlalchemy.engine import URL, make_url
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm import relationship
@@ -18,7 +19,7 @@ class Customer(Base):
 
     id = Column(BigInteger, primary_key=True)
     username = Column(String(30), nullable=False)
-    password_hash = Column(String(64))
+    password_hash = Column(String(255))
     is_admin = Column(Boolean, nullable=False, server_default=text("false"))
 
 
@@ -63,7 +64,7 @@ class Product(Base):
 
 Index(
     'ix_products_search',
-    func.to_tsvector('simple', Product.name + ' ' + Product.description),
+    func.to_tsvector(text("'simple'"), Product.name + ' ' + Product.description),
     postgresql_using='gin',
 )
 

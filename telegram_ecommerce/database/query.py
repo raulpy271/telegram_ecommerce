@@ -1,5 +1,5 @@
 
-from sqlalchemy import func, select
+from sqlalchemy import func, select, text
 
 from telegram_ecommerce.database import models
 from telegram_ecommerce.database.models import Session
@@ -73,9 +73,9 @@ def search_products(string_to_search, limit=10):
     limit = max(1, min(int(limit), 50))
     with Session() as session:
         document = func.to_tsvector(
-            'simple', models.Product.name + ' ' + models.Product.description
+            text("'simple'"), models.Product.name + text("' '") + models.Product.description
         )
-        query = func.plainto_tsquery('simple', string_to_search)
+        query = func.plainto_tsquery(text("'simple'"), string_to_search)
         stmt = (
             select(models.Product)
             .where(document.op('@@')(query), models.Product.quantity_in_stock > 0)
