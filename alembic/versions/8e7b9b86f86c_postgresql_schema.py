@@ -18,6 +18,7 @@ def upgrade() -> None:
     op.drop_index('name', table_name='products')
 
     op.alter_column('customers', 'id', type_=sa.BigInteger())
+    op.alter_column('customers', 'password_hash', type_=sa.String(255))
     op.alter_column('orders', 'user_id', type_=sa.BigInteger())
     op.alter_column('customers', 'is_admin', server_default=sa.text('false'))
     op.alter_column('products', 'price', type_=sa.Numeric(12, 2))
@@ -53,5 +54,6 @@ def downgrade() -> None:
     op.alter_column('customers', 'is_admin', server_default=sa.text("'0'"))
     op.alter_column('orders', 'user_id', type_=sa.Integer())
     op.alter_column('customers', 'id', type_=sa.Integer())
+    op.alter_column('customers', 'password_hash', type_=sa.String(64))
     op.create_index('name', 'products', ['name', 'description'])
     op.create_index('products_fulltext_idx', 'products', ['name', 'description'])
