@@ -3,6 +3,7 @@ from datetime import datetime, timezone
 from decimal import Decimal, ROUND_HALF_UP
 
 from sqlalchemy import select
+from sqlalchemy.exc import IntegrityError
 
 from telegram_ecommerce.database import models
 from telegram_ecommerce.database.models import Session
@@ -119,6 +120,19 @@ def complete_paid_order(order_id, product_id, user_id, total_amount, currency, e
     A payment may succeed after stock or price changed. Keep a record of it as
     needs_review so staff can fulfill or refund it rather than losing the charge.
     """
+    try:
+        return _complete_paid_order(order_id, product_id, user_id, total_amount, currency, expected_currency)
+    except IntegrityError:
+        # A concurrent delivery of the same Telegram callback may have won
+        # the unique order-id insert while this transaction waited on stock.
+        with Session() as session:
+            existing = session.get(models.Order, order_id)
+            if existing is not None and existing.user_id == user_id and existing.product_id == product_id:
+                return existing.status
+        raise
+
+
+def _complete_paid_order(order_id, product_id, user_id, total_amount, currency, expected_currency):
     with Session.begin() as session:
         existing = session.get(models.Order, order_id)
         if existing is not None:
