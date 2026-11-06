@@ -1,9 +1,12 @@
 
 from os import environ
+from dotenv import load_dotenv
+
+load_dotenv()
 if not environ.get("BOT_TOKEN"):
-    from dotenv import load_dotenv
-    load_dotenv()
+    raise SystemExit("Set BOT_TOKEN in .env before starting the Telegram bot.")
 from telegram.ext import ApplicationBuilder
+from telegram.error import InvalidToken
 
 from telegram_ecommerce.utils.consts import bot_token 
 from telegram_ecommerce.utils.log import logger
@@ -28,6 +31,9 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except InvalidToken:
+        raise SystemExit("Telegram rejected BOT_TOKEN. Check the token saved in .env.") from None
 
 

@@ -2,8 +2,12 @@
 services:
   app:
     build: .
+    image: telegram-ecommerce-app:local
     restart: unless-stopped
     env_file: .env
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
     depends_on:
       db:
         condition: service_healthy
@@ -11,13 +15,13 @@ services:
       - app-network
 
   db:
-    image: postgres:16-alpine
+    image: ${POSTGRES_IMAGE:-postgres:16-alpine}
     environment:
       POSTGRES_DB: ${DB_NAME}
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
     ports:
-      - "${DB_PORT:-5432}:5432"
+      - "127.0.0.1:${DB_PORT:-5432}:5432"
     restart: unless-stopped
     volumes:
       - postgres:/var/lib/postgresql/data

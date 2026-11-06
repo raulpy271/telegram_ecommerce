@@ -76,15 +76,23 @@ With docker installed, run the following commands to build the application and c
 # Build the application
 docker compose build
 
-# Run the application in background
-docker compose up -d
+# Start PostgreSQL and initialize the schema before starting the bot
+docker compose up -d db
+docker compose run --rm app alembic upgrade head
 
-# Use Alembic to create the database structure in PostgreSQL.
-docker compose exec app alembic upgrade head
+# Optional: add two clearly labeled demo products for local testing
+docker compose run --rm app python -m telegram_ecommerce.database.seed_demo
 
-# Run the application again inside the terminal(it will print logs to help you identify if it's all working)
-docker compose down && docker compose up
+# Start the bot and follow its logs
+docker compose up -d app
+docker compose logs -f app
 ```
+
+For a local chat test, `BOT_TOKEN`, database settings, and `OPENAI_API_KEY` are
+enough. Obtain the Telegram token from [@BotFather](https://t.me/BotFather) with
+`/newbot`. After starting the app, open your bot in Telegram, send `/start`, then
+ask "What does the Demo Notebook cost?". A payment-provider test token is needed
+separately to exercise checkout. The database port binds to localhost only.
 
 The database connection is already filled in the `.env.example`, this connection is to the database created in a docker container using the commands above.
 
