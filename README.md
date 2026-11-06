@@ -1,6 +1,6 @@
 # 🤖 Telegram e-commerce
 
-This is a Telegram bot made using the Python language. To connect with the Telegram API, I use the python-telegram-bot wrapper, and on the database side, I use MySQL.
+This is a Telegram bot made using Python and python-telegram-bot, with PostgreSQL for storage.
 ## 💖 All Contributors
 
 <a href="https://github.com/raulpy271/telegram_ecommerce/graphs/contributors">
@@ -60,6 +60,8 @@ To have a Telegram Bot, you need to open a chat with the Bot Father in Telegram,
 
 The two tokens created need to be placed in the file `.env`, create this file using the template file `.env.example` which already comes with some settings filled. The created `.env` file is where you can change some settings and place private data as your tokens.
 
+Set `ADMIN_USER_IDS` to a comma-separated list of Telegram numeric user IDs for accounts allowed to add products and categories. Usernames can change and are not used for this permission.
+
 ### Setup with Docker
 
 First of all, install Docker Engine (or Docker Desktop, if you on Windows), [Install Docker Engine](https://docs.docker.com/engine/install/).
@@ -73,7 +75,7 @@ docker compose build
 # Run the application in background
 docker compose up -d
 
-# Use alembic to create the database structure in the MySQL database running on docker.
+# Use Alembic to create the database structure in PostgreSQL.
 docker compose exec app alembic upgrade head
 
 # Run the application again inside the terminal(it will print logs to help you identify if it's all working)
@@ -86,13 +88,15 @@ The database connection is already filled in the `.env.example`, this connection
 
 First of all, see the dependencies in the requirements file or type `pip3 install -r requirements.txt` to install the dependencies automatically.
 
-In this method you should setup a MySQL database, it can be run on your machine or hosted on a cloud provider. After the database setup, you should put in the `.env` the database connection settings.
+In this method, set up PostgreSQL locally or with a hosting provider. Set `DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USER`, and `DB_PASSWORD` in `.env`. You can instead set `DATABASE_URL` to a `postgresql+psycopg://` URL; it takes precedence over the individual settings.
 
 In a nearly created database you should create the schema(tables) used in the Bot, to do it use the alembic command below:
 
 ```sh
 alembic upgrade head
 ```
+
+The PostgreSQL migration creates checks for nonnegative prices and stock, preserves the bot's 0/5/10 rating values, and adds a full-text search index. Existing MySQL data is not transferred by Alembic: back up the MySQL database and export/import its rows into PostgreSQL before switching a deployed bot. `Numeric(12, 2)` prices round to cents, so check values and any invalid stock or rating data before import.
 
 Finally, you can run the Bot in your machine:
 
