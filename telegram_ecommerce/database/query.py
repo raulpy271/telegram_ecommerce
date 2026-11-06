@@ -3,7 +3,7 @@ from sqlalchemy import func, select, text
 
 from telegram_ecommerce.database import models
 from telegram_ecommerce.database.models import Session
-from telegram_ecommerce.utils.utils import hash_password
+from telegram_ecommerce.utils.utils import hash_password, verify_password
 
 
 def user_exist(user_id):
@@ -21,7 +21,15 @@ def get_password(user_id):
         return user.password_hash
 
 def check_password(user_id, password):
-    return hash_password(password) == get_password(user_id)
+    with Session() as session:
+        user = session.get(models.Customer, user_id)
+        if user is None:
+            return False
+        valid, legacy = verify_password(password, user.password_hash)
+        if valid and legacy:
+            user.password_hash = hash_password(password)
+            session.commit()
+        return valid
 
 def get_name_of_all_categories():
     with Session() as session:

@@ -9,16 +9,18 @@ from telegram_ecommerce.database import models
 from telegram_ecommerce.database.models import Session
 from telegram_ecommerce.utils.utils import hash_password
 from telegram_ecommerce.utils.consts import admins
-from telegram_ecommerce.database.query import get_password
 
 
-def create_account(user):
+def create_account(user, password):
     user_id = user.id
-    username = user.username
+    username = user.username or str(user_id)
     # Telegram usernames can be changed or claimed by another account.
     is_admin = user_id in admins
     with Session() as session:
-        session.add(models.Customer(id=user_id, username=username, password_hash="", is_admin=is_admin))
+        session.add(models.Customer(
+            id=user_id, username=username, password_hash=hash_password(password),
+            is_admin=is_admin,
+        ))
         session.commit()
 
 def delete_account(user_id):
@@ -29,24 +31,6 @@ def delete_account(user_id):
             session.commit()
             return True
         else: return False
-
-def set_password(user_id, password):
-    with Session() as session:
-        user = session.get(models.Customer, user_id)
-        user.password_hash = password
-        session.commit()
-
-def append_password(user_id, password):
-    old_password = get_password(user_id)
-    new_password = str(old_password) + str(password)
-    set_password(user_id, new_password)
-
-
-def hash_user_password(user_id):
-    password = get_password(user_id)
-    password_hash = hash_password(password)
-    set_password(user_id, password_hash)
-
 
 def add_photo(photo_id, bytes_of_photo):
     with Session() as session:
