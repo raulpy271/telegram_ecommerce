@@ -31,6 +31,10 @@ To change the settings of a product you can search for it and for a button that 
 To add others admin you can use the command(Note: have sure that the people already have an account in this e-commerce):
 /add_admin username
 """,
+    "_language_name" : "English",
+    "language_enter_code" : "Enter a supported language tag, such as en or pt.",
+    "catalog_assistant_unavailable" : "The shopping assistant is unavailable right now. Please use /search or /show_categories.",
+    "catalog_assistant_prompt" : "Tell me what kind of product you are looking for.",
     "choose_language" : "What is your language?",
     "selected_language" : "Selected language.",
     "language_dont_exist" : "These language is not supported.",

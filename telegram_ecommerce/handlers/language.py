@@ -1,49 +1,53 @@
+"""Language selection through native names or BCP 47 language tags."""
+
 from telegram import ReplyKeyboardRemove
-from telegram.ext import (
-    filters,
-    ConversationHandler,
-    CommandHandler,
-    MessageHandler)
+from telegram.ext import filters, ConversationHandler, CommandHandler, MessageHandler
 
 from telegram_ecommerce.tamplates.buttons import get_list_of_buttons
-from telegram_ecommerce.language import (TEXT, get_text)
-from telegram_ecommerce.utils.utils import get_key
+from telegram_ecommerce.language import TEXT, get_text, normalize_locale
 
 
 (END, SELECTING_THE_LANGUAGE) = [-1, 1]
 
 
-all_language = list(TEXT.suported_languages)
-all_message_for_each_language = list(
-    map((
-        lambda language : TEXT.get_text(language, TEXT.default_language) 
-        ), all_language))
+def language_options():
+    return [f"{TEXT.display_name(code)} ({code})" for code in sorted(TEXT.suported_languages)]
 
 
-def get_selected_language(text):
-    dict_with_all_messages = TEXT.all_text[TEXT.default_language]
-    return get_key(dict_with_all_messages, text)
+def get_selected_language(value):
+    """Accept a displayed option or a supported language tag."""
+    value = value.strip()
+    for code in TEXT.suported_languages:
+        if value == f"{TEXT.display_name(code)} ({code})":
+            return code
+    code = normalize_locale(value)
+    if code and code in TEXT.suported_languages:
+        return code
+    raise ValueError("Unsupported language")
 
 
 async def change_language_callback(update, context):
-    markup = get_list_of_buttons(*all_message_for_each_language)
-    await update.message.reply_text(
-        get_text("choose_language", context), 
-        reply_markup=markup)
+    options = language_options()
+    # Large catalogs remain usable by entering a language tag directly.
+    markup = get_list_of_buttons(*options) if len(options) <= 12 else ReplyKeyboardRemove()
+    prompt = get_text("choose_language", context)
+    if len(options) > 12:
+        prompt += "\n" + get_text("language_enter_code", context)
+        prompt += "\n" + ", ".join(sorted(TEXT.suported_languages))
+    await update.message.reply_text(prompt, reply_markup=markup)
     return SELECTING_THE_LANGUAGE
 
 
 async def selecting_the_language(update, context):
-    try: 
+    try:
         selected_language = get_selected_language(update.message.text)
-        context.user_data['language'] = selected_language
-        text = get_text("selected_language", context)
-        await update.message.reply_text(text, reply_markup=ReplyKeyboardRemove())
-    except:
+    except (AttributeError, ValueError):
         text = get_text("language_dont_exist", context)
-        await update.message.reply_text(text, reply_markup=ReplyKeyboardRemove())
-    finally:
-        return END
+    else:
+        context.user_data["language"] = selected_language
+        text = get_text("selected_language", context)
+    await update.message.reply_text(text, reply_markup=ReplyKeyboardRemove())
+    return END
 
 
 async def cancel_language(update, context):
@@ -55,21 +59,9 @@ async def cancel_language(update, context):
     return END
 
 
-language_command = (
-    CommandHandler("language", change_language_callback))
-
-
+language_command = CommandHandler("language", change_language_callback)
 language = ConversationHandler(
-    entry_points = [language_command],
-    states = {
-        SELECTING_THE_LANGUAGE : [
-        MessageHandler(
-            filters.TEXT,
-            selecting_the_language
-            )
-        ]
-    },
-    fallbacks = [MessageHandler(filters.ALL, cancel_language)]
-    )
-
-
+    entry_points=[language_command],
+    states={SELECTING_THE_LANGUAGE: [MessageHandler(filters.TEXT, selecting_the_language)]},
+    fallbacks=[MessageHandler(filters.ALL, cancel_language)],
+)
