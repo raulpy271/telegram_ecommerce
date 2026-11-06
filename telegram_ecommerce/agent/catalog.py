@@ -114,13 +114,17 @@ async def answer_catalog_question(message, *, client=None, model=MODEL):
         max_output_tokens=500,
     )
     calls_used = 0
-    for _ in range(MAX_ROUNDS):
+    for round_index in range(MAX_ROUNDS + 1):
+        if getattr(response, "status", "completed") != "completed":
+            raise RuntimeError("Assistant response did not complete")
         calls = [item for item in response.output if item.type == "function_call"]
         if not calls:
             answer = (response.output_text or "").strip()
             if not answer:
                 raise RuntimeError("Assistant returned no answer")
             return answer[:MAX_MESSAGE_LENGTH]
+        if round_index == MAX_ROUNDS:
+            raise RuntimeError("Assistant exceeded response budget")
         if calls_used + len(calls) > MAX_TOOL_CALLS:
             raise RuntimeError("Assistant exceeded tool budget")
         outputs = []
