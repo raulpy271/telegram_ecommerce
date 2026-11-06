@@ -2,8 +2,12 @@
 services:
   app:
     build: .
+    image: telegram-ecommerce-app:local
     restart: unless-stopped
     env_file: .env
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
     depends_on:
       db:
         condition: service_healthy
@@ -11,20 +15,18 @@ services:
       - app-network
 
   db:
-    image: mysql
-    container_name: $DB_HOST
+    image: ${POSTGRES_IMAGE:-postgres:16-alpine}
     environment:
-      MYSQL_RANDOM_ROOT_PASSWORD: yes
-      MYSQL_DATABASE: $DB_NAME
-      MYSQL_USER: $DB_USER
-      MYSQL_PASSWORD: $DB_PASSWORD
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
     ports:
-      - "3306:3306"
+      - "127.0.0.1:${DB_PORT:-5432}:5432"
     restart: unless-stopped
     volumes:
-      - mysql:/var/lib/mysql
+      - postgres:/var/lib/postgresql/data
     healthcheck:
-      test: mysql -h localhost --user=$DB_USER --password=$DB_PASSWORD --execute "select version();"
+      test: ["CMD-SHELL", "pg_isready -U \"$$POSTGRES_USER\" -d \"$$POSTGRES_DB\""]
       interval: 5s
       retries: 5
     networks:
@@ -34,5 +36,5 @@ networks:
   app-network:
 
 volumes:
-  mysql:
+  postgres:
 

@@ -6,6 +6,7 @@ from telegram.ext import (
     ConversationHandler)
 
 from telegram_ecommerce.language import get_text
+from telegram_ecommerce.filters.decorators import execute_if_admin
 from telegram_ecommerce.tamplates.messages import ask_a_boolean_question
 from telegram_ecommerce.database.manipulation import (
     add_category as add_category_in_db,
@@ -66,6 +67,7 @@ async def save_category_info_in_db(update, context):
         photo.file_id)
 
 
+@execute_if_admin
 async def ask_for_category_name(update, context):
     put_category_data_in_user_data(context.user_data)
     text = get_text("ask_for_category_name", context)

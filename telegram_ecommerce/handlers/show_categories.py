@@ -16,6 +16,7 @@ from telegram_ecommerce.database.query import (
 from telegram_ecommerce.tamplates.products import (
     send_a_product,
     send_a_detailed_product,
+    send_product_card,
     send_a_inline_with_a_list_of_products,
     get_text_for_product,
     ListProductIterator)
@@ -93,10 +94,7 @@ async def show_list_of_products(update, context):
     markup = tamplate_for_show_a_list_of_products(
         pattern_identifier, context)
     text = get_text_for_product(product, context)
-    await update.message.reply_photo(
-        product.image_id,
-        caption = text,
-        reply_markup=markup) 
+    await send_product_card(update, product, text, markup)
     return SHOW_LIST_OF_PRODUCTS
 
 
