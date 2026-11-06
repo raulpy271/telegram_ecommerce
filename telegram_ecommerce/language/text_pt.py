@@ -30,6 +30,10 @@ Para mudar as informações sobre o produto você pode pesquisar por ele e por u
 Para adicionar outros administradores você pode usar o comando:
 /add_admin username
 """,
+    "_language_name" : "Português",
+    "language_enter_code" : "Digite uma tag de idioma disponível, como en ou pt.",
+    "catalog_assistant_unavailable" : "O assistente de compras está indisponível no momento. Use /search ou /show_categories.",
+    "catalog_assistant_prompt" : "Diga que tipo de produto você está procurando.",
     "choose_language" : "Qual é sua linguagem?",
     "selected_language" : "Linguagem selecionada.",
     "language_dont_exist" : "Não possui suporte a essa linguagem.",
