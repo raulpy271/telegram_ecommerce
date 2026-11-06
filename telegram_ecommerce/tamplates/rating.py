@@ -11,8 +11,7 @@ PATTERN_TO_CATCH_IF_USER_WANT_RATE_THE_PRODUCT = (
 
 
 def store_rating_response(context, rating):
-    pre_checkout_query = context.user_data["last_order"] 
-    order_id = pre_checkout_query.id
+    order_id = context.user_data["last_paid_order_id"]
     add_rating_to_an_order(order_id, rating)
 
 

@@ -7,6 +7,7 @@ from telegram.ext import (
     ConversationHandler)
 
 from telegram_ecommerce.language import get_text
+from telegram_ecommerce.filters.decorators import execute_if_admin
 from telegram_ecommerce.tamplates.messages import ask_a_boolean_question
 from telegram_ecommerce.tamplates.buttons import get_list_of_buttons
 from telegram_ecommerce.utils.utils import float_from_user_input
@@ -90,6 +91,7 @@ async def save_product_info_in_db(update, context):
         photo.file_id)
 
 
+@execute_if_admin
 async def ask_for_product_name(update, context):
     put_product_data_in_user_data(context.user_data)
     text = get_text("ask_for_product_name", context)
