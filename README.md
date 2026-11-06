@@ -27,6 +27,9 @@ The following are instructions on how to use this bot:
 
 - Type /show_categories to see products by category.
 - To search for something, you can use the command /search.
+- To ask a catalog question in ordinary chat, configure `OPENAI_API_KEY`; the
+  assistant can read categories and available products. See
+  [catalog assistant setup](docs/catalog-assistant.md).
 - To buy something, you need to register a password. To do this, type /register.
 - The admins can add products and categories with the commands /add_product and /add_category.
 
@@ -59,6 +62,7 @@ To setup the bot for testing and development is used Docker along with the comma
 To have a Telegram Bot, you need to open a chat with the Bot Father in Telegram, this bot will create a token that's needed to run your created bot. To make test payments, you should have a token from a payment provider as well. Learn more about payments on the [Telegram payment page](https://core.telegram.org/bots/payments). To learn more about Bot Token read [How Do I Create a Bot?](https://core.telegram.org/bots#how-do-i-create-a-bot).
 
 The two tokens created need to be placed in the file `.env`, create this file using the template file `.env.example` which already comes with some settings filled. The created `.env` file is where you can change some settings and place private data as your tokens.
+If `.env` already exists, edit it in place so an existing OpenAI key is preserved.
 
 Set `ADMIN_USER_IDS` to a comma-separated list of Telegram numeric user IDs for accounts allowed to add products and categories. Usernames can change and are not used for this permission.
 
